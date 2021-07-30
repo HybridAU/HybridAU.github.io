@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="Time Stamp, OpenSSL, curl">
+
+  <title>Time Stamp with OpenSSL an cURL &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/time-stamp-with-openssl-an-curl.html">Time Stamp with OpenSSL an cURL</a></h3>
+  </div>
+  <div class="article_text">
+    <p>One of the things that came up on the <a href="https://www.sage-au.org.au/">SAGE-AU mailing lists</a> a few weeks ago was getting data time stamped. I've come across time stamping before when signing code you also get the signature time stamped that way if you sign your code in 2009 with a certificate that expires in 2012 your code still runs in 2016 because <em>at the time your code was signed the certificate was valid</em> even though it's expired now.</p>
+<p>I was also aware that you could <a href="https://en.wikipedia.org/wiki/Trusted_timestamping">time stamp</a> arbitrary data but I didn't really know how. It turns out it's fairly straight forward with just OpenSSL and cURL. Basically you can make a SHA256 hash of the data you want to stamp, then you send that to a stamping server which will verify that it saw that hash at a given time. Thanks to Nick Savvides for these steps.</p>
+<div class="highlight"><pre><span></span><code>michael@xo:~$ <span class="nb">echo</span> <span class="s2">&quot;What&#39;s the time Mr. Wolf?&quot;</span> &gt; time_stamp_data.txt
+michael@xo:~$ openssl ts -query -data time_stamp_data.txt -sha256 -out time_stamp_query.tsq
+michael@xo:~$ curl -s -H <span class="s2">&quot;Content-Type:application/timestamp-query&quot;</span> --data-binary @time_stamp_query.tsq http://sha256timestamp.ws.symantec.com/sha256/timestamp &gt; time_stamp_server_response.tsr
+michael@xo:~$ openssl ts -reply -in time_stamp_server_response.tsr -out time_stamp_reply.tsr
+michael@xo:~$ openssl ts -reply -in time_stamp_reply.tsr -text
+Status info:
+Status: Granted.
+Status description: unspecified
+Failure info: unspecified
+
+TST info:
+Version: <span class="m">1</span>
+Policy OID: <span class="m">2</span>.16.840.1.113733.1.7.23.3
+Hash Algorithm: sha256
+Message data:
+    <span class="m">0000</span> - <span class="m">06</span> <span class="m">07</span> 9c 9d <span class="m">85</span> <span class="m">79</span> <span class="m">48</span> da-50 <span class="m">15</span> aa <span class="m">83</span> <span class="m">51</span> 5e d9 <span class="m">00</span>   .....yH.P...Q^..
+    <span class="m">0010</span> - bb 2d 0c d0 bb <span class="m">26</span> <span class="nb">cd</span> b0-fe c5 0a 2d <span class="m">94</span> <span class="m">47</span> b3 <span class="m">84</span>   .-...<span class="p">&amp;</span>.....-.G..
+Serial number: 0x331216786C798D1FFBE256D20FDA52DC515855B7
+Time stamp: Apr  <span class="m">6</span> <span class="m">06</span>:57:09 <span class="m">2016</span> GMT
+Accuracy: 0x1E seconds, unspecified millis, unspecified micros
+Ordering: no
+Nonce: 0x0C93A642E3B4F1BC
+TSA: DirName:/C<span class="o">=</span>US/O<span class="o">=</span>Symantec Corporation/OU<span class="o">=</span>Symantec Trust Network/CN<span class="o">=</span>Symantec SHA256 TimeStamping Signer - G1
+Extensions:
+michael@xo:~$ sha256sum time_stamp_data.txt
+06079c9d857948da5015aa83515ed900bb2d0cd0bb26cdb0fec50a2d9447b384  time_stamp_data.txt
+michael@xo:~$
+</code></pre></div>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2016-04-28 07:00:00+08:00" >Thu 28 April 2016</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/time-stamp.html">Time Stamp</a>,      <a href="https://xo.tc/tag/openssl.html">OpenSSL</a>,      <a href="https://xo.tc/tag/curl.html">curl</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

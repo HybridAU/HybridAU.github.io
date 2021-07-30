@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="Cryptography, TLS">
+
+  <title>Is bad crypto better than no crypto? &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/is-bad-crypto-better-than-no-crypto.html">Is bad crypto better than no crypto?</a></h3>
+  </div>
+  <div class="article_text">
+    <p>I've been reading through <a href="https://bettercrypto.org/">bettercrypto.org</a>'s <a href="https://bettercrypto.org/static/applied-crypto-hardening.pdf">Applied Crypto Hardening</a> and really enjoying it. They take a refreshingly practical approach to cryptography books. I've done a couple of cryptography courses, and read <a href="http://www.crypto-textbook.com/">Understanding Cryptography</a> cover to cover, which had great video lectures and problem sets to solve. Actually I started watching the <a href="https://www.youtube.com/channel/UC1usFRN4LCMcfIV7UjHNuQg/videos">videos</a> first and they were so good I bought the book. </p>
+<p>All the course and books I've come accross go out of their way to be vendor neutral, which I think is a great thing. Not using specific software or versions in the books an courses means that they age well. However it also means they lack practical content and at the end of the course I feel I have a solid understanding of how the cryptography works, but haven't learnt how to configure OpenSSL for Apache, nginx and postfix or setup SSH with keys rather than passwords.</p>
+<p>Applied Crypto Hardening on the other hand doesn't cover the theory but goes straight to the practical. It squarely targets sysadmins. It provides simple configs that can easily be copied and pasted. Eben Upton has a great <a href="https://youtu.be/kj91taKHlmM?t=1m10s">anecdote</a> of when he got his first computer and bought a mouse but didn't know how to get it working. So his dad phoned tech support for him and they said "If your son can't write his own mouse driver, then he does not deserve a mouse." Now days it's almost inconceivable that someone would write a mouse driver, or even know what a driver is before they start using a mouse. The point is that people don't need to know all the internals of how something works to use it. It's not a perfect example I know, but I don't fully understand how all the internals of my microwave oven work, but I can still cook with it. Most sysadmins don't need to fully understand how all the internals of cryptography work but can still enable TLS to secure their users.</p>
+<p>When I got to Applied Crypto Hardening's settings for postfix I saw they supported some weak ciphers but it was prefaced by a <a href="https://github.com/BetterCrypto/Applied-Crypto-Hardening/blob/afb7ead4d1b5d7937c6e6e81e33cefc4591c3df1/src/practical_settings/mailserver.tex#L183-L185">bit</a> that says:</p>
+<blockquote>
+<p>...However, we leave this at its default value for server to server connections, as many mail servers only support outdated protocols and ciphers. We consider bad encryption still better than plain text transmission. </p>
+</blockquote>
+<p>While I agree with their decision it's an interesting view and worthy of debate.</p>
+<p>The examples of where bad crypto is better than no crypto I would think should be fairly clear. Take for example if email was transmitted using a single round of <a href="https://en.wikipedia.org/wiki/Data_Encryption_Standard">DES</a>, it's clearly broken. I haven't kept up to date with factoring speeds and hardware needed to crack DES. The last time I looked at cracking DES was around 2012 when Moxie Marlinspike did some <a href="https://www.youtube.com/watch?v=sIidzPntdCM">truly amazing research into breaking MS-CHAPv2</a> and part of that involved breaking a single round of DES which took a <a href="https://www.cloudcracker.com/blog/2012/07/29/cracking-ms-chap-v2/">worst case of ~23 hours</a> so I think it's fair to assume that in 2015 someone with a few hundred bucks and 24 hours on Amazon Web Services could brake it. If I was given a choice where someone could either read all my emails whenever they like, or read all my emails but it would cost them $100 per email and take 24 hours before they could read it I'd choose the second option every time.</p>
+<p>The counter example that is that weak crypto has the potential to lull people into a false sense of security. Take the MS-CHAPv2 example from before, many people were using and are still using PPTP VPNs with MS-CHAPv2 to connect to their work because it's the default in many Microsoft Products. It's easy to use and integrates nicely with Active Directory. They believe they have a secure connection to their work but they are putting themselves at risk every time they use it. If they were to use it at a coffee shop or on McDonald's free WiFi for example someone malicious could not only break their encryption but recover their username and password<sup id="fnref:PPTP-password-recovery"><a class="footnote-ref" href="#fn:PPTP-password-recovery">1</a></sup> and connect in with their credentials to start rifling through confidential documents. </p>
+<p>I'm aware that the text says "better than <strong>plain text transmission.</strong>" but another option that I think is worth discussing is failing loudly. A good example of this is after the <a href="https://en.wikipedia.org/wiki/POODLE">POODLE</a> attack came out many websites disabled SSL 3.0 and if you try to visit those sites using something like Internet Explorer 6 you just get a message that the site could not be loaded. Rather that just silently downgrade to weaker encryption, because bad encryption still better than plain text, some sites simply don't work at all with weak crypto. If people want to use that service they need to use a modern browser. It's possible to set postfix to only accept TLS connections and no plain text email. Imagine if users got a bounce back saying that the email can't be delivered because their server doesn't support secure email. I'd like to think that that would get some questions asked and some systems upgraded<sup id="fnref:email-bounce"><a class="footnote-ref" href="#fn:email-bounce">2</a></sup>.</p>
+<p>Over all I think they made the right choice, I think that we are unlikely to be able to change all mail server to modern encryption. In most cases it's better to downgrade to weak ciphers than to downgrade to none, and punishing the users of an outdated system by not accepting their mail at all is not really the right way to go about things. I'm a follower of the <a href="https://en.wikipedia.org/wiki/Robustness_principle">Robustness Principle</a> </p>
+<blockquote>
+<p>Be conservative in what you do, be liberal in what you accept from others</p>
+</blockquote>
+<p>It should also be noted that the Applied Crypto Hardening settings for postfix do enforce high grade crypto for when you own both ends (i.e. internal mail servers, and clients connecting to the server)</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:PPTP-password-recovery">
+<p>The attack doesn't directly recover the password, it recovers an MD4 hash of the password, which is all that's needed to connect to a PPTP VPN or that could be used in an off line dictionary attack.&#160;<a class="footnote-backref" href="#fnref:PPTP-password-recovery" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:email-bounce">
+<p>Although the cynic in me who has seen that most users don't even read enough to see the difference between can't be delivered because it's too large and address doesn't exist is not so sure.&#160;<a class="footnote-backref" href="#fnref:email-bounce" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2015-08-27 07:00:00+08:00" >Thu 27 August 2015</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/cryptography.html">Cryptography</a>,      <a href="https://xo.tc/tag/tls.html">TLS</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

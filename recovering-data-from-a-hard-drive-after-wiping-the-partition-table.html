@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="Python, Backups, Full Disk Encryption, File recovery">
+
+  <title>Recovering data from a hard drive after wiping the partition table &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/recovering-data-from-a-hard-drive-after-wiping-the-partition-table.html">Recovering data from a hard drive after wiping the partition table</a></h3>
+  </div>
+  <div class="article_text">
+    <p>A mate from work had a LUKS volume that he had setup and was using to store his personal documents, things like scanned copies of invoices and tax information. Unfortunately in a momentary lapse of concentration after mounting it he ran <code>mkfs.ext4</code> over it.</p>
+<p>I'm sure we have all been there before, anyone who has spent enough time in tech knows the gut wrenching feeling after entering the wrong command. I can still remember the tense feeling after I ran query but forgot the where clause and saw <code>(2986 row(s) affected)</code> when I was expecting <code>(1 row(s) affected)</code>.</p>
+<p>The good news was that my mate had a backup, the bad news was the backup was six months out of date. He was able to make a copy of the LUKS volume and run <a href="http://www.cgsecurity.org/wiki/PhotoRec">PhotoRec</a> over it which pulled back all the files.</p>
+<p>PhotoRec is a brilliant tool but it can't recover metadata so things like file names, creation and last modified dates and directory structures were all missing. So he was left with thousands of recovered files, some of which he already had and others that were new.</p>
+<p>I wrote a simple python script to run through two directories and check for files in the new directory (the recovered files) that were not in the old directory (backup of original files).</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/python3</span>
+<span class="c1"># -*- coding: UTF-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">A small python script to find new files in two similar directories.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">os.path</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+
+
+<span class="k">def</span> <span class="nf">setup_options</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parse options and get the location of the old and the new directory.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Run through two directories (including sub directories) &#39;</span>
+                     <span class="s1">&#39;and find files that are the new directory but not in &#39;</span>
+                     <span class="s1">&#39;the old directory.&#39;</span><span class="p">))</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;old_files&#39;</span><span class="p">,</span>
+        <span class="n">metavar</span><span class="o">=</span><span class="s1">&#39;old_directory&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The old directory with the original files&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;new_files&#39;</span><span class="p">,</span>
+        <span class="n">metavar</span><span class="o">=</span><span class="s1">&#39;new_directory&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The new directory with both original files and new ones.&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">compare_two_directories</span><span class="p">(</span><span class="n">settings</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Run through two directories (including sub directories) and find files that</span>
+<span class="sd">    are in the new directory but not in the old directory.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">original_files</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="c1"># Run through the original directory and creates an MD5 sum each of the</span>
+    <span class="c1"># files. MD5 is insecure because of known hash collisions, however we are</span>
+    <span class="c1"># not trying to validate the file&#39;s contents so it&#39;s good enough, faster</span>
+    <span class="c1"># and more memory efficient than SHA256.</span>
+    <span class="k">for</span> <span class="n">dirpath</span><span class="p">,</span> <span class="n">dirnames</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">old_files</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+            <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+            <span class="n">file_hash</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+            <span class="n">original_files</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">file_hash</span><span class="p">)</span>
+
+    <span class="c1"># Run through the new directory and print files who&#39;s md5 hash is not in</span>
+    <span class="c1"># the original list of files.</span>
+    <span class="k">for</span> <span class="n">dirpath</span><span class="p">,</span> <span class="n">dirnames</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">new_files</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+            <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+            <span class="n">file_hash</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">file_hash</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">original_files</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">compare_two_directories</span><span class="p">(</span><span class="n">setup_options</span><span class="p">())</span>
+</code></pre></div>
+
+<p>I've put this script up on <a href="https://github.com/HybridAU/compare">GitHub</a> so anyone can use it, with a simple</p>
+<div class="highlight"><pre><span></span><code>michael@xo:~$ ./compare.py /home/michael/backup /home/michael/recovered-files
+</code></pre></div>
+
+<p>It runs through all the files in the old directory (and it's subdirectories) and calculates an MD5 sum. While MD5 is broken for validating the contents files because of known <a href="http://www.mscs.dal.ca/~selinger/md5collision/">hash collisions</a>, and should <em>never</em> be used for storing passwords, we are just trying to compare two documents neither of which is coming from an untrusted source so it's good enough and quicker when running over a few thousands documents than SHA256<sup id="fnref:quicker"><a class="footnote-ref" href="#fn:quicker">1</a></sup>.</p>
+<p>Then it stores the MD5 hash in a <a href="https://docs.python.org/3.5/library/stdtypes.html#set-types-set-frozenset">set</a>. I've used a set rather than say a list, because I don't want duplicates and I want to be able to check if a value is in the set quickly.</p>
+<p>Next it runs through the new directory (and it's subdirectories) and for every file that has an MD5 sum that's not in the set, it outputs the name.</p>
+<p>This script brought the number of recovered files down from thousands to a manageable amount, so hopefully it's useful for someone else in a similar situation.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:quicker">
+<p>I believe that thanks to optimizations in the design of SHA256 it can potentially be quicker than MD5. I've heard that with OpenSSL SHA256 is quicker than MD5. But with my tests using python's hashlib MD5 was faster than SHA256.&#160;<a class="footnote-backref" href="#fnref:quicker" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2016-10-13 07:00:00+08:00" >Thu 13 October 2016</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/python.html">Python</a>,      <a href="https://xo.tc/tag/backups.html">Backups</a>,      <a href="https://xo.tc/tag/full-disk-encryption.html">Full Disk Encryption</a>,      <a href="https://xo.tc/tag/file-recovery.html">File recovery</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="Passwords, Password Manager, KeePassX">
+
+  <title>KeePassX Review &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/keepassx-review.html">KeePassX Review</a></h3>
+  </div>
+  <div class="article_text">
+    <p>I've been using <a href="https://www.keepassx.org/">KeePassX</a> for about two years now. I've been putting all my passwords in there and I've got just over 180 entries now.</p>
+<p>The argument for using a password manager is pretty easy to make, there is simply no way I could remember 180 different passwords. And especially not at the level of complexity I'd like to have in each password. But why KeePassX specifically, and not some other password manager like <a href="https://pwsafe.org/">PasswordSafe</a>, <a href="https://1password.com/">1 Password</a>, <a href="https://lastpass.com/">LastPass</a>, or just a physical <a href="http://www.peterpauper.com/product_info.php?products_id=5459">password book</a><sup id="fnref:password-book"><a class="footnote-ref" href="#fn:password-book">1</a></sup>?</p>
+<h1>Advantages</h1>
+<ul>
+<li><strong>Open Source</strong> - You can open it up and see what makes it tick.</li>
+<li><strong>Cross Platform</strong> - For me Windows and Linux support is important, there is a Mac OS X version too.</li>
+<li><strong>Multiple implementations</strong> - This is a great "feature" for two reasons, one is that there are <a href="http://www.keepassdroid.com/">Android</a>, and <a href="https://itunes.apple.com/au/app/minikeepass-secure-password/id451661808?mt=8">iOS</a> implementations. But it also means that several other people have implemented the database format, and have looked through it in enough detail to get it working. If there was any weird backdoor or something that's not documented it's more likely to have been spotted if other people are implementing the spec. You can take a .kdbx file from one KeePass implementation and open it in another.</li>
+<li><strong>Encrypted</strong> - Not just Encrypted, but encrypted with a key you control. This might seem obvious, but it's much better than the built in password manager in <a href="http://raidersec.blogspot.com.au/2013/06/how-browsers-store-your-passwords-and.html">most browsers</a></li>
+<li><strong>Password Generation</strong> - We are not very good at thinking up passwords, my usual trick is <code>dd if=/dev/random bs=1 count=18 2&gt;/dev/null | base64</code> but sometimes you have to have a specific number of characters or special characters. You can set the parameters you need an KeePassX will generate a password that fits.</li>
+<li><strong>Can store files</strong> - You can store "Attachments" with your passwords so you can backup things like private keys.</li>
+</ul>
+<h1>Neutral</h1>
+<ul>
+<li><strong>No built in sync option</strong> - This is great because it works offline and a lot of people feel uncomfortable with their passwords being stored by a company owned by <a href="https://blog.lastpass.com/2015/10/lastpass-joins-logmein.html/">LogMeIn</a>. But syncing the file across many devices is really helpfull. Personal I use <a href="https://owncloud.org/">ownCloud</a> to sync my .kdbx file.</li>
+</ul>
+<h1>Drawbacks</h1>
+<ul>
+<li><strong>No multi-user support</strong> - You can't share passwords with other users across the organisation without sharing the whole file.</li>
+</ul>
+<p>I've been using a <a href="https://www.yubico.com/">YubiKey</a> with a long random password to encrypt my KeePassX file so I don't even know what the password to my password manager is.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:password-book">
+<p>People may laugh, but Bruce Schneier has <a href="https://www.schneier.com/blog/archives/2005/06/write_down_your.html">written</a> about writing down passwords before and I tend to agree with him. There is an over emphasis on not writing down passwords. While sticking it on a post-it note on your screen might be a dumb idea, getting a password book and keeping it safe in your backpack, hand bag or a locked draw is not a bad idea. We are good at physical security, we have been building safes for almost <a href="https://en.wikipedia.org/wiki/Safe#History">two hundred years</a> now. It's a decentralised offline system, sure one or two people might lose a password book but there will never be a breach which exposes millions of people.&#160;<a class="footnote-backref" href="#fnref:password-book" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2016-04-21 07:00:00+08:00" >Thu 21 April 2016</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/passwords.html">Passwords</a>,      <a href="https://xo.tc/tag/password-manager.html">Password Manager</a>,      <a href="https://xo.tc/tag/keepassx.html">KeePassX</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

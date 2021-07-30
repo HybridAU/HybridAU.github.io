@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="Cryptography, LUKS, Debian, Linux, Full Disk Encryption">
+
+  <title>Setting Up Full Disk Encryption on Debian 9 Stretch &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/setting-up-full-disk-encryption-on-debian-9-stretch.html">Setting Up Full Disk Encryption on Debian 9 Stretch</a></h3>
+  </div>
+  <div class="article_text">
+    <p>Previously I did a tutorial on Installing <a href="https://xo.tc/setting-up-full-disk-encryption-on-debian-jessie.html">Debian 8 Jessie</a> with full disk encryption, in that tutorial I went into a lot of detail about manually partitioning the disks. If for some reason you want to manually partition your disks I would reccomend that tutorial, it will still work for Debian 9 Stretch.</p>
+<p>However this tutorial is much more simplified I've used the grapical installer and gone with "Guided - use entire disk and set up encrypted LVM".</p>
+<p>As I've mentioned in all my tutorials on <a href="https://xo.tc/full-disk-encryption-on-linux.html">Full Disk Encryption</a> I say "Full" disk encryption but that's not entirely correct there is still a small partition <code>/boot</code> that's unencrypted. That contains your kernel, grub config and initrd and needs to be unencrypted so we can start booting and decrypt the rest of the OS.</p>
+<p>So let's get started</p>
+<h2>Installing</h2>
+<p>Boot up your CD, USB flash drive, ISO file or install media of choice and select Graphical install.</p>
+<p><img alt="CD Boot" src="https://xo.tc/images/debian-stretch-01-cd-boot.png"></p>
+<p>Select your language.</p>
+<p><img alt="Select a language" src="https://xo.tc/images/debian-stretch-02-select-a-language.png"></p>
+<p>Select your location.</p>
+<p><img alt="Select a location" src="https://xo.tc/images/debian-stretch-03-select-your-location.png"></p>
+<p>Set your keyboard layout.</p>
+<p><img alt="Configure the Keyboard" src="https://xo.tc/images/debian-stretch-04-configure-the-keyboard.png"></p>
+<p>Pick a <a href="https://xkcd.com/910/">name</a> for your computer.</p>
+<p><img alt="Configure the network" src="https://xo.tc/images/debian-stretch-05-configure-the-network.png"></p>
+<p>Set your local domain.</p>
+<p><img alt="Configure the network" src="https://xo.tc/images/debian-stretch-06-configure-the-network.png"></p>
+<p>I personally leave the root password blank, this disables the root account and instead sets you up with a first user that can run <code>sudo</code> to become root.</p>
+<p><img alt="set up users and passwords" src="https://xo.tc/images/debian-stretch-07-set-up-users-and-passwords.png"></p>
+<p>Enter your full name.</p>
+<p><img alt="set up users and passwords" src="https://xo.tc/images/debian-stretch-08-set-up-users-and-passwords.png"></p>
+<p>Pick your username (the default is usually pretty good).</p>
+<p><img alt="set up users and passwords" src="https://xo.tc/images/debian-stretch-09-set-up-users-and-passwords.png"></p>
+<p>Set your password.</p>
+<p><img alt="set up users and passwords" src="https://xo.tc/images/debian-stretch-10-set-up-users-and-passwords.png"></p>
+<p>Set your timezone.</p>
+<p><img alt="Configure the clock" src="https://xo.tc/images/debian-stretch-11-configure-the-clock.png"></p>
+<h2>The encryption</h2>
+<p>This is where the magic happens, actually it's quite simple, we are going to pick "Guided - use entire disk and set up encrypted LVM" and then just go with the defaults. As I said before if for some reason you want to manually partition your disks I would reccomend a previous <a href="https://xo.tc/setting-up-full-disk-encryption-on-debian-jessie.html">tutorial</a>.</p>
+<p><img alt="Partition disks" src="https://xo.tc/images/debian-stretch-12-partition-disks.png"></p>
+<p>Select the volume to install Debian. (This will wipe whatever you have on that disk!!)</p>
+<p><img alt="Partition disks" src="https://xo.tc/images/debian-stretch-13-partition-disks.png"></p>
+<p>Pick "All files in one partition (recommended for new users)".</p>
+<p><img alt="Partition disks" src="https://xo.tc/images/debian-stretch-14-partition-disks.png"></p>
+<p>Pick 'Yes' to write the changes to the disks.</p>
+<p><img alt="Partition disks" src="https://xo.tc/images/debian-stretch-15-partition-disks.png"></p>
+<p>Now the disk will be writen with random data, this is to prevent analysis of the disk. This step can be skipped by pressing cancle but it's highly reccomend you wait it out. It could take several minutes to a few hours so now is an absolutely smashing time to go and have a cup of tea.</p>
+<p><img alt="Partition disks" src="https://xo.tc/images/debian-stretch-16-partition-disks.png"></p>
+<p>Now set a passphrase for your disk.</p>
+<p><img alt="Partition disks" src="https://xo.tc/images/debian-stretch-17-partition-disks.png"></p>
+<p>Select "Finish partitioning and write changes to disk"</p>
+<p><img alt="Partition disks" src="https://xo.tc/images/debian-stretch-18-partition-disks.png"></p>
+<p>Pick 'Yes' to write the changes to the disks.</p>
+<p><img alt="Partition disks" src="https://xo.tc/images/debian-stretch-19-partition-disks.png"></p>
+<h2>Continue the installation</h2>
+<p>Now we continue the installation as per normal.</p>
+<p>Pick 'No' for any extra CDs.</p>
+<p><img alt="configure the package manager" src="https://xo.tc/images/debian-stretch-20-configure-the-package-manager.png"></p>
+<p>Pick your country to find a local mirror .</p>
+<p><img alt="configure the package manager" src="https://xo.tc/images/debian-stretch-21-configure-the-package-manager.png"></p>
+<p>And pick your mirror of choice, often (at least in Australia) you will find your local ISP has a mirror and this will likely be fastest for you.</p>
+<p><img alt="configure the package manager" src="https://xo.tc/images/debian-stretch-22-configure-the-package-manager.png"></p>
+<p>Enter any proxy information (most times this will be blank)</p>
+<p><img alt="configure the package manager" src="https://xo.tc/images/debian-stretch-23-configure-the-package-manager.png"></p>
+<p>You are given the option to opt-in to Debian's <a href="http://popcon.debian.org/">statistics</a> collection.</p>
+<p><img alt="Configure the popularity contest" src="https://xo.tc/images/debian-stretch-24-configure-the-popularity-contest.png"></p>
+<p>Pick your software, I've gone with KDE as my desktop of choice but it's a matter of personal taste.</p>
+<p><img alt="Debian Software Selection" src="https://xo.tc/images/debian-stretch-25-software-selection.png"></p>
+<p>Install GRUB</p>
+<p><img alt="Install the grub boot loader on a hard disk" src="https://xo.tc/images/debian-stretch-26-install-the-grub-boot-loader-on-a-hard-disk.png"></p>
+<p>Pick your boot disk.</p>
+<p><img alt="Install the grub boot loader on a hard disk" src="https://xo.tc/images/debian-stretch-27-install-the-grub-boot-loader-on-a-hard-disk.png"></p>
+<p>and finish the installation.</p>
+<p><img alt="Finish the installation" src="https://xo.tc/images/debian-stretch-28-finish-the-installation.png"></p>
+<h2>Boot your system</h2>
+<p>Now when you boot up you should presented with a prompt asking for the key to decrypt sda5_crypt (your encrypted volumne)</p>
+<p>Enter your passphrase (<strong>Note:</strong> you won't see characters as you type)</p>
+<p><img alt="Finish the installation" src="https://xo.tc/images/debian-stretch-29-decrypt-the-disk.png"></p>
+<p>Now you can log in and enjoy your new Debian system</p>
+<p><img alt="Finish the installation" src="https://xo.tc/images/debian-stretch-30-log-in.png"></p>
+<p><img alt="Finish the installation" src="https://xo.tc/images/debian-stretch-31-running.png"></p>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2017-06-29 07:00:00+08:00" >Thu 29 June 2017</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/cryptography.html">Cryptography</a>,      <a href="https://xo.tc/tag/luks.html">LUKS</a>,      <a href="https://xo.tc/tag/debian.html">Debian</a>,      <a href="https://xo.tc/tag/linux.html">Linux</a>,      <a href="https://xo.tc/tag/full-disk-encryption.html">Full Disk Encryption</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

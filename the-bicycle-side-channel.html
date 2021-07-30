@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="Cryptography, Tor, I2P, metadata">
+
+  <title>The bicycle side channel &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/the-bicycle-side-channel.html">The bicycle side channel</a></h3>
+  </div>
+  <div class="article_text">
+    <p>There is a problem with most cryptographic systems, it's not new and it affects most systems.</p>
+<p>Most formal definitions of a "Perfect security" within cryptography (think One Time Pads) still allow for a few things to be leaked; the size of the messages, the sender and receiver of the messages, and the frequency and number of the messages. These are generally considered out of scope and seen as a protocol problem, not a cryptography one.</p>
+<p>When I was first introduced to this problem it was called the "The bicycle side channel". Imagine that Alice and Bob have brought their daughter Eve a bicycle for Christmas along with some other presents. They have wrapped all the gifts up in wrapping paper and placed them Christmas tree.</p>
+<p>Eve is curious about what gifts might be coming for Christmas but doesn't want to tear the wrapping paper because then her parents will find out that she has peaked. But she can count the number of presents, and she can look at the labels to see who they are from and who they are for, and with one gift she can tell from the shape that it's a bicycle. Maybe she can't tell what colour it is, or which brand, but even wrapped in paper it still looks like a bike.</p>
+<p>Consider the image below.</p>
+<p><img alt="Image Name" src="https://xo.tc/images/giftwrapped-airliner.png"></p>
+<blockquote>
+<p><strong>Author:</strong>   <a href="https://commons.wikimedia.org/wiki/File:Alliance_Airlines_Fokker_F70_wrapped_up_at_Brisbane_Airport_%28cropped%29.jpg">Brisbane Airport, Photographer Sarah Whyte</a></p>
+</blockquote>
+<p>Despite the fact that it's entirely gift wrapped, even with a little bow around it. I think most people can still work out that it's an airliner. Those of you who know a lot about aviation might even be able to work out that it's a Fokker F70 based on things like the shape and height of the wings. Sure you might not be able to read the registration number on the tail but you still know what it is.</p>
+<p>To bring this metaphor back to cryptosystems imagine the Tor network is just starting off and there are only 5 users currently connected. Four are reading Wikipedia articles, and one is watching YouTube. If you saw a graph of how much traffic was going to and from each node, you could easily work out which user was watching YouTube.</p>
+<p>As the size of the network grows this get more complex but there was some serious research into decloaking Tor users with nothing more than <a href="https://blog.torproject.org/traffic-correlation-using-netflows">Cisco NetFlow</a>. There was another great <a href="https://guidovranken.files.wordpress.com/2015/12/https-bicycle-attack.pdf">paper</a> that looked at the information leaked by HTTPS connections just based on the size of the messages.</p>
+<p>Some networks such as <a href="https://geti2p.net/">I2P</a> do take this into account and try to send fixed size (padded) messages at a fixed interval so while the I2P router is running it will be relaying messages or just sending and receiving junk to make it hard to tell when a connection is actively being used let alone who is doing what. Of course, this is a trade-off between performance of the network and secrecy and in system design, you need to choose do you try to foil metadata analysis or do you try for maximum performance.</p>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2017-11-30 07:00:00+08:00" >Thu 30 November 2017</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/cryptography.html">Cryptography</a>,      <a href="https://xo.tc/tag/tor.html">Tor</a>,      <a href="https://xo.tc/tag/i2p.html">I2P</a>,      <a href="https://xo.tc/tag/metadata.html">metadata</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="Python, Windows, Linux, Atom, Updates">
+
+  <title>pip changing from pep8 to pycodestyle &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/pip-changing-from-pep8-to-pycodestyle.html">pip changing from pep8 to pycodestyle</a></h3>
+  </div>
+  <div class="article_text">
+    <p>I recently updated one of the packages in <a href="https://atom.io/">Atom</a> that was called <code>linter-pep8</code> to version 2.0 which was renamed to <a href="https://atom.io/packages/linter-pycodestyle"><code>linter-pycodestyle</code></a>. This is because <a href="https://pypi.python.org/pypi/pep8">PEP8 the package</a> was renamed to <a href="https://pypi.python.org/pypi/pycodestyle">pycodestyle</a> to reduse confusion between the package and the <a href="https://www.python.org/dev/peps/pep-0008/">PEP8 the specification</a>.</p>
+<p>However after I opened Atom I got an error message <code>Error: spawn pycodestyle ENOENT</code></p>
+<p><img alt="Error: spawn pycodestyle ENOENT" src="https://xo.tc/images/error-spawning-pycodestyle-enoent.png"></p>
+<p>because I hadn't upgraded the python package. As I wasn't using PEP8 for anything else I uninstalled it and installed pycodestyle. On windows I'd installed Python 3.6 x64 for all users so it was Python was installed <code>C:\Program Files\Python36\</code></p>
+<div class="highlight"><pre><span></span><code>&quot;C:\Program Files\Python36\Scripts\pip.exe&quot; uninstall pep8
+&quot;C:\Program Files\Python36\Scripts\pip.exe&quot; install pycodestyle
+</code></pre></div>
+
+<p>on Linux<sup id="fnref:linux"><a class="footnote-ref" href="#fn:linux">1</a></sup> pip was in my <code>PATH</code> environment varable so I simply ran</p>
+<div class="highlight"><pre><span></span><code>sudo pip uninstall pep8
+sudo pip install pycodestyle
+</code></pre></div>
+
+<p>And that fixed up my issues.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:linux">
+<p>In my case that was Arch Linux and Debian Jessie.&#160;<a class="footnote-backref" href="#fnref:linux" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2017-02-02 07:00:00+08:00" >Thu 02 February 2017</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/python.html">Python</a>,      <a href="https://xo.tc/tag/windows.html">Windows</a>,      <a href="https://xo.tc/tag/linux.html">Linux</a>,      <a href="https://xo.tc/tag/atom.html">Atom</a>,      <a href="https://xo.tc/tag/updates.html">Updates</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

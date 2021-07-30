@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="Office 365, Email, DMARC, Microsoft">
+
+  <title>Does Microsoft's Office 365 licensing model encourage poor security practices? &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/does-microsofts-office-365-licensing-model-encourage-poor-security-practices.html">Does Microsoft's Office 365 licensing model encourage poor security practices?</a></h3>
+  </div>
+  <div class="article_text">
+    <p>I've recently survived a migration to Office 365 with relatively few scars and coming out only slightly more cynical, bitter and twisted than I was when I when I started<sup id="fnref:cynical-bitter-and-twisted"><a class="footnote-ref" href="#fn:cynical-bitter-and-twisted">1</a></sup>.</p>
+<p>I remember speaking to a Microsoft sales rep at some conference or other, they said that in Office 365 you only need to buy one license per users. That's it, and a user was unofficially defined as a living breathing bag of meat that has an Office 365 account.</p>
+<ul>
+<li>No more worrying about buying CALs for printers and photocopiers</li>
+<li>No need to buy an extra license for users who had a regular account and an administrative account</li>
+<li>No extra CALs because someone wants their emails on their phone <em>and</em> their laptop at the same time</li>
+<li>No need to license accounts used by system scripts and scheduled tasks.</li>
+<li>No worries about Per-Core vs Per-CPU licensing</li>
+<li>No need to license unused CPU cores because a VM could potentially be migrated in a failover situation.</li>
+<li>No weird definition of "User"<sup id="fnref:who-is-a-user"><a class="footnote-ref" href="#fn:who-is-a-user">2</a></sup></li>
+</ul>
+<p>Just one license per person. Simple. I was quite surprised.</p>
+<p>It turns out that's not quite correct, while you don't <em>have to</em> license <abbr title="Multifunction Devices (i.e. Photocopiers)">MFDs</abbr>. In practice, if you want your photocopiers and scanners to be able to authenticate and send email using Office 365 they are going to need an account.</p>
+<p>There is a work around for this, I could setup a shared account scanner@example.com, shared accounts don't need a license. I could give my account Michael.VanDelft@example.com 'Send As' permission. Then I can then setup the photocopiers to authenticate with my credentials and send email as scanner@example.com. While that's totally ok from an Office 365 licensing perspective I'm left with my username and password stored in a bunch of poorly secured photocopiers and I can't change my password without breaking the scan to email function on all our photocopiers.</p>
+<p>There are some other <a href="https://support.office.com/en-us/article/How-to-set-up-a-multifunction-device-or-application-to-send-email-using-Office-365-69f58e99-c550-4274-ad18-c805d654b4c4">work arrounds</a> for this, but they either involve direct send or running an SMTP relay and neither option is great.</p>
+<p>We have a plethora of things which send email, not just photocopiers but system monitoring tools, our backup software sends reports, several system scripts, our financial system, even our firewall emails alerts occasionally.</p>
+<p>If we want these all these things to send emails through Office 365 so we get DMARC, TLS, Authentication and all that other goodness that comes with a well-configured mail server we need to license them.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:cynical-bitter-and-twisted">
+<p>Although it's possible that I've almost reached peak cynical saturation and simply couldn't have got any more bitter and twisted even if it had been a migration to Oracle's god-awful "Oracle Communications Messaging Server".&#160;<a class="footnote-backref" href="#fnref:cynical-bitter-and-twisted" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:who-is-a-user">
+<p>We were once looking at Microsoft SQL server and we were told that if we had some software (e.g. accounting software) that used a single account to connect to the database, anyone who used that software was a "user" of the database, even if we only had one account setup in SQL server. Fair enough, I guess. But then they extrapolated that to say that if we used a CMS like WordPress with Microsoft SQL server as the back end, then we would need a license for everyone who viewed or commented on our website as they too would be a "user" of our database. Needless to say, we went with Per-Core licensing rather than per user. I've since been told that this is not correct by a number of "Microsoft Licensing Experts" however it's what we were told at the time by our reseller who was a "Microsoft Gold Certified Partner".&#160;<a class="footnote-backref" href="#fnref:who-is-a-user" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2017-09-14 07:00:00+08:00" >Thu 14 September 2017</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/office-365.html">Office 365</a>,      <a href="https://xo.tc/tag/email.html">Email</a>,      <a href="https://xo.tc/tag/dmarc.html">DMARC</a>,      <a href="https://xo.tc/tag/microsoft.html">Microsoft</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

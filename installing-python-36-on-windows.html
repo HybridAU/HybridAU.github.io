@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="Python, Windows">
+
+  <title>Installing Python 3.6 on Windows &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/installing-python-36-on-windows.html">Installing Python 3.6 on Windows</a></h3>
+  </div>
+  <div class="article_text">
+    <p>Installing Python on Windows is not that hard, but I want the 64 bit version and I want it installed system wide and neither of these are defaults so we need to change things a little.</p>
+<p>First we go to <a href="https://www.python.org/">python.org</a> and navigate to Downloads &gt; Windows</p>
+<p><img alt="Python Downloads Windows" src="https://xo.tc/images/python-windows-install-1-home-page.png"></p>
+<p>Then we need to download the 64-bit exceutable installer.</p>
+<p><img alt="Python Downloads Windows 64-bit" src="https://xo.tc/images/python-windows-install-2-64-bit-executable.png"></p>
+<p>We run the installer, first tick "Add Python 3.6 to PATH" this makes life much easier because we can simply call python from the command line. Next click "Customize installation"</p>
+<p><img alt="Python Installer First Page" src="https://xo.tc/images/python-windows-install-3-installer-first-page.png"></p>
+<p>I install all the optional features (this is the default anyway) so we simply hit next.</p>
+<p><img alt="Python optional features" src="https://xo.tc/images/python-windows-install-4-installer-optional-features.png"></p>
+<p>In the Advanced Options tick "Install for all users" this will change the path from <code>C:\Users\your.name\AppData\Local\Programs\Python\Python36</code> to <code>C:\Program Files\Python36</code> which will make it system wide. Then hit Install</p>
+<p><img alt="Python optional features" src="https://xo.tc/images/python-windows-install-5-installer-advanced-options.png"></p>
+<p>This will ask for elevated privlages and then run though installing and your done.</p>
+<p><img alt="Python optional features" src="https://xo.tc/images/python-windows-install-6-installer-running.png"></p>
+<p>I understand that the Python installer probably defaults to installing the 32 bit version for just the local user for compatibility reasons. It's better to have defaults that will work for everyone, but for me I almost always install python to run things like scheduled tasks and system scripts so this is how I like my Python set up.</p>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2017-04-27 07:00:00+08:00" >Thu 27 April 2017</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/python.html">Python</a>,      <a href="https://xo.tc/tag/windows.html">Windows</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

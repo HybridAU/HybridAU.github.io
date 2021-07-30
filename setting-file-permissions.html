@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="Linux, WordPress, Permissions">
+
+  <title>Setting file permissions &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/setting-file-permissions.html">Setting file permissions</a></h3>
+  </div>
+  <div class="article_text">
+    <p>This is a fairly short post but it's another one of those <a href="https://xo.tc/tag/note-to-selfhtml.html">Note to self</a> things, I've done this 100 times but I can never remember and need to keep looking up again.</p>
+<p>Often I want to go through a directory and set all subdirectories to be readable and all the files to be read only by everyone except the owner who should have write permissions as well.<sup id="fnref:read-only"><a class="footnote-ref" href="#fn:read-only">1</a></sup></p>
+<p>I've got a little command I use, taken from a <a href="http://stackoverflow.com/questions/18352682/correct-file-permissions-for-wordpress">thread on stack overflow</a> that was about WordPress but it's very applicable elsewhere.</p>
+<div class="highlight"><pre><span></span><code>chown www-data:www-data -R *          <span class="c1"># Let apache be owner</span>
+find . -type d -exec chmod <span class="m">755</span> <span class="o">{}</span> <span class="se">\;</span>  <span class="c1"># Change directory permissions rwxr-xr-x</span>
+find . -type f -exec chmod <span class="m">644</span> <span class="o">{}</span> <span class="se">\;</span>  <span class="c1"># Change file permissions rw-r--r--</span>
+</code></pre></div>
+
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:read-only">
+<p>without the execute bit set of files so <code>chmod -R 755</code> doesn't work but if you do <code>chmod -R 644</code> you can't open the directories.&#160;<a class="footnote-backref" href="#fnref:read-only" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2016-04-14 07:00:00+08:00" >Thu 14 April 2016</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/linux.html">Linux</a>,      <a href="https://xo.tc/tag/wordpress.html">WordPress</a>,      <a href="https://xo.tc/tag/permissions.html">Permissions</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

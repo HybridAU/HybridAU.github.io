@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="Apple, Android, Surveillance, Passwords">
+
+  <title>Two new iPhone security features &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/two-new-iphone-security-features.html">Two new iPhone security features</a></h3>
+  </div>
+  <div class="article_text">
+    <p>I am at heart a bit of an open source hippy who sees the world through rose coloured glasses. I want to believe that Android<sup id="fnref:Android"><a class="footnote-ref" href="#fn:Android">1</a></sup> is the best mobile operating system because it is at it's core open source and it gives users the freedom to run their own code and inspect the code running on their device without needing to pay licensing agreements or sign NDAs. Unlike the walled garden that Apple has built.</p>
+<p>However, if pushed I'd begrudgingly admit that if security is your priority Apple and the iPhone have the edge.</p>
+<p>Apple has released two new security features for their latest version of iOS and I think they are really interesting to look at from the point of view of threat modeling because they cater to almost polar opposites of the threat landscape.</p>
+<p>The two features are <em>USB Restricted mode</em> and <em>"tools for generating strong passwords, storing them in the iCloud keychain, and automatically entering them into Safari and iOS apps across all of a user's devices."</em> these two features nicely demonstrate what <a href="https://www.schneier.com/blog/archives/2012/01/going_dark_vs_a.html">Bruce Schneier</a> called
+"Going Dark" vs. a "Golden Age of Surveillance"</p>
+<p>With USB restricted mode, if someone has an iPhone and they are picked up by police, the police can no longer access their phone to look for incriminating material<sup id="fnref:incriminating-material"><a class="footnote-ref" href="#fn:incriminating-material">2</a></sup>. This is a great step forward and has privacy advocates cheering, but it's not something that most people have to worry about.</p>
+<p>While with the password generation an storage, this is something that will result in a greatly increased security for a huge number of people. People generally are bad at picking passwords, bad at storing passwords and absolutely terrible at not repeating the same password across numerous systems. Letting your iPhone generate a password for you and syncing that across all your Apple devices is going to be a hell of a lot better than what most people are currently doing. It's not only going to be more secure but it's going to be easier and people will always take the easy option, it's like LastPass but built into the operating system.</p>
+<p>If I had to give anyone the job of securing all that data I'd say companies like Apple and Google are about as good as you can get. <em>But</em> if Apple are syncing the passwords across devices then they <em>must</em> be storing the passwords in such a way that it's possible to recover the cleartext. That just opens up a whole can of worms, even Apple's best developers are still human, and humans make mistakes or can be bribed or threatened. There was a story no that long ago where some celebrity had their iCloud account password guessed and compromising photos leaked online, and that was a result of Apple forgetting to rate limit one of their services, so these things do happen.</p>
+<p>So <strong>TLDR</strong></p>
+<ul>
+<li>
+<p><strong>USB Restricted mode</strong> Good for the ~1% of people who are political activist or being surveilled by intelligence agencies? yes. Good for the ~99% of people who just want to keep their Facebook account safe? it can't hurt I guess.</p>
+</li>
+<li>
+<p><strong>Password generation and cloud storage</strong>: Good for the ~1% of people who are political activist or being surveilled by intelligence agencies? maybe, it depends. Good for the ~99% of people who just want to keep their Facebook account safe? Yes.</p>
+</li>
+</ul>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:Android">
+<p>Actually, I still want to believe that in the future Maemo 5 from my old Nokia N900 or KDE Plasma Mobile will dominate the mobile market, but I'm at least somewhat in touch with reality, so Android it is.&#160;<a class="footnote-backref" href="#fnref:Android" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:incriminating-material">
+<p>I feel like I'm flogging a dead horse here and I shouldn't need to say this but, just because something is incriminating or illegal doesn't mean it's immoral. There are still countries where it's illegal to be homosexual, a man could have pictures of him and his boyfriend kissing. Illegal yes, immoral no.&#160;<a class="footnote-backref" href="#fnref:incriminating-material" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2018-07-19 08:00:00+08:00" >Thu 19 July 2018</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/apple.html">Apple</a>,      <a href="https://xo.tc/tag/android.html">Android</a>,      <a href="https://xo.tc/tag/surveillance.html">Surveillance</a>,      <a href="https://xo.tc/tag/passwords.html">Passwords</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

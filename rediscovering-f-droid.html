@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="Android, F-Droid, Google Play, Open Source">
+
+  <title>Rediscovering F-Droid &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/rediscovering-f-droid.html">Rediscovering F-Droid</a></h3>
+  </div>
+  <div class="article_text">
+    <p>I recently bought a Nokia 6.1 and I've been <a href="https://xo.tc/nokia-61-review.html">Loving it</a> but it's running stock Android and one of the best ways to secure your Android device is to not install random apps that you don't trust, and especially not to install untrusted apps that didn't come from the Google Play store.</p>
+<p>On my old Samsung Galaxy S4, I ran Lineage OS (previously CyanogenMod). On my Nexus 6P it was a mix, so on my Nokia 6.1, I tried to just use to Play Store for a while. However, I trust the F-Droid store and I wanted a couple of apps that are not in the Play Store so I installed it.</p>
+<p>I'm not sure when Android made the change<sup id="fnref:change"><a class="footnote-ref" href="#fn:change">1</a></sup> but now instead of having a single "Allow unknown apps" switch in the settings, there is one per App, so when I downloaded the F-Droid APK I was asked to allow Firefox to install unknown apps.</p>
+<p><img alt="Android Firefox untrusted apps" src="https://xo.tc/images/firefox-install-untrusted-apps.png"></p>
+<p>Then after that, I was asked to allow F-Droid to install untrusted apps. Once I'd allowed that I went back and removed the permission from Firefox:</p>
+<p>Long press on Firefox icon &gt; App Info (Drag it to the top) &gt; Install unknown apps (scroll to the bottom)</p>
+<p>Now I've got the F-Droid store on there I'm much happier, they have updated the <abbr title="User Interface">UI</abbr> and it's much cleaner, but more importantly, the F-Droid store just has much less horrible junk apps.</p>
+<p>Very, very few of the Apps in the F-Droid store contain advertisements, and fewer still contain in-app purchases.</p>
+<p>The official Google Play store is filled with ad-supported apps and it provides almost no way to filter them, for example, I'd love a search function where you could restrict it to only Apps that don't have ads and don't push in-app purchases.</p>
+<p>A classic example is when you search for "Flashlight" the top result that comes up contains both ads, and in-app purchases.</p>
+<p><img alt="Flashlight with ads" src="https://xo.tc/images/flashlight-ads.png"></p>
+<p>and on top of that, it requires access to:</p>
+<ul>
+<li>Location<ul>
+<li>approximate location (network-based)</li>
+<li>precise location (GPS and network-based)</li>
+</ul>
+</li>
+<li>Photos / Media / Files<ul>
+<li>read the contents of your USB storage</li>
+</ul>
+</li>
+<li>Storage<ul>
+<li>read the contents of your USB storage</li>
+</ul>
+</li>
+<li>Camera<ul>
+<li>take pictures and videos</li>
+</ul>
+</li>
+<li>Other<ul>
+<li>view network connections</li>
+<li>full network access</li>
+<li>control vibration</li>
+</ul>
+</li>
+</ul>
+<p>That's a lot of permissions for something that's just going to switch the LED light on and off.</p>
+<p>As a counterexample when you search "Flashlight" in the F-Droid the <a href="https://f-droid.org/en/packages/com.simplemobiletools.flashlight/">first result</a> that comes up has no ads or in-app purchases and only needs camera<sup id="fnref:camera"><a class="footnote-ref" href="#fn:camera">2</a></sup> and flashlight permissions which seems reasonable.</p>
+<p>For a while I toyed with the idea of creating a web crawler and indexing the Play Store to create a site which provides advanced search of apps on the Play Store to filter out the junk but that seems like a lot of work to build and maintain for very little gain when the F-Droid store contains a great repository of nicely curated open source apps.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:change">
+<p>I suspect it was between Android 7.0 Nougat and Android 8.0 Oreo.&#160;<a class="footnote-backref" href="#fnref:change" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:camera">
+<p>From what I can tell the camera permission is needed because some builds of Android won't allow access to the LED without camera access.&#160;<a class="footnote-backref" href="#fnref:camera" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2018-09-06 08:00:00+08:00" >Thu 06 September 2018</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/android.html">Android</a>,      <a href="https://xo.tc/tag/f-droid.html">F-Droid</a>,      <a href="https://xo.tc/tag/google-play.html">Google Play</a>,      <a href="https://xo.tc/tag/open-source.html">Open Source</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

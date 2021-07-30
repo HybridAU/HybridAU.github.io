@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="Darknet, Alternative Networks, Tor, I2P, ZeroNet, Riffle, Apache">
+
+  <title>Alternative Networks for this site - I2P &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/alternative-networks-for-this-site-i2p.html">Alternative Networks for this site - I2P</a></h3>
+  </div>
+  <div class="article_text">
+    <p>I've been very interested in all the different censorship resistant that seem to have sprung up over the last few years so I thought I'd have a look at hosting this site on them. It seems like the ideal site to try them out with because I use <a href="http://blog.getpelican.com/">pelican</a> to generate static html files and they should be fairly easy to host anywhere.</p>
+<p>The some of the networks I've looked at recently are:</p>
+<ul>
+<li><a href="https://www.torproject.org/">Tor</a></li>
+<li><a href="https://geti2p.net/en/">I2P</a></li>
+<li><a href="http://zeronet.io/">ZeroNet</a></li>
+<li><a href="https://people.csail.mit.edu/devadas/pubs/riffle.pdf">Riffle</a></li>
+</ul>
+<p>and this week I've started running Exotic Security as an I2P eepsite<sup id="fnref:eepsite"><a class="footnote-ref" href="#fn:eepsite">1</a></sup> it's now available at:</p>
+<p><a href="http://xotc.i2p">http://xotc.i2p</a></p>
+<p>or</p>
+<p><a href="http://gqgvzum3xdgtaahkjfw3layb33vjrucmw5btyhrppm463cz3c5oq.b32.i2p/">http://gqgvzum3xdgtaahkjfw3layb33vjrucmw5btyhrppm463cz3c5oq.b32.i2p/</a></p>
+<p>I've used I2P for a while now and it's fairly similar to its more popular cousin Tor although there are a few <a href="https://geti2p.net/en/comparison/tor">notable diffrences</a>. The ones that stand out for me are:</p>
+<ul>
+<li>I2P was designed was a global passive adversary in mind. Someone who can watch the whole network, every packet that goes in and every packet that comes out. So it uses tricks like constantly sending some amount of traffic, whether you're using it or not to thwart traffic flow analysis.</li>
+<li>Unlike Tor who ask you not to torrent over their network I2P actually encourages torrents and has a a built in torrent engine called snark.</li>
+</ul>
+<p>Setting up an eepsite was fairly easy. I installed I2P simply following their <a href="https://geti2p.net/en/download/debian#debian">debian install guide</a>.</p>
+<p>I decided to go with a site run by Apache and use I2P as a reverse proxy rather than use the built in web server.</p>
+<p>I edited the ports that apache listens on <code>vim /etc/apache2/ports.conf</code></p>
+<div class="highlight"><pre><span></span><code># I2P eepsite
+Listen 127.0.0.1:7658
+</code></pre></div>
+
+<p>and added an entry in <code>/etc/apache2/sites-enabled/000-default.conf</code></p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;VirtualHost</span> <span class="err">127.0.0.1:7658</span><span class="nt">&gt;</span>
+    # Host settings
+    ServerName xotc.i2p
+
+    ServerAdmin webmaster@xo.tc
+    DocumentRoot /var/www/eepsite
+    ErrorDocument 404 /pages/404-not-found.html
+
+    # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+    # error, crit, alert, emerg.
+    # It is also possible to configure the loglevel for particular
+    # modules, e.g.
+    #LogLevel info ssl:warn
+
+    # As we are hosting on localhost, by default the server-status and
+    # server-info pages are avalible.
+    <span class="nt">&lt;Location</span> <span class="err">/server-status</span><span class="nt">&gt;</span>
+        Order allow,deny
+        Deny from all
+    <span class="nt">&lt;/Location&gt;</span>
+    <span class="nt">&lt;Location</span> <span class="err">/server-info</span><span class="nt">&gt;</span>
+        Order allow,deny
+        Deny from all
+    <span class="nt">&lt;/Location&gt;</span>
+
+    ErrorLog <span class="cp">${</span><span class="n">APACHE_LOG_DIR</span><span class="cp">}</span>/error.log
+    CustomLog <span class="cp">${</span><span class="n">APACHE_LOG_DIR</span><span class="cp">}</span>/access.log combined
+<span class="nt">&lt;/VirtualHost&gt;</span>
+</code></pre></div>
+
+<p>and in the router console under I2P internals &gt; Hidden Service Manager I enabled the website.</p>
+<p>I could have simply pointed I2P at the site already running on port 443 but Pelican uses absolute links, also I <a href="https://xo.tc/using-piwik-analytics.html">use</a> <a href="https://piwik.org/">Piwik analytics</a> which again points to a clear net site. So instead I've used pelican to generate a new site with the relative links and no analytics.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:eepsite">
+<p>I have a feeling I saw somewhere that I2P were looking at moving away from the name 'eepsite' and moving to calling them 'Hidden Services' like Tor does, but now I can't find that anywhere so I'm sticking with eepsite.&#160;<a class="footnote-backref" href="#fnref:eepsite" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2016-08-25 07:00:00+08:00" >Thu 25 August 2016</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/darknet.html">Darknet</a>,      <a href="https://xo.tc/tag/alternative-networks.html">Alternative Networks</a>,      <a href="https://xo.tc/tag/tor.html">Tor</a>,      <a href="https://xo.tc/tag/i2p.html">I2P</a>,      <a href="https://xo.tc/tag/zeronet.html">ZeroNet</a>,      <a href="https://xo.tc/tag/riffle.html">Riffle</a>,      <a href="https://xo.tc/tag/apache.html">Apache</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

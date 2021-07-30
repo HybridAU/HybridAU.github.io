@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="Arch Linux, Debian, Full Disk Encryption, UEFI, LUKS">
+
+  <title>Setting Up Full Disk Encryption on Arch Linux &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/setting-up-full-disk-encryption-on-arch-linux.html">Setting Up Full Disk Encryption on Arch Linux</a></h3>
+  </div>
+  <div class="article_text">
+    <p>I recently switched my laptop over from <a href="https://wiki.debian.org/DebianStretch">Debian Stretch</a> to <a href="https://www.archlinux.org/">Arch Linux</a>.</p>
+<p>Debian is still my go to distribution for any server, but I felt like I was in a bit of a no man's land with my laptop. Debian stable (currently Jessie) is rock solid and reliable but I want to install new packages, like the latest version of Firefox. Debian testing and unstable (Stretch and Sid) are well ... unstable, and you really can't complain when things break<sup id="fnref:complain"><a class="footnote-ref" href="#fn:complain">1</a></sup>.</p>
+<p>I've been using Arch Linux on my desktop for a while and for a bleeding edge distribution it's surprisingly stable<sup id="fnref:surprisingly-stable"><a class="footnote-ref" href="#fn:surprisingly-stable">2</a></sup>.</p>
+<p>These my notes on <a href="https://wiki.archlinux.org/index.php/Installation_guide">installing Arch Linux</a> on my laptop with Full Disk Encryption. As I noted in my post on <a href="https://xo.tc/setting-up-full-disk-encryption-on-debian-jessie.html">Setting Up Full Disk Encryption on Debian Jessie</a> it's not really "Full" disk encryption, there is still a small partition <code>/boot</code> that's unencrypted and will contain the kernel and <a href="https://en.wikipedia.org/wiki/Initramfs">initramfs</a>.</p>
+<h2>Download</h2>
+<p>First I <a href="https://www.archlinux.org/download/">downloaded</a> the latest Arch Linux iso, verified it, and copied it to a USB flash drive.</p>
+<div class="highlight"><pre><span></span><code><span class="nv">gpg</span> <span class="o">--</span><span class="nv">recv</span><span class="o">-</span><span class="nv">keys</span> <span class="mi">0</span><span class="nv">x7f2d434b9741e8ac</span>
+<span class="nv">gpg</span> <span class="o">--</span><span class="nv">verify</span> <span class="nv">archlinux</span><span class="o">-</span><span class="mi">2016</span>.<span class="mi">07</span>.<span class="mi">01</span><span class="o">-</span><span class="nv">dual</span>.<span class="nv">iso</span>.<span class="nv">sig</span>
+<span class="nv">dd</span> <span class="k">if</span><span class="o">=</span><span class="nv">archlinux</span><span class="o">-</span><span class="mi">2016</span>.<span class="mi">07</span>.<span class="mi">01</span><span class="o">-</span><span class="nv">dual</span>.<span class="nv">iso</span> <span class="nv">of</span><span class="o">=/</span><span class="nv">dev</span><span class="o">/</span><span class="nv">sdb</span>
+</code></pre></div>
+
+<h2>Install</h2>
+<p>Then I booted the USB drive and, updated the time, because that's what it says in the documentation and it's a good idea.</p>
+<div class="highlight"><pre><span></span><code>timedatectl set-ntp true
+</code></pre></div>
+
+<p>I created 3 partitions on my hard drive an 80GB SSD:</p>
+<ol>
+<li>512MB FAT32 partition to boot from.</li>
+<li>A big partition to be used as the root.</li>
+<li>A 4GB partition for swap space.</li>
+</ol>
+<div class="highlight"><pre><span></span><code>parted /dev/sda
+ &gt; mklabel gpt
+ &gt; mkpart ESP fat32 1MiB 513MiB
+ &gt; set 1 boot on
+ &gt; mkpart primary 513MiB -4G
+ &gt; mkpart primary 76GB 100%
+</code></pre></div>
+
+<p>I setup a LUKs volume on the second partition, formated it to btrfs then mounted it to <code>/mnt/</code> and mounted the FAT32 volume to <code>/mnt/boot</code></p>
+<div class="highlight"><pre><span></span><code>cryptsetup luksFormat /dev/sda2
+cryptsetup luksOpen /dev/sda2 arch_root
+
+mkfs.btrfs /dev/mapper/arch_root
+
+mount /dev/mapper/arch_root /mtn/
+mkdir /mnt/boot
+mount /dev/sda1 /mnt/boot
+</code></pre></div>
+
+<p>I updated the mirrors list and installed Arch Linux following the install guide and installed vim<sup id="fnref:vim"><a class="footnote-ref" href="#fn:vim">3</a></sup> and added a host name.</p>
+<div class="highlight"><pre><span></span><code>vim /etc/pacman.d/mirrorlist
+
+pacstrap /mnt base
+
+genfstab -p /mnt &gt;&gt; /mnt/etc/fstab
+
+arch-chroot /mnt
+
+ln -s /usr/share/zoneinfo/Australia/Perth /etc/localtime
+
+nano /etc/locale.gen
+
+locale-gen
+
+nano /etc/locale.conf
+# LANG=en_AU.UTF-8
+
+pacman -S vim
+
+vim /etc/hostname
+</code></pre></div>
+
+<p>I edited <code>/etc/mkinitcpio.conf</code> to add <code>encrypt</code> after <code>udev</code> on line 51 and then created my initramfs</p>
+<div class="highlight"><pre><span></span><code>vim /etc/mkinitcpio.conf
+# HOOKS=&quot;base udev encrypt autodetect modconf block filesystems keyboard fsck&quot;
+mkinitcpio -p linux
+</code></pre></div>
+
+<p>Next I used <a href="https://wiki.archlinux.org/index.php/EFISTUB#efibootmgr">efibootmgr</a> to add an entry into my EFI boot options to boot the Linux kernel directly rather than using a boot loader like GRUB which then boots the kernel.</p>
+<p>I think this is an extremely elegant solution as it means I end up with only 3 files in my <code>/boot/</code> volume: The kernel, The initramfs, and a fallback initramfs (which isn't really necessary). It's much neater than a bunch of GRUB scripts and config files.</p>
+<div class="highlight"><pre><span></span><code>pacman -S efibootmgr
+
+efibootmgr -d /dev/sda -p 1 -c -L &quot;Arch Linux&quot; -l /vmlinuz-linux -u &quot;cryptdevice=/dev/sda2:arch_root root=/dev/mapper/archroot rw initrd=/initramfs-linux.img&quot;
+</code></pre></div>
+
+<p>Next I added a user and setup sudo so they could become root.</p>
+<div class="highlight"><pre><span></span><code>useradd michael --create-home --groups wheel
+passwd michael
+
+pacman -S sudo
+visudo
+# Uncomment line 82. %wheel ALL=(ALL) ALL
+</code></pre></div>
+
+<p>Lastly I setup my swap partition to be a LUKs volume with a random key.</p>
+<div class="highlight"><pre><span></span><code>vim /etc/crypttab
+# arch_swap /dev/sda3 /dev/urandom swap
+
+vim /etc/fstab
+# /dev/mapper/arch_swap none swap sw 0 0
+</code></pre></div>
+
+<p>I exited the chroot and rebooted.</p>
+<div class="highlight"><pre><span></span><code><span class="k">exit</span>
+<span class="nv">reboot</span>
+</code></pre></div>
+
+<h2>Post install</h2>
+<p>I installed KDE because that's my desktop of choice but the lovely thing about Arch Linux is you can make it almost anything you want.</p>
+<div class="highlight"><pre><span></span><code># Logged in as Michael, but run as root
+dhcpcd enp0s25
+
+pacman -S xorg-server
+pacman -S plasma-meta
+pacman -S kde-applications-meta
+pacann -S sddm
+
+systemctl enable sddm.service
+systemctl enable NetworkManager.service
+</code></pre></div>
+
+<p>Added the track pad driver</p>
+<div class="highlight"><pre><span></span><code>pacman -S xf86-input-synaptics
+</code></pre></div>
+
+<p>Set time to NTP, I would have though this would be done automatically because I'd synced the time when I started the installer, but apparently not.</p>
+<div class="highlight"><pre><span></span><code>timedatectl set-ntp true
+</code></pre></div>
+
+<p>And set the KDE Wallet to <a href="https://wiki.archlinux.org/index.php/KDE_Wallet#Unlock_KDE_Wallet_automatically_on_login">automatically unlock</a> with my user password. This is a slight trade off in security because with the default setup I could have two different passwords, or I could login but choose not to unlock the wallet. But in this case I've decided to go with it because it's much more convenient and secure enough.</p>
+<div class="highlight"><pre><span></span><code>sudo pacman -S kwallet-pam
+
+vim /etc/pam.d/sddm
+</code></pre></div>
+
+<p>My sddm file</p>
+<div class="highlight"><pre><span></span><code>#<span class="o">%</span><span class="nv">PAM</span><span class="o">-</span><span class="mi">1</span>.<span class="mi">0</span>
+
+<span class="nv">auth</span>            <span class="k">include</span>         <span class="nv">system</span><span class="o">-</span><span class="nv">login</span>
+<span class="nv">auth</span>            <span class="nv">optional</span>        <span class="nv">pam_kwallet5</span>.<span class="nv">so</span>
+<span class="nv">auth</span>            <span class="nv">optional</span>        <span class="nv">pam_kwallet</span>.<span class="nv">so</span> <span class="nv">kdehome</span><span class="o">=</span>.<span class="nv">kde4</span>
+
+<span class="nv">account</span>         <span class="k">include</span>         <span class="nv">system</span><span class="o">-</span><span class="nv">login</span>
+
+<span class="nv">password</span>        <span class="k">include</span>         <span class="nv">system</span><span class="o">-</span><span class="nv">login</span>
+
+<span class="nv">session</span>         <span class="k">include</span>         <span class="nv">system</span><span class="o">-</span><span class="nv">login</span>
+<span class="nv">session</span>         <span class="nv">optional</span>        <span class="nv">pam_kwallet5</span>.<span class="nv">so</span>
+<span class="nv">session</span>         <span class="nv">optional</span>        <span class="nv">pam_kwallet</span>.<span class="nv">so</span>
+</code></pre></div>
+
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:complain">
+<p>You can't complain but you can file bug reports, which is helpful to the Debian maintainers.&#160;<a class="footnote-backref" href="#fnref:complain" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:surprisingly-stable">
+<p>Things still break in new and interesting ways on Arch Linux, just less often than I would expect for the rate of package churn.&#160;<a class="footnote-backref" href="#fnref:surprisingly-stable" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:vim">
+<p>Vim is included in the installer .iso file, so you can use it while your installing, but it's not part of the base packages so once you run <code>arch-chroot</code> you can't use it until you install it <code>pacman -S vim</code>&#160;<a class="footnote-backref" href="#fnref:vim" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2016-07-21 07:00:00+08:00" >Thu 21 July 2016</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/arch-linux.html">Arch Linux</a>,      <a href="https://xo.tc/tag/debian.html">Debian</a>,      <a href="https://xo.tc/tag/full-disk-encryption.html">Full Disk Encryption</a>,      <a href="https://xo.tc/tag/uefi.html">UEFI</a>,      <a href="https://xo.tc/tag/luks.html">LUKS</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

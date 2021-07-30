@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="Backups, Veeam, chkdsk, Windows">
+
+  <title>Veeam backup errors after NAS hard drive failure &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/veeam-backup-errors-after-nas-hard-drive-failure.html">Veeam backup errors after NAS hard drive failure</a></h3>
+  </div>
+  <div class="article_text">
+    <p>We have a setup at work where we have two Hyper-V servers in a failover cluster mounting a VHD on a NAS<sup id="fnref:on-a-nas"><a class="footnote-ref" href="#fn:on-a-nas">1</a></sup> as an iSCSI target running a number of VMs that get backed up by Veeam.</p>
+<p>Recently we had a hard drive failure in the NAS. The NAS had RAID 5 with a hot spare<sup id="fnref:hot-spare"><a class="footnote-ref" href="#fn:hot-spare">2</a></sup> so no problem, in this case, the drive died on a Friday so I shut the server down on the weekend, popped a new drive in and rebuilt the array offline.</p>
+<p>All looked good, the RAID controller said all drives were OK and the servers started back up fine, but the next night the Veeam backups failed with the error message.</p>
+<div class="highlight"><pre><span></span><code><span class="mi">2017</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">23</span> <span class="mi">9</span><span class="p">:</span><span class="mi">16</span><span class="p">:</span><span class="mi">59</span> <span class="n">PM</span> <span class="p">::</span> <span class="n">Processing</span> <span class="n">HWFS1</span> <span class="n">Error</span><span class="p">:</span> <span class="n">Incorrect</span> <span class="n">function</span><span class="o">.</span>
+<span class="n">Failed</span> <span class="n">to</span> <span class="n">read</span> <span class="n">data</span> <span class="n">from</span> <span class="n">the</span> <span class="n">file</span> <span class="p">[</span>\\<span class="err">?</span>\<span class="n">GLOBALROOT</span>\<span class="n">Device</span>\<span class="n">CSV</span><span class="p">{</span><span class="mi">8144</span><span class="n">a28c</span><span class="o">-</span><span class="mi">459</span><span class="n">c</span><span class="o">-</span><span class="mi">41</span><span class="n">a7</span><span class="o">-</span><span class="n">a274</span><span class="o">-</span><span class="n">b03ae6a3d493</span><span class="p">}</span>\<span class="n">HWFS1_D</span><span class="o">.</span><span class="n">vhd</span><span class="p">]</span><span class="o">.</span>
+<span class="n">Failed</span> <span class="n">to</span> <span class="n">read</span> <span class="n">data</span> <span class="n">from</span> <span class="n">the</span> <span class="n">file</span> <span class="p">[</span>\\<span class="err">?</span>\<span class="n">GLOBALROOT</span>\<span class="n">Device</span>\<span class="n">CSV</span><span class="p">{</span><span class="mi">8144</span><span class="n">a28c</span><span class="o">-</span><span class="mi">459</span><span class="n">c</span><span class="o">-</span><span class="mi">41</span><span class="n">a7</span><span class="o">-</span><span class="n">a274</span><span class="o">-</span><span class="n">b03ae6a3d493</span><span class="p">}</span>\<span class="n">HWFS1_D</span><span class="o">.</span><span class="n">vhd</span><span class="p">]</span><span class="o">.</span>
+<span class="n">Failed</span> <span class="n">to</span> <span class="n">upload</span> <span class="n">disk</span><span class="o">.</span>
+<span class="n">Agent</span> <span class="n">failed</span> <span class="n">to</span> <span class="n">process</span> <span class="n">method</span> <span class="p">{</span><span class="n">DataTransfer</span><span class="o">.</span><span class="n">SyncDisk</span><span class="p">}</span><span class="o">.</span>
+<span class="n">Exception</span> <span class="n">from</span> <span class="n">server</span><span class="p">:</span> <span class="n">Incorrect</span> <span class="n">function</span><span class="o">.</span>
+<span class="n">Failed</span> <span class="n">to</span> <span class="n">read</span> <span class="n">data</span> <span class="n">from</span> <span class="n">the</span> <span class="n">file</span> <span class="p">[</span>\\<span class="err">?</span>\<span class="n">GLOBALROOT</span>\<span class="n">Device</span>\<span class="n">CSV</span><span class="p">{</span><span class="mi">8144</span><span class="n">a28c</span><span class="o">-</span><span class="mi">459</span><span class="n">c</span><span class="o">-</span><span class="mi">41</span><span class="n">a7</span><span class="o">-</span><span class="n">a274</span><span class="o">-</span><span class="n">b03ae6a3d493</span><span class="p">}</span>\<span class="n">HWFS1_D</span><span class="o">.</span><span class="n">vhd</span><span class="p">]</span><span class="o">.</span>
+</code></pre></div>
+
+<p>After some digging, I found events in the event view on the NAS that said.</p>
+<div class="highlight"><pre><span></span><code>Logical drive 2 configured on array controller P212 located in server slot 3 returned a fatal error during a read/write request from/to the volume.  
+
+Logical block address 4123043672, block count 8 and command 32 were taken from the failed logical I/O request.  
+
+Array controller P212 located in server slot 3 is also reporting that the last physical drive to report a fatal error condition (associated with this logical request), is located on bus 0 and ID 11.
+</code></pre></div>
+
+<p>So I ran <code>chkdsk /f e:</code> on the server and it said</p>
+<div class="highlight"><pre><span></span><code>Windows has checked the file system and found no problems.
+</code></pre></div>
+
+<p>But I was still seeing the error messages in event viewer. Then I tried <code>chkdsk /r e:</code> which took several hours but eventually came back and reported that it had found and repaired (moved) several unreadable sectors.</p>
+<p>So even when every thing seems ok, and chkdsk reports no errors if you get a <code>Failed to read data from the file</code> message from Veeam it could be bad sectors on the underlying disk.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:on-a-nas">
+<p>This is not a good design for a number of reasons, we are migrating away from it, but that's a blog post for another time.&#160;<a class="footnote-backref" href="#fnref:on-a-nas" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:hot-spare">
+<p>Also not great design.&#160;<a class="footnote-backref" href="#fnref:hot-spare" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2017-07-27 07:00:00+08:00" >Thu 27 July 2017</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/backups.html">Backups</a>,      <a href="https://xo.tc/tag/veeam.html">Veeam</a>,      <a href="https://xo.tc/tag/chkdsk.html">chkdsk</a>,      <a href="https://xo.tc/tag/windows.html">Windows</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

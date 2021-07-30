@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="Cryptography, Let's Encrypt, TLS">
+
+  <title>My Experience in the Let's Encrypt Limited Beta. &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/my-experience-in-the-lets-encrypt-limited-beta.html">My Experience in the Let's Encrypt Limited Beta.</a></h3>
+  </div>
+  <div class="article_text">
+    <p>I was lucky enough to get into the <a href="https://letsencrypt.org/">Let's Encrypt</a> Limited Beta. I signed up from the link on their <a href="https://community.letsencrypt.org/t/beta-program-announcements/1631">community page</a> and a few days later got the email saying the domains I'd signed up with had been white listed and I could get certificates now.</p>
+<p>I went to the <a href="https://letsencrypt.readthedocs.org/en/latest/using.html#installation-and-usage">documentation</a> page an started installing the Let's Encrypt client. It all installed and ran without a hitch<sup id="fnref:without-a-hitch"><a class="footnote-ref" href="#fn:without-a-hitch">1</a></sup>.</p>
+<p>Just to try it out I ran it using all the defaults without changing anything and it worked pretty well, it created and installed a certificate, it configured Apache to use SSL and just worked. But for production my situation is a bit different because I've been using <a href="https://developer.mozilla.org/en-US/docs/Web/Security/Public_Key_Pinning">public key pinning</a> on my servers so I needed to keep the same key pair.</p>
+<p>I found that you could use an existing Certificate Signing Request (CSR), so I made a open config and <a href="http://apetec.com/support/GenerateSAN-CSR.htm">edited</a> it to include my subject alternative names. To setup my certificates I:</p>
+<ul>
+<li>Generated a CSR, <code>openssl req -out CSR.pem -key www.xo.tc.key -new -sha256 -config /etc/ssl/openssl_san.cnf</code></li>
+<li>submitted that to let's encrypt <code>./letsencrypt-auto --csr /home/michael/ssl/CSR.pem certonly --agree-dev-preview --server https://acme-v01.api.letsencrypt.org/directory</code></li>
+</ul>
+<p>I was getting really excited, and then... it didn't work. After a quick search on the <a href="https://community.letsencrypt.org/t/asn1-error-when-using-csr/2188">community forums</a> I found that the CSR needed to be in DER format so I:</p>
+<ul>
+<li>converted it to DER encoding <code>openssl req -inform pem -outform der -in CSR.pem -out CSR.der</code></li>
+<li>submitted that to let's encrypt <code>./letsencrypt-auto --csr /home/michael/ssl/CSR.der certonly --agree-dev-preview --server</code></li>
+</ul>
+<p>I got an error message <code>Error: unauthorized :: The client lacks sufficient authorization :: Error creating new cert :: Authorizations for these names not found or expired: xo.tc</code></p>
+<p>I though "this is a Beta so that's to be expected" so I went to the <a href="https://community.letsencrypt.org">community forums</a> again and spent a bit of time looking around. I found a lot of similar issues where people where getting <code>The client lacks sufficient authorization</code> but they seemed mostly to relate to issues with domains that had not been white listed yet.</p>
+<p>After a bit of guessing and trying different things to see if I could get it to work I found that it an issue with the Certificate Signing Request. I worked out what I was doing wrong, I had the Subject as the root domain <code>CN=xo.tc</code> and in the Subject Alternative Name I just had the subdomain <code>DNS:www.xo.tc</code> but you <a href="https://stackoverflow.com/questions/5935369/">need</a> both names in the Subject Alternative Name section so in my case <code>DNS:www.xo.tc, DNS:xo.tc</code>. In the past all the CAs I've used have been forgiving of my poorly formatted CSRs so I'd never realised I was doing it wrong.</p>
+<p>After I recreated the Certificate Signing Request and ran the commans</p>
+<div class="highlight"><pre><span></span><code><span class="n">openssl</span> <span class="n">req</span> <span class="o">-</span><span class="n">out</span> <span class="n">CSR</span><span class="o">.</span><span class="n">der</span> <span class="o">-</span><span class="n">outform</span> <span class="n">der</span> <span class="o">-</span><span class="n">key</span> <span class="n">www</span><span class="o">.</span><span class="n">xo</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">key</span> <span class="o">-</span><span class="n">new</span> <span class="o">-</span><span class="n">sha256</span> <span class="o">-</span><span class="n">config</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">ssl</span><span class="o">/</span><span class="n">openssl_sans</span><span class="o">.</span><span class="n">cnf</span>
+<span class="o">./</span><span class="n">letsencrypt</span><span class="o">-</span><span class="n">auto</span> <span class="o">--</span><span class="n">agree</span><span class="o">-</span><span class="n">dev</span><span class="o">-</span><span class="n">preview</span> <span class="o">--</span><span class="n">server</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">acme</span><span class="o">-</span><span class="n">v01</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">letsencrypt</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">directory</span> <span class="n">auth</span> <span class="o">--</span><span class="n">csr</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">michael</span><span class="o">/</span><span class="n">ssl</span><span class="o">/</span><span class="n">CSR</span><span class="o">.</span><span class="n">der</span>
+</code></pre></div>
+
+<p>And it worked. I then updated my apache config to use the new certificates and I was done.</p>
+<p>Despite a couple of small hiccups I think the experience with Let's Encrypt was very good and I'm excited to see it progress. I think the most benefit will not be for crypto geeks like me who actually enjoy playing with SSL but from people who didn't have SSL before so don't need to worry about using an existing key pair or doing anything funky, they can just run <code>./letsencrypt-auto</code> answer a a few simple questions like "Which domain names do you want to secure?" which was prepopulated with the correct answer anyway and then they are done.</p>
+<p>Even better would be if other tools and hosting services integrated with the <a href="https://github.com/letsencrypt/acme-spec">ACME protocol</a> so encryption is just on by default. This would be great for people who have content and want to create websites or send email without needing to know all the technical details. Web servers like Apache and Nginx could automatically setup TLS. It's not just websites, I can imagine in the not too distant future running through the questions in the setup for Exim or Postfix and one of them being "Do you want Exim to automatically setup and manage certificates?" that that will be it, you just hit "Yes" and you have your SMTP running over StartTLS and/or SMTPS no messing about with Certification Authorities or managing keys.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:without-a-hitch">
+<p>I'm running a very vanilla Debian install so I'd be a little supprised if it didn't work, but it is in beta.&#160;<a class="footnote-backref" href="#fnref:without-a-hitch" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2015-11-12 07:00:00+08:00" >Thu 12 November 2015</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/cryptography.html">Cryptography</a>,      <a href="https://xo.tc/tag/lets-encrypt.html">Let's Encrypt</a>,      <a href="https://xo.tc/tag/tls.html">TLS</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

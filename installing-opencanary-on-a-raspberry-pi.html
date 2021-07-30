@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="Raspberry Pi, OpenCanary, Canary tools, Python, Debian, Honeypot">
+
+  <title>Installing OpenCanary on a Raspberry Pi &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/installing-opencanary-on-a-raspberry-pi.html">Installing OpenCanary on a Raspberry Pi</a></h3>
+  </div>
+  <div class="article_text">
+    <p>A few recent <a href="http://risky.biz/">Risky Business</a> podcasts have been sponsored by Thinkst and they have been plugging their <a href="https://canary.tools/">Canary tools</a>. Basically, little honeypots that sit on your network and sends an alert when something tries to access them. To me, the idea sounded pretty cool but when I looked at their <a href="https://canary.tools/#pricing">pricing</a> it said</p>
+<blockquote>
+<p>For under $10k, you get 5 Canaries, a dedicated console, and 5 licences for alerts, support and maintenance.   </p>
+</blockquote>
+<p>While for some organisations $10,000<sup id="fnref:ten-thousand"><a class="footnote-ref" href="#fn:ten-thousand">1</a></sup> might be chicken feed for me that's prohibitively expensive. So I looked around for open source alternatives and was surprised to find that Thinkst have released <a href="https://github.com/thinkst/opencanary">OpenCanary</a>. It doesn't seem to be getting a whole lot of love with only a few commits in over a year at the time of this writing but I did have a spare Raspberry Pi and it's open source so if something is missing I can make a pull request.</p>
+<h2>Grab a Raspberry Pi and Install Raspbian</h2>
+<p>Download the <a href="https://www.raspberrypi.org/downloads/raspbian/">Raspbian Jessie Lite</a> image and SSH in. There are already hundreds of tutorials so I'm going to skip this step and just assume you have a fresh Raspbian install that you can SSH into.</p>
+<p>If you haven't already, update all your packages.</p>
+<div class="highlight"><pre><span></span><code>sudo apt-get update &amp;&amp; sudo apt-get dist-upgrade
+</code></pre></div>
+
+<h2>Install the prerequisites</h2>
+<p>Install the packages needed to build OpenCanary.</p>
+<div class="highlight"><pre><span></span><code>sudo apt-get install git python-virtualenv python-pip python-dev libssl-dev libffi-dev
+</code></pre></div>
+
+<h2>Install a virtual environment</h2>
+<p>It's recommended that you run OpenCanary in a virtual environment. It makes managing libraries easier but if the only thing your going to run on the Raspberry Pi is OpenCanary it's not strictly necessary.</p>
+<div class="highlight"><pre><span></span><code>virtualenv -p python2 canary-env
+source ./canary-env/bin/activate
+</code></pre></div>
+
+<p>The versions of pip and setuptools that come with Debian's virtualenv are a little out dated and need to be upgraded for OpenCanary</p>
+<div class="highlight"><pre><span></span><code><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">pip</span> <span class="n">setuptools</span>
+</code></pre></div>
+
+<h2>Clone the git repository</h2>
+<div class="highlight"><pre><span></span><code>git clone https://github.com/thinkst/opencanary
+<span class="nb">cd</span> opencanary
+</code></pre></div>
+
+<h2>Install OpenCanary</h2>
+<div class="highlight"><pre><span></span><code>python setup.py install
+</code></pre></div>
+
+<p>I got some build errors with Jinja2 but it's a <a href="https://github.com/pallets/jinja/issues/643">known issue</a> and does not impact OpenCanary.</p>
+<p>Also building cryptography and the other dependencies took about 10 minutes on my Raspberry Pi so now is an absolutely smashing time to go and have a cup of tea.</p>
+<h2>Setup config and start OpenCanary</h2>
+<p>OpenCanary does have a <code>--copyconfig</code> option which creates a config file in your home directory, however, I found that sometimes OpenCanary misses the config file in the home directory. I tried debugging it but in the end found it more reliable (and logical) to save the config to <code>/etc/opencanaryd/opencanary.conf</code></p>
+<div class="highlight"><pre><span></span><code>sudo mkdir /etc/opencanaryd
+sudo cp opencanary/data/settings.json /etc/opencanaryd/opencanary.conf
+</code></pre></div>
+
+<p>For some reason when I installed OpenCanary the <code>opencanary.tac</code> file did not copy across correctly and I kept getting an error</p>
+<blockquote>
+<div class="highlight"><pre><span></span><code><span class="n">Unhandled</span> <span class="n">Error</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s2">&quot;/usr/local/lib/python2.7/dist-packages/Twisted-14.0.2-py2.7-linux-armv7l.egg/twisted/application/app.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">642</span><span class="p">,</span> <span class="ow">in</span> <span class="n">run</span>
+    <span class="n">runApp</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+  <span class="n">File</span> <span class="s2">&quot;/usr/local/lib/python2.7/dist-packages/Twisted-14.0.2-py2.7-linux-armv7l.egg/twisted/scripts/twistd.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">23</span><span class="p">,</span> <span class="ow">in</span> <span class="n">runApp</span>
+    <span class="n">_SomeApplicationRunner</span><span class="p">(</span><span class="n">config</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+  <span class="n">File</span> <span class="s2">&quot;/usr/local/lib/python2.7/dist-packages/Twisted-14.0.2-py2.7-linux-armv7l.egg/twisted/application/app.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">376</span><span class="p">,</span> <span class="ow">in</span> <span class="n">run</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">application</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">createOrGetApplication</span><span class="p">()</span>
+  <span class="n">File</span> <span class="s2">&quot;/usr/local/lib/python2.7/dist-packages/Twisted-14.0.2-py2.7-linux-armv7l.egg/twisted/application/app.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">441</span><span class="p">,</span> <span class="ow">in</span> <span class="n">createOrGetApplication</span>
+    <span class="n">application</span> <span class="o">=</span> <span class="n">getApplication</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">passphrase</span><span class="p">)</span>
+<span class="o">---</span> <span class="o">&lt;</span><span class="n">exception</span> <span class="n">caught</span> <span class="n">here</span><span class="o">&gt;</span> <span class="o">---</span>
+  <span class="n">File</span> <span class="s2">&quot;/usr/local/lib/python2.7/dist-packages/Twisted-14.0.2-py2.7-linux-armv7l.egg/twisted/application/app.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">452</span><span class="p">,</span> <span class="ow">in</span> <span class="n">getApplication</span>
+    <span class="n">application</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">loadApplication</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">style</span><span class="p">,</span> <span class="n">passphrase</span><span class="p">)</span>
+  <span class="n">File</span> <span class="s2">&quot;/usr/local/lib/python2.7/dist-packages/Twisted-14.0.2-py2.7-linux-armv7l.egg/twisted/application/service.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">405</span><span class="p">,</span> <span class="ow">in</span> <span class="n">loadApplication</span>
+    <span class="n">application</span> <span class="o">=</span> <span class="n">sob</span><span class="o">.</span><span class="n">loadValueFromFile</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;application&#39;</span><span class="p">,</span> <span class="n">passphrase</span><span class="p">)</span>
+  <span class="n">File</span> <span class="s2">&quot;/usr/local/lib/python2.7/dist-packages/Twisted-14.0.2-py2.7-linux-armv7l.egg/twisted/persisted/sob.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">210</span><span class="p">,</span> <span class="ow">in</span> <span class="n">loadValueFromFile</span>
+    <span class="n">exec</span> <span class="n">fileObj</span> <span class="ow">in</span> <span class="n">d</span><span class="p">,</span> <span class="n">d</span>
+  <span class="n">File</span> <span class="s2">&quot;/usr/local/bin/opencanary.tac&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">4</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+    <span class="n">__import__</span><span class="p">(</span><span class="s1">&#39;pkg_resources&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">run_script</span><span class="p">(</span><span class="s1">&#39;opencanary==0.3.2&#39;</span><span class="p">,</span> <span class="s1">&#39;opencanary.tac&#39;</span><span class="p">)</span>
+  <span class="n">File</span> <span class="s2">&quot;/usr/lib/python2.7/dist-packages/pkg_resources.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">531</span><span class="p">,</span> <span class="ow">in</span> <span class="n">run_script</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">ns</span><span class="p">[</span><span class="s1">&#39;__name__&#39;</span><span class="p">]</span>
+<span class="n">exceptions</span><span class="o">.</span><span class="n">KeyError</span><span class="p">:</span> <span class="s1">&#39;__name__&#39;</span>
+
+<span class="n">Failed</span> <span class="n">to</span> <span class="nb">load</span> <span class="n">application</span><span class="p">:</span> <span class="s1">&#39;__name__&#39;</span>
+</code></pre></div>
+
+</blockquote>
+<p>I needed to copy the tac file manually.</p>
+<div class="highlight"><pre><span></span><code>cp bin/opencanary.tac /home/pi/canary-env/bin/opencanary.tac
+</code></pre></div>
+
+<p>I also found the default Raspbian image has the NTP service running and so port 123 was already in use. I chose to disable the NTP module in OpenCanary</p>
+<div class="highlight"><pre><span></span><code>sudo nano /etc/opencanaryd/opencanary.conf
+</code></pre></div>
+
+<blockquote>
+<p><code>"ntp.enabled": false,</code></p>
+</blockquote>
+<p>Alternatively, you could leave the NTP module enabled and disable the service on the Raspberry Pi</p>
+<div class="highlight"><pre><span></span><code>sudo systemctl stop ntp.service
+sudo systemctl disable ntp.service
+</code></pre></div>
+
+<h2>Start OpenCanaryd</h2>
+<p>As a bit of a "Hello World!" start opencanaryd in developer mode so it runs process in the foreground to check it's all working</p>
+<div class="highlight"><pre><span></span><code>opencanaryd --dev
+</code></pre></div>
+
+<p>Hopefully, you will see a message that contains <code>Canary running!!!</code> although you will probably also see a number of <code>Dropping log message due to too many failed sends</code> messages as well. This is because opencanaryd trying to send messages to <a href="https://github.com/thinkst/opencanary-correlator">opencanary-correlator</a> but we don't have that setup yet.</p>
+<p>At this point you can have a play with your canary, try to nmap it or telet to it and see the output.</p>
+<p>Once you have had some fun Ctrl + C out to close opencanaryd</p>
+<h2>Setup Email Alerts</h2>
+<p>Apparently, it's possible to have your canary log directly to <a href="http://docs.opencanary.org/en/latest/alerts/email.html">email</a> but when I tried I couldn't get it to work.</p>
+<p>I looked at opencanary-correlator, but it uses <a href="https://www.mandrill.com/">mandrill</a> for mail and that's now a paid MailChimp add-on which I didn't want to use.</p>
+<p>In the end, I found it quicker and easier to write a <a href="https://github.com/HybridAU/canary_log_forwarder/blob/master/canary_log_forwarder.py">simple python script</a> to work like correlator and forward all alerts to an email address.</p>
+<div class="highlight"><pre><span></span><code>sudo nano canary_log_forwarder.py
+</code></pre></div>
+
+<p>Add your email addresses and SMTP server into the script and save it.</p>
+<div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Forwards logs from OpenCanary that come in on port 1514 to an email address.</span>
+
+<span class="sd">This is a very simple script, it does no validation on the logs, it just</span>
+<span class="sd">forwards everything that comes in.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">smtplib</span>
+<span class="kn">from</span> <span class="nn">email.mime.text</span> <span class="kn">import</span> <span class="n">MIMEText</span>
+<span class="kn">from</span> <span class="nn">email.mime.multipart</span> <span class="kn">import</span> <span class="n">MIMEMultipart</span>
+
+<span class="kn">from</span> <span class="nn">twisted.internet</span> <span class="kn">import</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">reactor</span>
+
+<span class="c1"># Settings</span>
+<span class="n">FROM_ADDRESS</span> <span class="o">=</span> <span class="s1">&#39;opencanary@example.com&#39;</span>
+<span class="n">TO_ADDRESS</span> <span class="o">=</span> <span class="s1">&#39;security@example.com&#39;</span>
+<span class="n">SMTP_SERVER</span> <span class="o">=</span> <span class="s1">&#39;mail.example.com&#39;</span>
+<span class="c1"># Saving passwords in a file is not a great idea. If you do need to log in to</span>
+<span class="c1"># your SMTP server, at the very least make sure this file is not world readable</span>
+<span class="c1"># e.g. `chmod 700 canary_log_forwarder.py`</span>
+<span class="n">SMTP_USERNAME</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">SMTP_PASSWORD</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<span class="k">class</span> <span class="nc">SendEmail</span><span class="p">(</span><span class="n">protocol</span><span class="o">.</span><span class="n">Protocol</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">dataReceived</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="n">MIMEMultipart</span><span class="p">(</span><span class="s1">&#39;alternative&#39;</span><span class="p">)</span>
+        <span class="n">message_body</span> <span class="o">=</span> <span class="n">MIMEText</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;plain&quot;</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+        <span class="n">message</span><span class="p">[</span><span class="s1">&#39;Subject&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Alert from OpenCanary&#39;</span>
+        <span class="n">message</span><span class="p">[</span><span class="s1">&#39;From&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">FROM_ADDRESS</span>
+        <span class="n">message</span><span class="p">[</span><span class="s1">&#39;To&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">TO_ADDRESS</span>
+        <span class="n">message</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">message_body</span><span class="p">)</span>
+
+        <span class="n">server</span> <span class="o">=</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP</span><span class="p">(</span><span class="n">SMTP_SERVER</span><span class="p">)</span>
+        <span class="n">server</span><span class="o">.</span><span class="n">ehlo</span><span class="p">()</span>
+        <span class="n">server</span><span class="o">.</span><span class="n">starttls</span><span class="p">()</span>
+        <span class="n">server</span><span class="o">.</span><span class="n">ehlo</span><span class="p">()</span>
+        <span class="c1"># Login if applicable</span>
+        <span class="k">if</span> <span class="n">SMTP_PASSWORD</span> <span class="ow">and</span> <span class="n">SMTP_PASSWORD</span><span class="p">:</span>
+            <span class="n">server</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">SMTP_USERNAME</span><span class="p">,</span> <span class="n">SMTP_PASSWORD</span><span class="p">)</span>
+        <span class="n">server</span><span class="o">.</span><span class="n">sendmail</span><span class="p">(</span><span class="n">FROM_ADDRESS</span><span class="p">,</span> <span class="p">[</span><span class="n">TO_ADDRESS</span><span class="p">],</span> <span class="n">message</span><span class="o">.</span><span class="n">as_string</span><span class="p">())</span>
+        <span class="n">server</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">EmailFactory</span><span class="p">(</span><span class="n">protocol</span><span class="o">.</span><span class="n">Factory</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">buildProtocol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">addr</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">SendEmail</span><span class="p">()</span>
+
+
+<span class="n">reactor</span><span class="o">.</span><span class="n">listenTCP</span><span class="p">(</span><span class="mi">1514</span><span class="p">,</span> <span class="n">EmailFactory</span><span class="p">(),</span> <span class="n">interface</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">)</span>
+<span class="n">reactor</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</code></pre></div>
+
+<h2>Make it a service</h2>
+<p>Now we have everything setup we want to make it run as a service and start automatically when we boot up the Raspberry Pi. So we will create two systemd <code>.service</code> files.</p>
+<div class="highlight"><pre><span></span><code>sudo nano /etc/systemd/system/opencanary.service
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="k">[Unit]</span>
+<span class="na">Description</span><span class="o">=</span><span class="s">OpenCanary honeypot</span>
+<span class="na">After</span><span class="o">=</span><span class="s">syslog.target</span>
+<span class="na">After</span><span class="o">=</span><span class="s">network.target</span>
+
+<span class="k">[Service]</span>
+<span class="na">User</span><span class="o">=</span><span class="s">pi</span>
+<span class="na">Restart</span><span class="o">=</span><span class="s">always</span>
+<span class="na">Environment</span><span class="o">=</span><span class="s">VIRTUAL_ENV=/home/pi/canary-env/</span>
+<span class="na">Environment</span><span class="o">=</span><span class="s">PATH=$VIRTUAL_ENV/bin:/usr/bin:$PATH</span>
+<span class="na">WorkingDirectory</span><span class="o">=</span><span class="s">/home/pi/canary-env/bin</span>
+<span class="na">ExecStart</span><span class="o">=</span><span class="s">/home/pi/canary-env/bin/opencanaryd --dev</span>
+
+<span class="k">[Install]</span>
+<span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>sudo nano /etc/systemd/system/canary-log-forwarder.service
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="k">[Unit]</span>
+<span class="na">Description</span><span class="o">=</span><span class="s">Canary log forwarder</span>
+<span class="na">After</span><span class="o">=</span><span class="s">syslog.target</span>
+<span class="na">After</span><span class="o">=</span><span class="s">network.target</span>
+
+<span class="k">[Service]</span>
+<span class="na">User</span><span class="o">=</span><span class="s">pi</span>
+<span class="na">Restart</span><span class="o">=</span><span class="s">always</span>
+<span class="na">Environment</span><span class="o">=</span><span class="s">VIRTUAL_ENV=/home/pi/canary-env/</span>
+<span class="na">Environment</span><span class="o">=</span><span class="s">PATH=$VIRTUAL_ENV/bin:$PATH</span>
+<span class="na">WorkingDirectory</span><span class="o">=</span><span class="s">/home/pi/canary-env/</span>
+<span class="na">ExecStart</span><span class="o">=</span><span class="s">/home/pi/canary-env/bin/python /home/pi/opencanary/canary_log_forwarder.py</span>
+
+<span class="k">[Install]</span>
+<span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>sudo systemctl enable canary-log-forwarder.service opencanary.service
+sudo systemctl start canary-log-forwarder.service opencanary.service
+</code></pre></div>
+
+<h1>Finshed</h1>
+<p>Your canary should now be all set up and ready to run. </p>
+<p>It's a good idea to reboot it just to make sure all the services start correctly.</p>
+<div class="highlight"><pre><span></span><code>sudo reboot
+</code></pre></div>
+
+<p>You should get emailed when it boots up letting you know that all the services have started.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:ten-thousand">
+<p>I know the website said "Under $10k" but they wouldn't phrase it like that if the price was $300.&#160;<a class="footnote-backref" href="#fnref:ten-thousand" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2017-06-22 07:00:00+08:00" >Thu 22 June 2017</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/raspberry-pi.html">Raspberry Pi</a>,      <a href="https://xo.tc/tag/opencanary.html">OpenCanary</a>,      <a href="https://xo.tc/tag/canary-tools.html">Canary tools</a>,      <a href="https://xo.tc/tag/python.html">Python</a>,      <a href="https://xo.tc/tag/debian.html">Debian</a>,      <a href="https://xo.tc/tag/honeypot.html">Honeypot</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

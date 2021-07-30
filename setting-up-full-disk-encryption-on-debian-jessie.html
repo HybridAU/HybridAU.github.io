@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="Cryptography, LUKS, Debian, Linux, Full Disk Encryption">
+
+  <title>Setting Up Full Disk Encryption on Debian Jessie &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/setting-up-full-disk-encryption-on-debian-jessie.html">Setting Up Full Disk Encryption on Debian Jessie</a></h3>
+  </div>
+  <div class="article_text">
+    <p><strong>Update 2017-06-29:</strong> I've done an <a href="https://xo.tc/setting-up-full-disk-encryption-on-debian-9-stretch.html">updated version</a> of this tutorial with Debian Stretch. The updated version is simplified, it uses the graphical installer and guided partitioning. However, if you want to manually partition your disks, this tutorial will still work for Debian Stretch.</p>
+<p>This is part 2 of a two part post, part 1 is a bit of a primer about <a href="https://xo.tc/full-disk-encryption-on-linux.html">Full Disk Encryption on Linux</a>.</p>
+<p>I should point out that in the tutorial I say "Full" disk encryption but that's not entirely correct there is still a small partition <code>/boot</code> that's unencrypted. That contains your kernel, grub config and initrd and needs to be unencrypted so we can start booting and decrypt the rest of the OS. If you're thinking "But then someone with physical access could replace my kernel with a backdoored one" your absolutely correct. It's called an "Evil Maid Attack"<sup id="fnref:evil-maid"><a class="footnote-ref" href="#fn:evil-maid">1</a></sup> and <a href="https://mjg59.dreamwidth.org/">Matthew Garrett</a> has some good write ups on them. There are ways you can protect against such attacks a Trusted Platform Module to <a href="http://kroah.com/log/blog/2013/09/02/booting-a-self-signed-linux-kernel/">only boot a signed kernel</a> or burning your <code>/boot</code> partition to a CD-R so it can't be changed. But these are out of scope for the tutorial.</p>
+<p>For this tutorial I'm going to assume you're familiarly with the Debian installer and I'm really only going to cover the bits that relate to disk encryption. When running through the Debian installer you can pick to manually partition disk. You can split your disks into as many partitions as you like, but for this tutorial we are going to have four partitions.</p>
+<ul>
+<li><code>/boot</code> Unencrypted</li>
+<li><code>/</code> root volume, encrypted with a passphrase.</li>
+<li><code>/home</code> Encrypted with a key file (that's stored on <code>/</code>).</li>
+<li><code>SWAP</code> Encrypted with a random key generated each time we boot.</li>
+</ul>
+<p>Run through the standard Debian installer until you get to the section on disk partitioning.</p>
+<p>Select "Manual"
+<img alt="Partition Manually" src="https://xo.tc/images/debian-full-disk-encryption-01.png"></p>
+<p>Pick the disk you want to use
+<img alt="Select Disk" src="https://xo.tc/images/debian-full-disk-encryption-02.png"></p>
+<p>If it's a new disk create a partition table or wipe the existing one.<sup id="fnref:wipe-disks"><a class="footnote-ref" href="#fn:wipe-disks">2</a></sup>
+<img alt="Wipe Disk" src="https://xo.tc/images/debian-full-disk-encryption-03.png"></p>
+<p>Select the free space
+<img alt="Select free space" src="https://xo.tc/images/debian-full-disk-encryption-04.png"></p>
+<p>Create a new partition
+<img alt="Create a new partition" src="https://xo.tc/images/debian-full-disk-encryption-06.png"></p>
+<p>I'm currently running my laptop (which only has an 80GB SSD) with a 100MB boot partition and it's mostly ok but I forgot to run <code>sudo apt-get autoremove</code> for a while and my <code>/boot</code> filled up once. It's not a hard fix but I'd recommend 256MB it's not that much space and one less thing to worry about.
+<img alt="256 MB Partition" src="https://xo.tc/images/debian-full-disk-encryption-07.png"></p>
+<p>Create it as a Primary Partition
+<img alt="Primary Partition" src="https://xo.tc/images/debian-full-disk-encryption-08.png"></p>
+<p>At the Beginning
+<img alt="Beginning" src="https://xo.tc/images/debian-full-disk-encryption-09.png"></p>
+<p>Change the mount point to <code>/boot</code>
+<img alt="Mount Point" src="https://xo.tc/images/debian-full-disk-encryption-10.png"></p>
+<p><img alt="Mount Point" src="https://xo.tc/images/debian-full-disk-encryption-11.png"></p>
+<p>And finish.
+<img alt="Mount Point" src="https://xo.tc/images/debian-full-disk-encryption-12.png"></p>
+<p>Next we will setup the root volume in this example I'm going with 64GB
+<img alt="Root Volume" src="https://xo.tc/images/debian-full-disk-encryption-13.png">
+<img alt="Root Volume" src="https://xo.tc/images/debian-full-disk-encryption-14.png">
+<img alt="Root Volume" src="https://xo.tc/images/debian-full-disk-encryption-15.png">
+<img alt="Root Volume" src="https://xo.tc/images/debian-full-disk-encryption-16.png">
+<img alt="Root Volume" src="https://xo.tc/images/debian-full-disk-encryption-17.png"></p>
+<p>Now select "Use As"
+<img alt="Root Volume" src="https://xo.tc/images/debian-full-disk-encryption-18.png"></p>
+<p>And change it to "physical volume for encryption"
+<img alt="physical volume for encryption" src="https://xo.tc/images/debian-full-disk-encryption-18.png">
+<img alt="physical volume for encryption" src="https://xo.tc/images/debian-full-disk-encryption-19.png">
+<img alt="physical volume for encryption" src="https://xo.tc/images/debian-full-disk-encryption-20.png"></p>
+<p>Now we do the same again for our <code>/home</code> partition
+<img alt="Home Volume" src="https://xo.tc/images/debian-full-disk-encryption-21.png">
+<img alt="Home Volume" src="https://xo.tc/images/debian-full-disk-encryption-22.png"></p>
+<p>Now I'm creating a volume that 8GB less than the remaining space on the disk, to leave 8GB for swap.
+<img alt="Home Volume" src="https://xo.tc/images/debian-full-disk-encryption-23.png"></p>
+<p>Finally we create a partition that we will (eventualy) use for swap. However simply create a partition, don't set it as swap or use / format it yet.
+<img alt="Swap Partition" src="https://xo.tc/images/debian-full-disk-encryption-24.png">
+<img alt="Swap Partition" src="https://xo.tc/images/debian-full-disk-encryption-25.png">
+<img alt="Swap Partition" src="https://xo.tc/images/debian-full-disk-encryption-26.png">
+<img alt="Swap Partition" src="https://xo.tc/images/debian-full-disk-encryption-27.png">
+<img alt="Swap Partition" src="https://xo.tc/images/debian-full-disk-encryption-28.png"></p>
+<p>Now select "Configure encrypted volumes"
+<img alt="Encrypted Volumes" src="https://xo.tc/images/debian-full-disk-encryption-29.png"></p>
+<p>Write the changes to disk
+<img alt="Encrypted Volumes" src="https://xo.tc/images/debian-full-disk-encryption-30.png"></p>
+<p>Create encrypted volumes
+<img alt="Encrypted Volumes" src="https://xo.tc/images/debian-full-disk-encryption-31.png"></p>
+<p>Select the encrypted volumes
+<img alt="Encrypted Volumes" src="https://xo.tc/images/debian-full-disk-encryption-32.png"></p>
+<p>Finish
+<img alt="Encrypted Volumes" src="https://xo.tc/images/debian-full-disk-encryption-33.png"></p>
+<p>Enter a passphrase for your root volume and your home volume. We will change the home volume to a key later.
+<img alt="Set Passphrase" src="https://xo.tc/images/debian-full-disk-encryption-34.png">
+<img alt="Set Passphrase" src="https://xo.tc/images/debian-full-disk-encryption-35.png">
+<img alt="Set Passphrase" src="https://xo.tc/images/debian-full-disk-encryption-36.png">
+<img alt="Set Passphrase" src="https://xo.tc/images/debian-full-disk-encryption-37.png"></p>
+<p>Now select the encrypted volume and map them to <code>/</code> and <code>/home</code>
+<img alt="Map Encrypted Volumes" src="https://xo.tc/images/debian-full-disk-encryption-38.png">
+<img alt="Map Encrypted Volumes" src="https://xo.tc/images/debian-full-disk-encryption-39.png">
+<img alt="Map Encrypted Volumes" src="https://xo.tc/images/debian-full-disk-encryption-40.png"></p>
+<p>Select finish and write changes to disk
+<img alt="Finish" src="https://xo.tc/images/debian-full-disk-encryption-41.png"></p>
+<p>The installer will complain that we don't have a swap file setup yet, but that's ok we can fix that later.
+<img alt="Swap File" src="https://xo.tc/images/debian-full-disk-encryption-42.png"></p>
+<p>And finish, then continue with the installer as usual.
+<img alt="Finish" src="https://xo.tc/images/debian-full-disk-encryption-43.png"></p>
+<p>When you finish the installer and reboot you should now have a system with full disk encryption but there are a couple of things we need to fix up.</p>
+<p>First we will setup the swap partition to use a random key at boot. We need to edit <code>/etc/crypttab</code> and add <code>sda7_crypt /dev/sda7 /dev/urandom swap</code>. Then we need to edit <code>/etc/fstab</code> and add <code>/dev/mapper/sda7_crypt none swap sw 0 0</code></p>
+<p>Next we are going to use a key file instead of a passphrase for our home partition. To do that we will generate a file with some random data in there.</p>
+<div class="highlight"><pre><span></span><code>$ sudo su
+<span class="c1"># mkdir /etc/keys</span>
+<span class="c1"># dd if=/dev/random of=/etc/keys/sda6.key bs=1 count=32</span>
+<span class="c1"># chmod 400 /etc/keys/sda6.key</span>
+</code></pre></div>
+
+<p>Next we add that as a key to be able to decrypt that volume <code>sudo cryptsetup luksAddKey /dev/sda6 /etc/keys/sda6.key</code></p>
+<p>and then we remove the current passphrase <code>sudo cryptsetup luksRemoveKey /dev/sda6</code></p>
+<p>then we edit <code>/etc/crypttab</code> on the line that has <code>sda6_crypt</code> replace the word <code>none</code> with <code>/etc/keys/sda6.key</code></p>
+<p>And your done. Now when you boot you should just be asked for the one passphrase.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:evil-maid">
+<p>Every time I hear the term "Evil Maid Atack" I get a mental image of a big beefy hairy security guy in a French maid outfit with a feather duster. It's horrible.&#160;<a class="footnote-backref" href="#fnref:evil-maid" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:wipe-disks">
+<p>It's about this time that I should point out that formatting your disk and installing a new OS will remove all the data on a disk, make sure you have backups. But I feel like if your installing Linux with full disk encryption your probably already across that.&#160;<a class="footnote-backref" href="#fnref:wipe-disks" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2015-11-05 07:00:00+08:00" >Thu 05 November 2015</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/tutorials.html">Tutorials</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/cryptography.html">Cryptography</a>,      <a href="https://xo.tc/tag/luks.html">LUKS</a>,      <a href="https://xo.tc/tag/debian.html">Debian</a>,      <a href="https://xo.tc/tag/linux.html">Linux</a>,      <a href="https://xo.tc/tag/full-disk-encryption.html">Full Disk Encryption</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

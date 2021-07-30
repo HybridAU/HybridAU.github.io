@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="Cryptography, TLS, PGP / GPG">
+
+  <title>The best crypto is the crypto you don't see &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/the-best-crypto-is-the-crypto-you-dont-see.html">The best crypto is the crypto you don't see</a></h3>
+  </div>
+  <div class="article_text">
+    <p>Moxie Marlinspike, a security researcher and cryptography expert for whom I have a lot of respect published a somewhat controversial article <a href="http://thoughtcrime.org/blog/gpg-and-me/">GPG And Me</a>. Moxie says that he thinks of GPG</p>
+<blockquote>
+<p>"as a glorious experiment that has run its course"</p>
+</blockquote>
+<p>And I hate to admit it, but think he is right. I'd love to believe that PGP will take off in the wake of the Snowden revelations, it will become ubiquitous and built into every mail client as standard. But <a href="https://en.wikipedia.org/wiki/Pretty_Good_Privacy">PGP</a> has been around for almost 25 years now, and <a href="https://gnupg.org/download/release_notes.html">GNU Privacy Guard</a> the open source implementation has been around for almost 20 years and it has not gone mainstream. I like the way <a href="http://risky.biz/RB355">Adam Boileau from Risky Business</a><sup id="fnref:risky-biz"><a class="footnote-ref" href="#fn:risky-biz">1</a></sup> puts it "If GPG was going to solve our problems it would have by now"</p>
+<p>I think the problem with PGP is that you need to make a conscious decision to use it. Any time you have to think about using a security system it's already too much work for most users. Consider HTTPS, my grandfather who will be celebrating his 90th birthday in March uses a tablet to check his online banking. The encryption part of that just does it's thing and gets out of the way, he doesn't have to know what a Private Key or a Certification Authority is he just logs in and it's all taken care of for him.</p>
+<p>WhatsApp rolled out the same end to end encryption that <a href="https://whispersystems.org/blog/whatsapp/">TextSecure uses</a> and most of it's user base never even knew there was a change. Apple's iMessage provides <a href="http://blog.cryptographyengineering.com/2015/09/lets-talk-about-imessage-again.html">robust encryption</a> and again most of it's users would have no idea what a key fingerprint is or how to check theirs but their messages are encrypted.</p>
+<p>Even with email now, most mail protocols now (IMAP, POP, SMTP) all run over TLS and while it might not provide full end to end encryption it provides encryption in transit. When you consider the number of people using mail providers like Gmail and Yahoo Mail, it's clear that StartTLS has a much higher adoption that PGP ever will simply because most people that are using it don't know or need to think about it.</p>
+<p>Even SSH for the most part hides the cryptography away, sure the first time you connect to a server it asks you to verify the fingerprint<sup id="fnref:fingerprint"><a class="footnote-ref" href="#fn:fingerprint">2</a></sup> but after that there is almost no noticeable difference between SSH and Telnet from the end users perspective.</p>
+<p>I think for any encryption product (and most security systems for that matter) to take off and go main stream it needs to be almost invisible to the users. If you think "Now is the point where I do the encryption" at any point process then it's too much work. Whether that connecting to a server with SSH, viewing a website over HTTPS, sending an encrypted text message or sending an email it should happen automatically systems should be encrypted and secure by default with no user interaction.</p>
+<p>To be clear here, I don't believe that these problems exist because users don't care about security or a too lazy to use a heed security advice. There is a good paper called <a href="http://www.nspw.org/papers/2009/nspw2009-herley.pdf">So Long, And No Thanks for the Externalities</a> from the abstract:</p>
+<blockquote>
+<p>It is often suggested that users are hopelessly lazy and unmotivated on
+security questions. They chose weak passwords, ignore security warnings, and
+are oblivious to certificates errors. We argue that users' rejection of
+the security advice they receive is entirely rational from an economic
+perspective. The advice offers to shield them from the direct costs of
+attacks, but burdens them with far greater indirect costs in the form of
+effort.</p>
+</blockquote>
+<p>I don't necessarily agree with everything in that paper, but I do think that it raise a good point. <em>We as an industry need to make security easier than insecurity</em>.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:risky-biz">
+<p>Episode 355 at 14:00, the section on the post begins at 13:05&#160;<a class="footnote-backref" href="#fnref:risky-biz" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:fingerprint">
+<p>I suspect that most people just blindly accept the fingerprint without checking. But even if it is blindly accepted (and possibly the fingerprints could be accepted automatically and hidden away unless users specifically ask for them) that doesn't mean it's useless. It can still provide a warnings like <a href="http://tack.io/">public key pinning</a>, that way it doesn't stop a man in the middle attack but it means that to go undetected attackers need man in the middle the first connection, and every subsequent connection, with the same key.&#160;<a class="footnote-backref" href="#fnref:fingerprint" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2015-09-24 07:00:00+08:00" >Thu 24 September 2015</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/posts.html">posts</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/cryptography.html">Cryptography</a>,      <a href="https://xo.tc/tag/tls.html">TLS</a>,      <a href="https://xo.tc/tag/pgp-gpg.html">PGP / GPG</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

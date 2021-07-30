@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="Attribution, Layer 8, Malware">
+
+  <title>Attribution is about more than just technical evidence &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/attribution-is-about-more-than-just-technical-evidence.html">Attribution is about more than just technical evidence</a></h3>
+  </div>
+  <div class="article_text">
+    <p>There is a story that's been doing the rounds lately about malware that took control of microphones and <a href="https://arstechnica.com/security/2017/02/hackers-who-took-control-of-pc-microphones-siphon-600-gb-from-70-targets/">uploaded over 600 GB of audio</a> to its command and control. As others in the security industry have pointed out this is a great example of where we can make fairly confident guesses about the origin of the malware without even looking at the "Technical" evidence; Things like network logs, packet captures, infection vectors and reverse engineering the binaries to look for clues to trace the attacks back.</p>
+<p>Instead, we can look at a more political angle. As a quick off the back of the envelope calculation if we had 600GB MP3 files at 128kbps<sup id="fnref:mp3-files"><a class="footnote-ref" href="#fn:mp3-files">1</a></sup> it would be <a href="https://www.wolframalpha.com/input/?i=600GB+at+128kbps">more than 10,000 hours or over a year of audio</a>. We can also see the computers infected were in the Ukraine, so we can say "Who would have the capacity and desire to listen to over 10,000 hours of Ukrainian conversations?"<sup id="fnref:bluff"><a class="footnote-ref" href="#fn:bluff">2</a></sup></p>
+<p>Sure it might not prove attribution that would stand up in a court of law to "Beyond a reasonable doubt" but it points very strongly in one direction.</p>
+<p>I was once involved in a situation where a document had been leaked. Several people had access to that document and any of them could have leaked it, but we looked at when the document was leaked, who it was leaked to and who stood to gain from the leak. In the end, we had a pretty good idea about who had leaked the document, maybe not "beyond a reasonable doubt" level of confidence but enough that we were satisfied.</p>
+<p>I think in a heavily technical field where some things can be boolean it's easy to overlook the more social and political aspects where things are not so definite.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:mp3-files">
+<p>I have no idea what codec or compression levels were being used, but 128kbps is a fairly average rate.&#160;<a class="footnote-backref" href="#fnref:mp3-files" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:bluff">
+<p>While that's possible that siphoning off the audio could be misdirection. I think <a href="https://en.wikipedia.org/wiki/Occam%27s_razor">Occam's razor</a> applies here and "the simplest explanation is usually the correct one".&#160;<a class="footnote-backref" href="#fnref:bluff" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2017-03-16 07:00:00+08:00" >Thu 16 March 2017</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/attribution.html">Attribution</a>,      <a href="https://xo.tc/tag/layer-8.html">Layer 8</a>,      <a href="https://xo.tc/tag/malware.html">Malware</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

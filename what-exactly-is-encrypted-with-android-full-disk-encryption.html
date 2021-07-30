@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="Android, Cryptography, Full Disk Encryption">
+
+  <title>What exactly is encrypted with Android full disk encryption? &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/what-exactly-is-encrypted-with-android-full-disk-encryption.html">What exactly is encrypted with Android full disk encryption?</a></h3>
+  </div>
+  <div class="article_text">
+    <p>I've been running <a href="http://www.cyanogenmod.org/">CyanogenMod</a> on my Samsung Galaxy S4 since pretty much the day I bought it. As far as I can tell it's pretty close to the stock Android Open Source Project (<a href="https://source.android.com/">AOSP</a>) with a minimum of bloat and a few Google things (like the Play Store) removed<sup id="fnref:play-store"><a class="footnote-ref" href="#fn:play-store">1</a></sup>. You can reinstall the <a href="https://wiki.cyanogenmod.org/w/Google_Apps">Google Apps</a> but many, my self included just stick with <a href="https://f-droid.org/">F-Droid</a><sup id="fnref:F-Droid"><a class="footnote-ref" href="#fn:F-Droid">2</a></sup>.</p>
+<p>Mostly I had just been running the stable release but a few months ago I decided I'd like to upgrade to Android 5 and was going to move across to <a href="http://download.cyanogenmod.org/?device=jfltexx&amp;type=nightly">nightly</a>. As this was a big step I though I'd take the opportunity to completely format my phone and start again rather than upgrade and I would also enable full disk encryption.</p>
+<p>Now with any "Full Disk Encryption" solution that you want to boot you still need a small unencrypted partition to boot from in order to get to the point where you can display a password prompt decrypt the rest of the disk. For example when setting up <a href="https://gitlab.com/cryptsetup/cryptsetup">LUKS</a> you need to have <code>/boot/</code> unencrypted and you can encrypt the rest of the partitions. <code>/boot/</code> doesn't need to be on the same physical disk as the one that's getting encrypted, in fact you could burn it to a CD so it's read only and boot from that. Then your hard disk really would be <em>fully</em> encrypted but you still need <code>/boot/</code> unencrypted somewhere.</p>
+<p>Obviously some things have to be stored unencrypted but I was expecting that I would need to decrypt my disk somehow before I could upgrade to newer nightly builds of CyanogenMod. I assumed only a small part of the OS would be unencrypted but I found that if I booted into recovery mode I could reflash my device without decrypting it. By sideloading a zip file <code>adb sideload cm-12.1-20151010-NIGHTLY-jfltexx.zip</code> so it looks like the whole OS (that is the contence of the zip file) is unencrypted but presumably all the apps and user data are encrypted, which leads me to the headline <em>What exactly is (and is not) encrypted with Android full disk encryption?</em></p>
+<p>I tried searching for some write ups but couldn't find anything so I decided to break out <a href="http://developer.android.com/tools/help/adb.html">ADB</a> and actually read the <a href="https://source.android.com/devices/tech/security/encryption/">documentation</a> and investigate.</p>
+<p>From my digging it looks like everything in <code>/data</code> is encrypted and everything else is unencrypted. Apps and all their associated data seems to be in <code>/data/data</code> user data (for example my downloads, photos I've taken, music, etc...) are stored in <code>/data/media/</code>.</p>
+<p>I think that's a fairly reasonable decision to just encrypt <code>/data</code> because the android OS itself is not really what you want to protect.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:play-store">
+<p>I think they did include it for a while but were <a href="http://www.cyanogenmod.org/blog/cyanogenmod-installer-application-removed-from-play-store">asked</a> by Google to remove it but I haven't really followed all the details.&#160;<a class="footnote-backref" href="#fnref:play-store" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:F-Droid">
+<p>As this is a security blog I feel I should point out that I use F-Droid for philosophical open source reasons, not for security reasons. Moxie Marlinspike made a <a href="https://web.archive.org/web/20150907025746/http://support.whispersystems.org/customer/portal/articles/1476204-why-do-i-need-google-play-installed-to-use-textsecure-on-android-">good post</a> where he points out that enabling "unknown sources" or "allow 3rd party APKs" is one of the most harmful things the average android user can do the the security of their system.&#160;<a class="footnote-backref" href="#fnref:F-Droid" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2015-12-17 07:00:00+08:00" >Thu 17 December 2015</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/android.html">Android</a>,      <a href="https://xo.tc/tag/cryptography.html">Cryptography</a>,      <a href="https://xo.tc/tag/full-disk-encryption.html">Full Disk Encryption</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

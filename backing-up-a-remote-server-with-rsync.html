@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="Backups, Rsync, Cron, Linux, SSH, Stack Exchange">
+
+  <title>Backing up a remote server with rsync &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/backing-up-a-remote-server-with-rsync.html">Backing up a remote server with rsync</a></h3>
+  </div>
+  <div class="article_text">
+    <p>I've got a couple of VPS boxes over at <a href="https://www.ransomit.com.au/">RansomIT</a> including the server that run this site<sup id="fnref:RansomIT"><a class="footnote-ref" href="#fn:RansomIT">1</a></sup>. One of those boxes is a cheap little VPS with 512MB of RAM that costs me $5 a month. I need to back up this box, my usual go to for personal servers is <a href="https://www.crashplan.com/en-us/">Crashplan</a> but Crashplan <a href="https://support.code42.com/CrashPlan/4/Getting_Started/Code42_CrashPlan_System_Requirements">needs</a> 1GB of RAM.</p>
+<p>So I thought, why not sync<sup id="fnref:sync"><a class="footnote-ref" href="#fn:sync">2</a></sup> the contents of the small server over to more powerful server (with 8GB of RAM) that can run Crashplan.</p>
+<h2>Create a backup user on the source server</h2>
+<p>I'm going to create a 'backups' account on the source server, add an SSH key and add the backups account into the sudoers group<sup id="fnref:Account"><a class="footnote-ref" href="#fn:Account">3</a></sup>.</p>
+<div class="highlight"><pre><span></span><code>sudo useradd --system --shell /bin/bash --home-dir /home/backups --create-home backups
+sudo su backups
+<span class="nb">cd</span>
+ssh-keygen
+<span class="c1"># Accept the defaults</span>
+mv id_rsa.pub authorized_keys
+less ~/.ssh/id_rsa
+<span class="c1"># Copy the private key and press Q to quit</span>
+<span class="nb">exit</span>
+sudo visudo
+</code></pre></div>
+
+<p>Add to the sudoers file</p>
+<div class="highlight"><pre><span></span><code># Allow backups to run rsync as root without a password
+backups ALL=NOPASSWD:/usr/bin/rsync
+</code></pre></div>
+
+<h2>Create our backups script on the destinaton server</h2>
+<p>Copy the ssh private key (id_rsa) to the destination server.</p>
+<div class="highlight"><pre><span></span><code>mkdir backups
+<span class="nb">cd</span> backups
+vim backups.id_rsa
+sudo chown root:root backups.id_rsa
+sudo chmod <span class="m">400</span> backups.id_rsa
+<span class="c1"># SSH into the source server, this is both so we get the servers host key</span>
+<span class="c1"># added and also a a bit of a &#39;hello world&#39; sanity check.</span>
+sudo ssh -i backups.id_rsa backups@source.example.com
+<span class="nb">exit</span>
+vim nightly-backups.sh
+</code></pre></div>
+
+<p>I've based my backups script on the one in the <a href="https://wiki.archlinux.org/index.php/full_system_backup_with_rsync">Arch Wiki</a></p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># -a Archive mode (keep file permissions etc...)</span>
+<span class="c1"># -A preserve ACLs</span>
+<span class="c1"># -X keep extended attributeds</span>
+
+<span class="c1"># Backup www.example.com</span>
+rsync -aAX <span class="se">\</span>
+    -e <span class="s2">&quot;ssh -i /home/michael/backups/backups.id_rsa&quot;</span> <span class="se">\</span>
+    --rsync-path<span class="o">=</span><span class="s2">&quot;sudo rsync&quot;</span> <span class="se">\</span>
+    --exclude<span class="o">={</span><span class="s2">&quot;/dev/*&quot;</span>,<span class="s2">&quot;/proc/*&quot;</span>,<span class="s2">&quot;/sys/*&quot;</span>,<span class="s2">&quot;/tmp/*&quot;</span>,<span class="s2">&quot;/run/*&quot;</span>,<span class="s2">&quot;/mnt/*&quot;</span>,<span class="s2">&quot;/media/*&quot;</span>,<span class="s2">&quot;/lost+found&quot;</span><span class="o">}</span> <span class="se">\</span>
+    --delete <span class="se">\</span>
+    backups@www.example.com:/ <span class="se">\</span>
+    /home/michael/backups/www.example.com/
+</code></pre></div>
+
+<p>And link the script to crontab</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># The script needs to be owned by root or it won&#39;t execute.</span>
+sudo chown root:root nightly-backups.sh
+sudo chmod <span class="m">774</span> nightly-backups.sh
+sudo vim /etc/crontab
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code># rsync servers back here 01:15 every day.
+15   1  *   *   *   root    /home/michael/backups/nightly-backups.sh
+</code></pre></div>
+
+<p>The reason I've got the backup job also running as root on the destination server is we are keeping the file permissions and some files will be owned by root (from the source server) so we need to be root on the destination server to overwrite them when they change.</p>
+<p>It's not the best backup solution but it's simple and effective.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:RansomIT">
+<p>I'm an extremely satisfied customer and I'd be happy to recommend them. If you are looking for reasonably priced and reliable servers in Oceania with excellent customer service <a href="https://www.ransomit.com.au/">RansomIT</a> are great.&#160;<a class="footnote-backref" href="#fnref:RansomIT" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:sync">
+<p>I wouldn't recommend <em>just</em> syncing a server as a backup solution, if you get hit by cryptolocker and you sync your files then your backups are encrypted too. But in this case the synced copy is getting backed up by Crashplan which handles all of the file revisions and retention time frames.&#160;<a class="footnote-backref" href="#fnref:sync" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:Account">
+<p>On the Unix and Linux stackexchange <a href="http://unix.stackexchange.com/a/92397/112358">Martin von Wittich</a> makes a good point that this could be run as root. He is correct, my choice to use a seperate account is not that it directly increases security but I feel it's neater and it doesn't lead to sprawl.</p>
+<p>For example say another job also needs to ssh in as root, if there is already an SSH key it would so easy to use the same key pair rather than generate a new one and append it to the authorized_keys. But then if you want to disable the backups you need to work out what other services are using that key pair.</p>
+<p>I've seen Windows environments where twenty or thirty different services were running as the domain administrator account, many of these service did need administrative access, things like backups, inventory systems and anti-virus. But it meant that the domain admin password couldn't be changed (for example when staff left) without breaking things. It took a lot of work to find all of the things that were using the account and migrate them to their own accounts so we could change (and disable) the domain admin account.&#160;<a class="footnote-backref" href="#fnref:Account" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2016-10-27 07:00:00+08:00" >Thu 27 October 2016</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/backups.html">Backups</a>,      <a href="https://xo.tc/tag/rsync.html">Rsync</a>,      <a href="https://xo.tc/tag/cron.html">Cron</a>,      <a href="https://xo.tc/tag/linux.html">Linux</a>,      <a href="https://xo.tc/tag/ssh.html">SSH</a>,      <a href="https://xo.tc/tag/stack-exchange.html">Stack Exchange</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

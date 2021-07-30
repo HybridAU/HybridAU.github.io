@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="Apache, HTTP, Scoring, Gamification">
+
+  <title>HTTP Secuirty Headers &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/http-secuirty-headers.html">HTTP Secuirty Headers</a></h3>
+  </div>
+  <div class="article_text">
+    <p>This week I decided to play around with <a href="https://securityheaders.io/">securityheaders.io</a> and see if I could get an A+ rating.</p>
+<p><img alt="Security Headers" src="https://xo.tc/images/security-headers.png"></p>
+<p>I already had <a href="https://developer.mozilla.org/en-US/docs/Web/Security/Public_Key_Pinning">Public Key Pinning</a> and Strict Transport Security so those two were easy.</p>
+<p>Then I added Xss-Protection, but I wasn't sure what exactly it did. After a bit of searching it looks like Internet Explorer (and possibly now chrome) have some system setup to detect reflected xss attacks. I'm guessing it's probably by looking through the URL for suspicious script tags or something but there doesn't seem to be any good documentation on what exactly it dose. From what I could find it was on by default in IE now anyway so to me it seemed a bit redundant but I wanted the A+ and it didn't look like it would hurt.</p>
+<p>Next I added the X-Frame-Options I thought about this for a while, I don't really care if my site is rendered in an iframe. It's not like I've got anything worth click jacking and all the content is creative commons but then I also can't think of any good reason to allow my site to be in an iframe so in the end I decided to go with <code>SAMEORIGIN</code>.</p>
+<p>Then I added the X-Content-Type-Options again for the type of site I've got which doesn't allow users to post content it seems a bit redundant but again I don't think it will hurt.</p>
+<p>Then lastly I got to the Content-Security-Policy this was the hardest one I think for most sites that can implement it the most effective at combating xss. I've implemented what I think should be mostly right or at least I get no errors when I browse to it with Chrome or Internet Explorer but Firefox gives me an error about the piwik analytics script. The script is in line and I don't want to include <code>unsafe-inline</code> so I've done a SHA-256 hash of the script. I think I've run into <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1026520">Bug 1026520 - Erroneous CSP reports for hash-source</a>.</p>
+<p>Below is a copy of part of my Apache config.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">Header</span> <span class="nt">always</span> <span class="nt">set</span> <span class="nt">Public-Key-Pins</span> <span class="err">\</span>
+    <span class="s2">&quot;pin-sha256=\&quot;VOKQJ5j5cC1zM1weHSwo/iF5RGMaSVBllI1VIFKvBzU=\&quot;; \</span>
+<span class="s2">     pin-sha256=\&quot;pk/Xlc/DPy+/Y6kxFTlwaFu4LyIq6c5rOLbNZXk/c/w=\&quot;; \</span>
+<span class="s2">     max-age=5184000; \</span>
+<span class="s2">     includeSubDomains&quot;</span>
+<span class="nt">Header</span> <span class="nt">always</span> <span class="nt">add</span> <span class="nt">Strict-Transport-Security</span> <span class="s2">&quot;max-age=31536000&quot;</span>
+<span class="nt">Header</span> <span class="nt">always</span> <span class="nt">append</span> <span class="nt">X-Frame-Options</span> <span class="nt">SAMEORIGIN</span>
+<span class="nt">Header</span> <span class="nt">always</span> <span class="nt">append</span> <span class="nt">X-Content-Type-Options</span> <span class="nt">nosniff</span>
+<span class="err">#</span> <span class="nt">This</span> <span class="nt">seems</span> <span class="nt">a</span> <span class="nt">bit</span> <span class="nt">vague</span> <span class="nt">and</span> <span class="nt">redundant</span><span class="o">,</span> <span class="nt">but</span> <span class="nt">I</span> <span class="nt">guess</span> <span class="nt">it</span> <span class="nt">can</span><span class="s1">&#39;t hurt to add it. https://stackoverflow.com/questions/9090577</span>
+<span class="s1">Header always set X-Xss-Protection &quot;1; mode=block&quot;</span>
+<span class="s1">Header always append Content-Security-Policy: \</span>
+<span class="s1">    &quot;default-src &#39;</span><span class="nt">self</span><span class="s1">&#39; https://www.mightyburger.com.au https://fonts.gstatic.com; \</span>
+<span class="s1">     img-src     &#39;</span><span class="nt">self</span><span class="s1">&#39; https://www.mightyburger.com.au https://i.creativecommons.org https://licensebuttons.net; \</span>
+<span class="s1">     script-src  &#39;</span><span class="nt">self</span><span class="s1">&#39; https://www.mightyburger.com.au &#39;</span><span class="nt">sha256-w0f3</span><span class="o">/</span><span class="nt">LWV2JV80K3yqctPR1QAktxEMLuWC5eY1PF9228</span><span class="o">=</span><span class="s1">&#39;; \</span>
+<span class="s1">     style-src   &#39;</span><span class="nt">self</span><span class="err">&#39;</span> <span class="nt">https</span><span class="o">://</span><span class="nt">fonts</span><span class="p">.</span><span class="nc">googleapis</span><span class="p">.</span><span class="nc">com</span><span class="o">;</span> <span class="err">\</span>
+     <span class="nt">report-uri</span>   <span class="nt">https</span><span class="o">://</span><span class="nt">report-uri</span><span class="p">.</span><span class="nc">io</span><span class="o">/</span><span class="nt">report</span><span class="o">/</span><span class="nt">a91e682bc2af2ea5e6a5e2cb539fc805</span><span class="err">&quot;</span>
+</code></pre></div>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2015-12-31 07:00:00+08:00" >Thu 31 December 2015</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/apache.html">Apache</a>,      <a href="https://xo.tc/tag/http.html">HTTP</a>,      <a href="https://xo.tc/tag/scoring.html">Scoring</a>,      <a href="https://xo.tc/tag/gamification.html">Gamification</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

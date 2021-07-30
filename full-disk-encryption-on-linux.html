@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="Cryptography, LUKS, Debian, Linux, Full Disk Encryption">
+
+  <title>Full Disk Encryption on Linux &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/full-disk-encryption-on-linux.html">Full Disk Encryption on Linux</a></h3>
+  </div>
+  <div class="article_text">
+    <p>Full disk encryption on Linux is surprisingly easy once you pick up a few basic commands you are good to go. Although that being said GPG is surprisingly easy too, or at least basic usage is not that hard. But as I pointed out in <a href="https://xo.tc/the-best-crypto-is-the-crypto-you-dont-see.html">The best crypto is the crypto you don't see</a> it's still far too hard because you have to think about it and know your using it unlike full disk encryption on a Chromebook which just happens without the user even knowing.</p>
+<p>This is Part 1 of a two part post, In part 2 of this post I'm going to run through a tutorial on <a href="https://xo.tc/setting-up-full-disk-encryption-on-debian-jessie.html">Setting Up Full Disk Encryption on Debian Jessie</a>. Although most of this post should be fairly applicable to any flavour of Linux, it's a quick primer on LUKS. There are four terms that I see used a fair bit, often used interchangeably and in subtlety wrong ways. That can make things very confusing to newcomers.</p>
+<ul>
+<li>
+<p><strong>LUKS</strong> - LUKS (pronounced like 'lux') stands for Linux Unified Key Setup and is a standard for disk encryption. There have been many different disk encryption tools on Linux and each setting up encrypted volumes in a slightly different way meaning the encrypted volumes created with one program (or sometimes even one version of a program) were not compatible with others. So LUKS was born to be a single unified standard or specification that everyone could stick to.</p>
+</li>
+<li>
+<p><strong>dm-crypt</strong> - dm-crypt a kernel module used map encrypted volumes and make them look like devices so they can be mounted. It's the "reference implementation" of LUKS and as such is the de facto standard for using LUKS. But there are other tools that can mount LUKS volumes like <a href="https://github.com/t-d-k/LibreCrypt">LibreCrypt</a><sup id="fnref:LibreCrypt"><a class="footnote-ref" href="#fn:LibreCrypt">1</a></sup> formerly DoxBox for Windows and dm-crypt is not just limited to LUKS volumes, it can open other encryption formats like TrueCrypt volumes.</p>
+</li>
+<li>
+<p><strong>cryptsetup</strong> - cryptsetup a commandline interface for managing dm-crypt. Again it's very much the standard but other tools for managing dm-crypt do exist, for exmaple there is <a href="http://mhogomchungu.github.io/zuluCrypt/">zuluCrypt</a> a nice GUI manager.</p>
+</li>
+<li>
+<p><strong>Full Disk Encryption on Linux</strong> -This is obviously a generic term that should cover all disk encryption tools on Linux but what I have often found reading forums and mailing lists is that because the LUKS/dm-crypt/cryptsetup combo is so common it's become the de facto standard and so unless people actually specify otherwise that's usually what they mean.</p>
+</li>
+</ul>
+<p>One of the nice things about the LUKS format is that it has the 8 key slots. The way it works is that the bulk of the data encrypted using a master key. There are eight key slots each of which can contain an encrypted copy of the master key which means if you want to change the password you don't need to re-encrypt the whole volume again with a new key, you can simply re-encrypt the master key with the new that password in the key slot.  This also means you could have up to eight different passwords to decrypt the volume.</p>
+<p><img alt="LUKS Volume" src="https://xo.tc/images/luks-volume.png"></p>
+<p>A practical use for this would be if you were handing out employee laptops, key slot one could contain a key known to the IT Department, while key slot two could contain a key set by the user. This means that the user could return their laptop and the IT Department who could decrypt it without knowing what the users password is and similarly the user can decrypt their laptop without the IT Departments key.</p>
+<p>It also means if the user wants to change their password they can change it with out needing to re-encrypt the whole disk, instead they simply decrypt their key slot and re-encrypt the master key with their new password.</p>
+<p>This design also has some drawbacks, one is that the master key is stored in the header and if that gets damaged, corrupted or lost for some reason you lose access to the whole volume. Better keep backups.</p>
+<p>The other drawback is that because the master key doesn't change when you change the password anyone who knows the master key can still access the drive. So in the example with employee laptops, if IT got the laptop back, wiped key slot 2 and set it up with a new password for a new user. If the old user made a backup of the header / master key they can still access the drive even though they don't know the current password.</p>
+<p>Now a key doesn't have to be a password it can also be a file, this can be incredibly useful because then you can add an entry into <code>/etc/crypttab</code> to automatically decrypt volumes. You can also set the key to be generated from <code>/etc/urandom</code> automatically each time you boot giving you a new non-persistent key for your swap file or other scratch drive that you don't want to survive a reboot.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:LibreCrypt">
+<p>I haven't actually used LibreCrypt, I'm just aware that it's a Windows implimentation of LUKS.&#160;<a class="footnote-backref" href="#fnref:LibreCrypt" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2015-10-29 07:00:00+08:00" >Thu 29 October 2015</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/cryptography.html">Cryptography</a>,      <a href="https://xo.tc/tag/luks.html">LUKS</a>,      <a href="https://xo.tc/tag/debian.html">Debian</a>,      <a href="https://xo.tc/tag/linux.html">Linux</a>,      <a href="https://xo.tc/tag/full-disk-encryption.html">Full Disk Encryption</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="Senrio, Philosophy, OpenSource, IoT, patching">
+
+  <title>Code reuse is good for security &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/code-reuse-is-good-for-security.html">Code reuse is good for security</a></h3>
+  </div>
+  <div class="article_text">
+    <p>I was listen to a podcast<sup id="fnref:podcast"><a class="footnote-ref" href="#fn:podcast">1</a></sup> recently and <a href="http://senr.io/team.html">Stephen Ridley from Senrio</a> said "code reuse is vulnerability reuse" and I don't like that.</p>
+<p>I don't think Stephen is wrong, I think he is correct in a way and he is a very smart person. The problem is that you just can't squeeze a huge amount of subtlety and nuance into a three second soundbite.</p>
+<p>I believe we are better off overall when we do reuse code. For example I was recently working on a project where I had to take untrusted user input formatted as <a href="http://commonmark.org/">CommonMark</a> and render it as HTML. I could have tried to write my own parser to do that but instead I used the  <a href="https://github.com/rtfd/CommonMark-py">CommonMark-py</a> library to change the CommonMark to HTML and then used <a href="https://github.com/mozilla/bleach">Mozilla bleach</a> to whitelist only the HTML tags we want.</p>
+<p>Either of those libraries could have horror show bugs in them just waiting to be found and get me pwned, but I'd trust Mozilla to do a better job of sanitizing HTML than I can.</p>
+<p>Or in the specific example they were talking about on the podcast; A number of IoT devices were <a href="http://blog.senr.io/blog/devils-ivy-flaw-in-widely-used-third-party-code-impacts-millions">using</a> the <a href="https://www.genivia.com/products.html">gSOAP</a> library and there was a remote code execution bug in the library which affected millions of devices. That's bad. But I still think these devices were better off using an existing library than each different vendor trying to write their own SOAP library and getting it wrong in their own unique way<sup id="fnref:unique"><a class="footnote-ref" href="#fn:unique">2</a></sup>.</p>
+<p>Importantly though you need a way to track and patch all your libraries quickly and painlessly when issues do inevitably come up.</p>
+<p>While code reuse <em>is</em> vulnerability reuse, I'd rather be responsible for software with a large number of (well supported, actively tracked and easily patched) 3rd party libraries than need to look after software where everything is written in house.</p>
+<p>On balance I think that "code reuse is good for security"</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:podcast">
+<p><a href="https://risky.biz/RB465/">Risky Business #465</a> At 43:28 in.&#160;<a class="footnote-backref" href="#fnref:podcast" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:unique">
+<p>Although this brings up another issue which is that monoculture is bad, because when a vulnerability does crop up it can spread like wild fire.&#160;<a class="footnote-backref" href="#fnref:unique" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2017-09-28 07:00:00+08:00" >Thu 28 September 2017</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/senrio.html">Senrio</a>,      <a href="https://xo.tc/tag/philosophy.html">Philosophy</a>,      <a href="https://xo.tc/tag/opensource.html">OpenSource</a>,      <a href="https://xo.tc/tag/iot.html">IoT</a>,      <a href="https://xo.tc/tag/patching.html">patching</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

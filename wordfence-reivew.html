@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="WordPress, bruteforce, web application firewall">
+
+  <title>Wordfence reivew &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/wordfence-reivew.html">Wordfence reivew</a></h3>
+  </div>
+  <div class="article_text">
+    <p><strong>TLDR:</strong> I tried the free version, I like it.</p>
+<p>Amongst other things I do in my day job, I administer a WordPress site. We had a security audit and one of the findings was that our site was misconfigured to show a different failure message for a login when the username exists to when it doesn't. This allows for user enumeration which makes brute-forcing easier because you don't waste time trying to brute force accounts which don't exist.</p>
+<p>My first thought was that the auditors had made a mistake, we were running very vanilla WordPress on the latest version and I thought surely that's something the WordPress team would have patched if it was an issue with the default install.</p>
+<p>It turns out I was wrong, I couldn't find any definitive statement from the WordPress team but it seems they don't think user enumeration is an issue<sup id="fnref:not-an-issue"><a class="footnote-ref" href="#fn:not-an-issue">1</a></sup>. Along with different log in prompts, there are several other places in WordPress that leak usernames such as appending <code>?author=1</code> to the URL of the site.</p>
+<p>So I went looking for a way looking for a way to patch that and found <a href="https://www.wordfence.com/">Wordfence</a>.</p>
+<p>After installing it I checked the password failure message and that was fixed. Then I started looking through some of the other features and was impressed with the brute force protection, they have sensible defaults and fairly good metrics.</p>
+<p>I also saw they had a scanner which checks the integrity of the WordPress core files which is a good idea.</p>
+<p>The plugin can also provide two-factor authentication which is a great idea but that's a paid feature.</p>
+<p>Over all, I'd say it's a good plugin and I will be installing it on any WordPress sites I'm responsible for in the future.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:not-an-issue">
+<p>To be clear, this is not an unreasonable view to hold. It's more of an information disclosure than a real security threat. It really depends on what type of site you are running as to how serious this is.&#160;<a class="footnote-backref" href="#fnref:not-an-issue" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2018-11-08 08:00:00+08:00" >Thu 08 November 2018</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/wordpress.html">WordPress</a>,      <a href="https://xo.tc/tag/bruteforce.html">bruteforce</a>,      <a href="https://xo.tc/tag/web-application-firewall.html">web application firewall</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

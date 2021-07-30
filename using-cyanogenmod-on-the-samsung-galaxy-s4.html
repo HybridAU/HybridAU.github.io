@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="Good Bye Google, CyanogenMod, Android">
+
+  <title>Using CyanogenMod on the Samsung Galaxy S4 &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/using-cyanogenmod-on-the-samsung-galaxy-s4.html">Using CyanogenMod on the Samsung Galaxy S4</a></h3>
+  </div>
+  <div class="article_text">
+    <p>I've been using <a href="http://www.cyanogenmod.org/">CyanogenMod</a> pretty much since day one after I got my Samsung Galaxy S4 which was my first Android phone. After the best phone I ever owned, a <a href="https://en.wikipedia.org/wiki/Nokia_N900">Nokia N900</a> got to the point where battery life was about 8 hours I felt that I needed to upgrade<sup id="fnref:upgrade"><a class="footnote-ref" href="#fn:upgrade">1</a></sup> to a newer phone. The iPhone has a much better security track record and if someone was looking for the most secure phone I'd (begrudgingly) have to recommend an iPhone. However the walled garden approach Apple take with their products and the very closed nature of the device just doesn't sit well with me.</p>
+<p>So that left me with Android, but I wanted to get a device with out all the bloated irremovable crapware that vendors like Telstra<sup id="fnref:telstra"><a class="footnote-ref" href="#fn:telstra">2</a></sup> or amazing keyboard <a href="https://www.nowsecure.com/keyboard-vulnerability/">features</a> that Samsung loaded on their phone. I just wanted something pretty close to stock Android, but something that got regular security  updates which seems to have been the Achilles heel of Android.</p>
+<p>In the end I decided to go with CyanogenMod but in order to load that onto my phone I needed to add a new recovery image to my phone called <a href="https://www.clockworkmod.com/">ClockworkMod</a>. To do that you need to boot into 'Download Mode' by holding the volume down button while booting and then flash the image onto the phone. Unfortunately all the tutorials I could find recommended using Samsung Odin, but Odin has never been officially released by Samsung so the only copies I could find were dodgey looking 'leaked' copies from torrents and other warez sites.</p>
+<p>Out of interest I downloaded one copy of Odin and uploaded it to <a href="https://www.virustotal.com/">virustotal</a> where about 8 or 9 AV tools marked it as a Trojan. After a bit of searching I found <a href="http://glassechidna.com.au/heimdall/">Heimdall</a> a nice open source cross platform alternative to Odin that works quite well.</p>
+<p>Armed with Heimdall I was able to flash ClockworkMod onto my phone and then download the CyanogenMod zip file and boot into 'recovery mode' by holding volume up while booting and then I could wipe my phone's stock firmware and install CyanogenMod.</p>
+<p>Since then I haven't really looked back, the stock Android experience is pretty good. In fact I'd argue it's better than the Samsung TouchWiz UI (but still not as good as the old Nokia N900 was). I get updates regularly and I've only got a couple of apps installed that I don't want or use<sup id="fnref:apps"><a class="footnote-ref" href="#fn:apps">3</a></sup> which is much better than the 20 or so junk apps it came with.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:upgrade">
+<p>Or downgrade, depending on how you look at it.&#160;<a class="footnote-backref" href="#fnref:upgrade" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:telstra">
+<p>Australia's largest Telco, with about a 50% market share when I bought my phone.&#160;<a class="footnote-backref" href="#fnref:telstra" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:apps">
+<p>There is one called 'AudioFX' that seems to be a music equalizer and a 'Themes' app but I've only got one theme installed.&#160;<a class="footnote-backref" href="#fnref:apps" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2015-12-24 07:00:00+08:00" >Thu 24 December 2015</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/good-bye-google.html">Good Bye Google</a>,      <a href="https://xo.tc/tag/cyanogenmod.html">CyanogenMod</a>,      <a href="https://xo.tc/tag/android.html">Android</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

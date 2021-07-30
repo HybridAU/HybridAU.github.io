@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="Security, CVE">
+
+  <title>Estimating the security of software &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/estimating-the-security-of-software.html">Estimating the security of software</a></h3>
+  </div>
+  <div class="article_text">
+    <p>Estimating the security of software is something that most systems administrators do instinctively, whether consciously or subconsciously. I have heard people say things like "Don't use WordPress it's always getting hacked", "Linux is more secure than Windows"<sup id="fnref:linux-windows"><a class="footnote-ref" href="#fn:linux-windows">1</a></sup> or "Macs don't get viruses"<sup id="fnref:mac-virus"><a class="footnote-ref" href="#fn:mac-virus">2</a></sup>. All of these are estimates about the relative security of software.</p>
+<p>The problem with looking at the security of software is that it's only possible to prove the negative (i.e. this software <strong>is not</strong> secure) but it's not possible to prove the positive (i.e. this software <strong>is</strong> secure) and once a piece of software become sufficiently complex I don't believe it is practically possible to write software with no bugs at all.</p>
+<p>Let's take for example two piece's of software <a href="https://www.openoffice.org/">Apache OpenOffice</a> and <a href="https://www.libreoffice.org/">LibreOffice</a> both were affected by <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-1774">CVE-2015-1774</a> and at the time of this writing it hasn't been <a href="https://www.openoffice.org/security/cves/CVE-2015-1774.html">patched</a> in OpenOffice so I could prove the negative and say "OpenOffice is not secure, if a users opens a malicious .odt file<sup id="fnref:odt-file"><a class="footnote-ref" href="#fn:odt-file">3</a></sup> it could result in remote code execution.". While with LibreOffice it has been <a href="https://www.libreoffice.org/about-us/security/advisories/cve-2015-1774/">patched</a> and there are (again, at the time of this writing) no <a href="https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=LibreOffice">public CVEs</a> so I could say "There are no public vulnerabilities that have not been patched." but that's not the same as saying it's secure.</p>
+<p>There are probably bugs in LibreOffice that have been discovered but haven't been disclosed, found by folks like Vupen and other shady groups selling 0-days on the black market. And there are undoubtedly bugs that simply haven't been found by anyone yet.</p>
+<p>So in the case of software where there are no known vulnerabilities it can't be proven to be secure, or proven to be insecure we are left in a situation where we have to estimate.</p>
+<p>I don't think we as an industry have a good way of estimating the security health of software but I think one would be useful. There are some good indicators, a great example is the Linux Foundation's Core Infrastructure Initiative, which recently tried to <a href="https://lwn.net/Articles/651268/">score open source projects</a>, although they were not just assessing security but also impact (e.g. is the program widely used, dose it handle network traffic, etc...).</p>
+<p>One interesting metric is CVEs but as mentioned in the <a href="https://www.coreinfrastructure.org/sites/cii/files/pages/files/pub_ida_lf_cii_070915.pdf">Core Infrastructure white paper</a>, it can be misleading because a low number could indicate a lack of review (i.e. no one is looking for bugs) or it could be that there are very few bugs to find. Conversely a high number of CVEs could mean that the software is full of bugs or that it's getting a lot of attention and bugs are found and fixed quickly.</p>
+<p>Other good metrics include the choice of programming language and framework. I recall reading an argument on line<sup id="fnref:argument"><a class="footnote-ref" href="#fn:argument">4</a></sup> where one user said something like "There are no bad programming languages, only bad developers" to which the response was "Then it's reasonable to develop in <a href="https://en.wikipedia.org/wiki/Brainfuck">Brainfuck</a>?". I think that sums it up perfectly, some languages are simply a better choice and make it easier to write secure software.</p>
+<p>Our opinions of software security can also be biased by the popularity of software. I think both Windows and WordPress suffer from this to a degree, for example according to <a href="http://w3techs.com/technologies/overview/content_management/all">W3Techs Surveys</a> 58.7% of sites where they could detect the CMS it was WordPress. But even if we look at the lower number 24.5% of all sites run WordPress. If you think that almost 1 in every 4 sites on the net runs WordPress then it's not surprising that a lot of the horrible hacked sites that are being used to drop malware are running out of date WordPress installs.</p>
+<p>Similarly if you think how many times you have seen a nasty Windows desktop a bunch of spyware and junk installed. Systems where there is no option but to format and reinstall, but then think how many times have you seen a non Windows desktops, sure there are a few mac floating about but not that many. It's not surprising that most desktop malware targets Windows. Just like most SSH password brute forcing worms target Linux, because there are more Linux servers with SSH exposed on the net.</p>
+<p>I think in most situations picking the most secure software ends up being a gut feeling thing or at best an informed guess, but there are some objective measures out there if you look for them.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:linux-windows">
+<p>While Debian GNU Linux is my preferred operating system I don't necessarily think it's more secure. This is just an example of things I've heard people say.&#160;<a class="footnote-backref" href="#fnref:linux-windows" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:mac-virus">
+<p>Of course all operating systems more complex that an calculator can get viruses. Macs have bash, you could run <code>:(){ :|:&amp; };:</code> that's <a href="https://en.wikipedia.org/wiki/Fork_bomb">self replicating code</a> although it won't survive a reboot&#160;<a class="footnote-backref" href="#fnref:mac-virus" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:odt-file">
+<p>The vulnerability is with the HWP format, but you can give a hwp file a .odt extension and OpenOffice will still parse the file and trigger the vulnerability.&#160;<a class="footnote-backref" href="#fnref:odt-file" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+<li id="fn:argument">
+<p>I think it was about Python vs Java on <a href="http://security.stackexchange.com/">Security Stack Exchange</a> but can't seem to find the link.&#160;<a class="footnote-backref" href="#fnref:argument" title="Jump back to footnote 4 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2015-10-08 07:00:00+08:00" >Thu 08 October 2015</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/security.html">Security</a>,      <a href="https://xo.tc/tag/cve.html">CVE</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

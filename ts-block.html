@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <!--
+  This is almost certainly the wrong way to do this but it's the only way
+  I can find to load the fonts in a subdirectory
+  -->
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Michael Van Delft">
+  <meta name="description" content="Posts and writings by Michael Van Delft">
+
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
+
+<meta name="keywords" content="Windows, Terminal Server, Fail2ban, AWS">
+
+  <title>TS Block &ndash; Exotic Security</title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://xo.tc">
+        <img src="/images/gavitar_140.png" alt="logo">
+      </a>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <p>Exotic Security</p>
+      <ul>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://xo.tc/ts-block.html">TS Block</a></h3>
+  </div>
+  <div class="article_text">
+    <p><a href="https://github.com/EvanAnderson/ts_block">TS Block</a> is one of my favorite little scripts for Windows Terminal Servers it's a bit like Fail2ban for Windows.</p>
+<p>It's a fairly simple script with a few configurable options and sane defaults that does pretty much what it says on the tin. After a set number of failed logins in a given time to a terminal server it will add a rule to the windows fire wall to block all traffic from that address.</p>
+<p><img alt="Windows firewall after TS Block has been running for a few days" src="https://xo.tc/images/ts_block.png">
+Windows firewall after TS Block has been running for a few days.</p>
+<p>It when it blocks an IP address it doesn't just block logins but blocks all traffic from that address. If you have a windows server with  port 3389 open to the internet for any reason, for example maybe you have just started an Amazon EC2 with it's default settings and haven't just white listed your IP address. I'd recommend adding TS Block to your server.</p>
+<p>Personally I go with a fairly restrictive approach of 5 failed logins in 10 minutes gets a 24 hour ban. It's enough to give legitimate users a couple of guesses if they have forgotten / mistyped their password but at a maximum of 1 guess every 2 minutes it blocks brute forcing accounts. It also instantly blocks any address that attempts to login as Administrator<sup id="fnref:Administrator"><a class="footnote-ref" href="#fn:Administrator">1</a></sup>.</p>
+<p>Even though I've been around for a while and should be used to this sort of thing, I still find it staggering how many brute forcing bots are out there I get 20 to 30 unique IPs banned every day<sup id="fnref:Traffic"><a class="footnote-ref" href="#fn:Traffic">2</a></sup>.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:Administrator">
+<p>Which I disable anyway and create a new Administrative account with a different name.&#160;<a class="footnote-backref" href="#fnref:Administrator" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:Traffic">
+<p>While that might not sound like a lot it's more than the amount of legitimate web traffic this site gets each day. I'd be pretty happy with 20 or 30 unique views each day.&#160;<a class="footnote-backref" href="#fnref:Traffic" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+  </div>
+  <div class="article_meta">
+      <p>Posted on: <abbr title="2016-01-07 07:00:00+08:00" >Thu 07 January 2016</abbr></p>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+ &ndash; Tags:
+      <a href="https://xo.tc/tag/windows.html">Windows</a>,      <a href="https://xo.tc/tag/terminal-server.html">Terminal Server</a>,      <a href="https://xo.tc/tag/fail2ban.html">Fail2ban</a>,      <a href="https://xo.tc/tag/aws.html">AWS</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+        </a>
+        <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        <br />Built using <a href="http://getpelican.com">Pelican</a>.
+              Based on a theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack">github</a>.
+      </p>
+    </div>
+  </main>
+</body>
+</html>
