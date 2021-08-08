@@ -3,22 +3,23 @@
 
 <head>
   <!-- ## for client-side less
-  <link rel="stylesheet/less" type="text/css" href="./theme/css/style.less">
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
   <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
   -->
-  <link rel="shortcut icon" type="image/png" href="./favicon.png" />
-  <link rel="stylesheet" type="text/css" href="./theme/css/style.css">
-  <link rel="stylesheet" type="text/css" href="./theme/css/pygments.css">
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
   <!--
   This is almost certainly the wrong way to do this but it's the only way
   I can find to load the fonts in a subdirectory
   -->
-    <link rel="stylesheet" type="text/css" href="./theme/css/load-fonts.css">
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
   <meta name="description" content="Posts and writings by Michael Van Delft">
 
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
 
 <meta name="keywords" content="Failure, Storage, Windows, Backups, Veeam">
 
@@ -29,13 +30,13 @@
 <body>
   <aside>
     <div id="user_meta">
-      <a href=".">
+      <a href="https://xo.tc">
         <img src="/images/gavitar_140.png" alt="logo">
       </a>
-      <h2><a href=".">Michael Van Delft</a></h2>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
       <p>Exotic Security</p>
       <ul>
-        <li><a href="./pages/about.html">About</a></li>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
         <li><a href="/tags.html">Tags</a></li>
       </ul>
     </div>
@@ -44,24 +45,25 @@
   <main>
     <header>
       <p>
-      <a href=".">Index</a> &brvbar; <a href="./archives.html">Archives</a>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
       </p>
     </header>
 
 <article>
   <div class="article_title">
-    <h3><a href="./hang-gliding-over-hell-3-drives-die-in-a-6-drive-nas.html">Hang Gliding Over Hell, 3 drives die in a 6 drive NAS</a></h3>
+    <h3><a href="https://xo.tc/hang-gliding-over-hell-3-drives-die-in-a-6-drive-nas.html">Hang Gliding Over Hell, 3 drives die in a 6 drive NAS</a></h3>
   </div>
   <div class="article_text">
-    <p>A while ago I wrote about <a href="./learning-from-failure.html">learning from failure</a>. This is a story of failure; Hardware failure, failure of design and failure of my self (The systems administrator) to not correct the issues earlier. It's hard to write about, but I believe that stories of failure can teach us just as much, if not more, than stories of successes.</p>
+    <p>A while ago I wrote about <a href="https://xo.tc/learning-from-failure.html">learning from failure</a>. This is a story of failure; Hardware failure, failure of design and failure of my self (The systems administrator) to not correct the issues earlier. It's hard to write about, but I believe that stories of failure can teach us just as much, if not more, than stories of successes.</p>
 <p>I inherited a system where a number of VMs were running on top of two Hyper-V hosts, with a single NAS hosting a .VHD file that was shared as an iSCSI target for the storage of the .VHDs that were the VM disks.</p>
-<p><img alt="Hyper-V Failover Cluster" src="./images/Hyper-V-Failover-Cluster.png"></p>
+<p><img alt="Hyper-V Failover Cluster" src="https://xo.tc/images/Hyper-V-Failover-Cluster.png"></p>
 <p>Now, this design is not great for a number of reasons that will become apparent throughout this post, but a few that should immediately jump out is that the one NAS provides a single point of failure, and that using a .VHD file as the iSCSI target will not provide great performance, it would be better to use the disk directly.</p>
-<p><img alt="RAID All ok" src="./images/RAID-all-ok.png"></p>
+<p><img alt="RAID All ok" src="https://xo.tc/images/RAID-all-ok.png"></p>
 <p>So the first failure is that I never upgraded this setup to something more robust, I had ample time and the budget was available but I took an attitude of "If it's not broken, don't fix it". That is the wrong attitude to have, sure no one was complaining about the performance and it was running ok so but I could have fixed all of these issues before they even started, and I did not.</p>
 <h2>2017-03-01 03:00 Drive in Bay 1 dies</h2>
 <p>I'm blissfully asleep, maybe I rolled over and scratch my ear.</p>
-<p><img alt="RAID bay 1 dies" src="./images/RAID-bay-1-dead.png"></p>
+<p><img alt="RAID bay 1 dies" src="https://xo.tc/images/RAID-bay-1-dead.png"></p>
 <h2>2017-03-01 03:00 Servers blue screen</h2>
 <p>In theory, because the NAS has a RAID5 + Hot Spare, everything should keep ticking along even after one drive dies. However the server froze up for just long enough the iSCSI connection timed out and the servers could no longer read and write to their disks, so all the VMs crashed.</p>
 <p>Critically this includes the Exchange server, so the email alert about a failed disk that the HP ILO should have sent goes nowhere.</p>
@@ -72,41 +74,41 @@
 <h2>2017-03-02 08:30 I replace drive in bay 1</h2>
 <p>I get to work and for a second day, all the servers are down. I reboot them and then I finally I see that the drive in bay 1 of the NAS is dead.  We don't have a cold spare on site so I go down to the local computer shop and buy a new drive.</p>
 <p>Fortunately, It's a RAID 5 with Hot Spare array so it has already rebuilt into the hot spare.</p>
-<p><img alt="RAID bay 1 Replaced" src="./images/RAID-bay-1-rebuilding.png"></p>
+<p><img alt="RAID bay 1 Replaced" src="https://xo.tc/images/RAID-bay-1-rebuilding.png"></p>
 <h2>2017-03-02 09:45 Rebuilding at 12% Hot spare dies. Rebuilding starts again at 0%.</h2>
 <p>I'm sitting at my desk watching the array rebuild onto the drive in Bay 1 and then suddenly... The hot spare dies. I suspect that the hot spare had actually been dodgy for a while, but because we were using RAID 5 with a Hot Spare rather than RAID 6 the disk wasn't in use and so we never got alerted that it was bad.</p>
-<p><img alt="RAID bay 1 Replaced bay 6 dies" src="./images/RAID-bay-1-rebuilding-bay-6-dies.png"></p>
+<p><img alt="RAID bay 1 Replaced bay 6 dies" src="https://xo.tc/images/RAID-bay-1-rebuilding-bay-6-dies.png"></p>
 <p>Fortunately, we still have enough data on the 4 remaining disks to rebuild the array but now instead of a straight copy from the hot spare to the new disk, it's got to actually calculate the parity bits all over again. So the rebuild is not running much slower.</p>
 <p>I replace the hot spare with a new blank drive.</p>
-<p><img alt="RAID bay 1 Replaced bay 6 replaced" src="./images/RAID-bay-1-rebuilding-bay-6-blank.png"></p>
+<p><img alt="RAID bay 1 Replaced bay 6 replaced" src="https://xo.tc/images/RAID-bay-1-rebuilding-bay-6-blank.png"></p>
 <h2>2017-03-02 20:00 Rebuilding at 80%. Drive in bay 3 marked "predicted failure".</h2>
 <p>I spend the rest of the day not being very productive and checking the rebuild progress every 10 minutes or so. Then at about 20:00 when I log in to have a look, the drive in bay 3 is marked as predicted failure.</p>
 <p>Last night's backups failed, tonight's backups have not run yet because I've disabled them while the array is rebuilding. But if Disk 3 dies before Disk 1 is online we won't have enough disks left to rebuild the array.</p>
-<p><img alt="RAID bay 1 Replaced bay 6 replaced bay 3 warning" src="./images/RAID-bay-1-rebuilding-bay-3-warning.png"></p>
+<p><img alt="RAID bay 1 Replaced bay 6 replaced bay 3 warning" src="https://xo.tc/images/RAID-bay-1-rebuilding-bay-3-warning.png"></p>
 <h2>2017-03-02 21:30 Rebuilding hits 100%</h2>
 <p>The last few minutes were nail-bitingly intense. But finally, the array has rebuilt. I start the backups and go to bed, unfortunately, the backups fail again.</p>
-<p><img alt="RAID bay 3 warning" src="./images/RAID-bay-3-warning.png"></p>
+<p><img alt="RAID bay 3 warning" src="https://xo.tc/images/RAID-bay-3-warning.png"></p>
 <h2>2017-03-03 10:00 A consultant comes in</h2>
 <p>Where I work I'm essentially a one-person IT team, I've got a colleague who is very technical and good to bounce ideas off, but they are not in a full time IT role. But we have an external IT consultant that we use if I need help or to cover for me while I'm away on leave, so we called the consultant in for a bit of extra support.</p>
 <h2>2017-03-03 12:00 We remove the drive in bay 3. NAS crashes. We replace the drive in bay 3.</h2>
 <p>After some discussion, we decide that the next step is to remove the drive in bay 3. Rather than waiting until the end of the day, or for the predicted failure, let's just pull it and get the array rebuilding onto the hot spare as soon as possible.</p>
 <p>I've pulled drives out of servers with hardware RAID before and they have been fine. I'd just recently pulled drives out of this NAS before and had no issues. But as soon as I pulled the drive out from bay 3, the NAS bluescreened and wouldn't reboot despite the fact that the OS was on a separate RAID array.</p>
-<p><img alt="RAID bay 3 removed" src="./images/RAID-bay-3-removed.png"></p>
+<p><img alt="RAID bay 3 removed" src="https://xo.tc/images/RAID-bay-3-removed.png"></p>
 <p>Naturally, all the VMs bluescreened as well and people were displeased that all the systems had stopped working in the middle of the day. I replaced the faulty drive back into bay 3 and then NAS booted.</p>
-<p><img alt="RAID bay 3 warning" src="./images/RAID-bay-3-warning.png"></p>
+<p><img alt="RAID bay 3 warning" src="https://xo.tc/images/RAID-bay-3-warning.png"></p>
 <p>We decided not to touch the NAS again during working hours.  </p>
 <h2>2017-03-03 17:45 I start manually copying VHD files off to USB drive.</h2>
 <p>At this point, it's a Friday afternoon and I don't have a successful backup since Tuesday night. Veeam is failing, so I start copying the VHD files (for the VMs) onto a USB hard drive.</p>
 <h2>2017-03-04 21:00 Copying the File Server D drive is still failing. I shut down the NAS and put a new drive in bay 3.</h2>
 <p>All the servers are backed up except the File Server D drive which won't copy, but I'm running out of time. So I shut down the NAS and replace the drive in bay 3 with a blank one and the server boot. I rebuild the array offline which is quicker than while it's running but still slow.</p>
-<p><img alt="RAID bay 3 rebuilding" src="./images/RAID-bay-3-rebuilding.png"></p>
+<p><img alt="RAID bay 3 rebuilding" src="https://xo.tc/images/RAID-bay-3-rebuilding.png"></p>
 <h2>2017-03-05 08:00 Array is rebuilt, File Server D drive is still failing</h2>
-<p><img alt="RAID All ok" src="./images/RAID-all-ok.png"></p>
+<p><img alt="RAID All ok" src="https://xo.tc/images/RAID-all-ok.png"></p>
 <p>The array is back up and looking healthy. But Veeam is still failing to back up the fileserver D drive.</p>
 <h2>2017-03-05 19:00 chkdsk /f File Server D overnight</h2>
 <p>I had to shut all the servers down, unmount the iSCSI drive and run <code>chkdsk /f</code>, it runs over the whole night and finally finishes only to report no errors on NAS. But the Fileserver D drive backups are still failing.</p>
 <h2>2017-03-06 07:00 chkdsk /R on the NAS</h2>
-<p>Luckily Monday was a public holiday and I could continue to work leave the VMs shutdown and work on the NAS without causing interruptions to staff, so first thing in the morning I start <code>chkdsk /r</code>. I wrote about <a href="./veeam-backup-errors-after-nas-hard-drive-failure.html">Veeam backup errors after NAS hard drive failure</a>.</p>
+<p>Luckily Monday was a public holiday and I could continue to work leave the VMs shutdown and work on the NAS without causing interruptions to staff, so first thing in the morning I start <code>chkdsk /r</code>. I wrote about <a href="https://xo.tc/veeam-backup-errors-after-nas-hard-drive-failure.html">Veeam backup errors after NAS hard drive failure</a>.</p>
 <h2>2017-03-06 20:00 chkdsk finishes. I boot all servers and start a backup.</h2>
 <p>Finally chkdsk finishes and reports that it's fixed a number of issues. I still don't know for sure that I've fixed the issue with the backups but I'm feeling a little better.</p>
 <h2>2017-03-07 06:00 File server D finishes the backup.</h2>
@@ -117,9 +119,9 @@
   </div>
   <div class="article_meta">
       <p>Posted on: <abbr title="2017-12-07 07:00:00+08:00" >Thu 07 December 2017</abbr></p>
-    <p>Category: <a href="./category/posts.html">Posts</a>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
-      <a href="./tag/failure.html">Failure</a>,      <a href="./tag/storage.html">Storage</a>,      <a href="./tag/windows.html">Windows</a>,      <a href="./tag/backups.html">Backups</a>,      <a href="./tag/veeam.html">Veeam</a>    </p>
+      <a href="https://xo.tc/tag/failure.html">Failure</a>,      <a href="https://xo.tc/tag/storage.html">Storage</a>,      <a href="https://xo.tc/tag/windows.html">Windows</a>,      <a href="https://xo.tc/tag/backups.html">Backups</a>,      <a href="https://xo.tc/tag/veeam.html">Veeam</a>    </p>
   </div>
 
 
@@ -129,7 +131,7 @@
     <div id="ending_message">
       <p>
         <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-            <img alt="Creative Commons License" src="./theme/images/cc-by-88x31.png" />
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
         </a>
         <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
         <br />Built using <a href="http://getpelican.com">Pelican</a>.

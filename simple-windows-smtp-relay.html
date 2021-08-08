@@ -3,22 +3,23 @@
 
 <head>
   <!-- ## for client-side less
-  <link rel="stylesheet/less" type="text/css" href="./theme/css/style.less">
+  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
   <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
   -->
-  <link rel="shortcut icon" type="image/png" href="./favicon.png" />
-  <link rel="stylesheet" type="text/css" href="./theme/css/style.css">
-  <link rel="stylesheet" type="text/css" href="./theme/css/pygments.css">
+  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
   <!--
   This is almost certainly the wrong way to do this but it's the only way
   I can find to load the fonts in a subdirectory
   -->
-    <link rel="stylesheet" type="text/css" href="./theme/css/load-fonts.css">
+    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
   <meta name="description" content="Posts and writings by Michael Van Delft">
 
+  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
 
 <meta name="keywords" content="Windows, email, SMTP, Office365, TLS">
 
@@ -29,13 +30,13 @@
 <body>
   <aside>
     <div id="user_meta">
-      <a href=".">
+      <a href="https://xo.tc">
         <img src="/images/gavitar_140.png" alt="logo">
       </a>
-      <h2><a href=".">Michael Van Delft</a></h2>
+      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
       <p>Exotic Security</p>
       <ul>
-        <li><a href="./pages/about.html">About</a></li>
+        <li><a href="https://xo.tc/pages/about.html">About</a></li>
         <li><a href="/tags.html">Tags</a></li>
       </ul>
     </div>
@@ -44,13 +45,14 @@
   <main>
     <header>
       <p>
-      <a href=".">Index</a> &brvbar; <a href="./archives.html">Archives</a>
+      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
+      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
       </p>
     </header>
 
 <article>
   <div class="article_title">
-    <h3><a href="./simple-windows-smtp-relay.html">Simple Windows SMTP relay</a></h3>
+    <h3><a href="https://xo.tc/simple-windows-smtp-relay.html">Simple Windows SMTP relay</a></h3>
   </div>
   <div class="article_text">
     <p>In a recent post I mentioned that I had survived an Office 365 migration with only minimal scarring. We run HPE Content Manager which is "Enterprise Software". Just like the large government agencies that Content Manager is designed for it's big, slow, resistant to change, expensive, bureaucratic but yet incredibly despite all it's failings, it's occasionally capable of achieving great things like landing on the moon.</p>
@@ -58,50 +60,50 @@
 <p>I was surprised to find that Windows offers a mail relay built in to IIS.</p>
 <h2>Installing</h2>
 <p>Go to server manager and select Manage &gt; Add Roles and Features</p>
-<p><img alt="Manager" src="./images/smtp-relay-01-add-roles.png"></p>
+<p><img alt="Manager" src="https://xo.tc/images/smtp-relay-01-add-roles.png"></p>
 <p>Skip past the before you begin page</p>
-<p><img alt="Before you begin" src="./images/smtp-relay-02-before-you-begin.png"></p>
+<p><img alt="Before you begin" src="https://xo.tc/images/smtp-relay-02-before-you-begin.png"></p>
 <p>Pick "Role-based or Feature-based installation"</p>
-<p><img alt="Installation Type" src="./images/smtp-relay-03-installation-type.png"></p>
+<p><img alt="Installation Type" src="https://xo.tc/images/smtp-relay-03-installation-type.png"></p>
 <p>Select the local server</p>
-<p><img alt="Server Selection" src="./images/smtp-relay-04-server-selection.png"></p>
+<p><img alt="Server Selection" src="https://xo.tc/images/smtp-relay-04-server-selection.png"></p>
 <p>Add the "SMTP Server"</p>
-<p><img alt="Add Features" src="./images/smtp-relay-05-features.png"></p>
+<p><img alt="Add Features" src="https://xo.tc/images/smtp-relay-05-features.png"></p>
 <p>This will also install IIS 6.0</p>
-<p><img alt="Add Features" src="./images/smtp-relay-06-add-features.png"></p>
+<p><img alt="Add Features" src="https://xo.tc/images/smtp-relay-06-add-features.png"></p>
 <p>Confirm the setting and install</p>
-<p><img alt="Confirm settings" src="./images/smtp-relay-07-confirmation.png"></p>
-<p><img alt="Confirm settings" src="./images/smtp-relay-08-results.png"></p>
+<p><img alt="Confirm settings" src="https://xo.tc/images/smtp-relay-07-confirmation.png"></p>
+<p><img alt="Confirm settings" src="https://xo.tc/images/smtp-relay-08-results.png"></p>
 <h2>Settings</h2>
 <p>Once the SMTP Server is installed open IIS 6.0. If you have a website on your server (such as HPE Content Manager Web Client) you will see two versions of IIS.</p>
-<p><img alt="IIS 6" src="./images/smtp-relay-09-IIS-6.png"></p>
+<p><img alt="IIS 6" src="https://xo.tc/images/smtp-relay-09-IIS-6.png"></p>
 <p>Right click on the SMTP Virtual Server and go to Properties</p>
-<p><img alt="SMTP Virtual Server" src="./images/smtp-relay-10-virtual-server.png"></p>
+<p><img alt="SMTP Virtual Server" src="https://xo.tc/images/smtp-relay-10-virtual-server.png"></p>
 <p>Under the Access tab select Authentication.</p>
-<p><img alt="SMTP Virtual Server - Access Tab" src="./images/smtp-relay-11-access-tab.png"></p>
+<p><img alt="SMTP Virtual Server - Access Tab" src="https://xo.tc/images/smtp-relay-11-access-tab.png"></p>
 <p>On the Authentication window, check that Anonymous access is available</p>
-<p><img alt="SMTP Virtual Server - Authentication" src="./images/smtp-relay-12-authentication.png"></p>
+<p><img alt="SMTP Virtual Server - Authentication" src="https://xo.tc/images/smtp-relay-12-authentication.png"></p>
 <p>Next from the Access Tab select the Connections window and ensure that only the IP address you want can connect.</p>
-<p><img alt="SMTP Virtual Server - Connections" src="./images/smtp-relay-13-connection.png"></p>
+<p><img alt="SMTP Virtual Server - Connections" src="https://xo.tc/images/smtp-relay-13-connection.png"></p>
 <p>Then from the Access Tab select the Relay window and again ensure that only the IP address you want will be allowed.</p>
-<p><img alt="SMTP Virtual Server - Relay" src="./images/smtp-relay-14-relay.png"></p>
+<p><img alt="SMTP Virtual Server - Relay" src="https://xo.tc/images/smtp-relay-14-relay.png"></p>
 <p>Then go to the delivery tab, we are going to need the three buttons across the bottom.</p>
-<p><img alt="SMTP Virtual Server - Delivery Tab" src="./images/smtp-relay-15-delivery-tab.png"></p>
+<p><img alt="SMTP Virtual Server - Delivery Tab" src="https://xo.tc/images/smtp-relay-15-delivery-tab.png"></p>
 <p>Under Outbound Security enter the user name and password and tick TLS encryption.</p>
-<p><img alt="SMTP Virtual Server - Outbound Security" src="./images/smtp-relay-16-outbound-security.png"></p>
+<p><img alt="SMTP Virtual Server - Outbound Security" src="https://xo.tc/images/smtp-relay-16-outbound-security.png"></p>
 <p>Under Outbound Connections change the port to 587.</p>
-<p><img alt="SMTP Virtual Server - Outbound Connections" src="./images/smtp-relay-17-outbound-connections.png"></p>
+<p><img alt="SMTP Virtual Server - Outbound Connections" src="https://xo.tc/images/smtp-relay-17-outbound-connections.png"></p>
 <p>Finally under advanced set the smart host to SMTP.office365.com</p>
-<p><img alt="SMTP Virtual Server - Outbound Connections" src="./images/smtp-relay-18-advanced.png"></p>
+<p><img alt="SMTP Virtual Server - Outbound Connections" src="https://xo.tc/images/smtp-relay-18-advanced.png"></p>
 <h2>Point Mail to the relay</h2>
 <p>Now you can point HPE Content Manager or whatever it is that you need to relay mail for, to your server.</p>
-<p><img alt="HPE Content Manger - Mail Settings" src="./images/smtp-relay-19-hpe-cm.png"></p>
+<p><img alt="HPE Content Manger - Mail Settings" src="https://xo.tc/images/smtp-relay-19-hpe-cm.png"></p>
   </div>
   <div class="article_meta">
       <p>Posted on: <abbr title="2017-12-21 07:00:00+08:00" >Thu 21 December 2017</abbr></p>
-    <p>Category: <a href="./category/posts.html">Posts</a>
+    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
-      <a href="./tag/windows.html">Windows</a>,      <a href="./tag/email.html">email</a>,      <a href="./tag/smtp.html">SMTP</a>,      <a href="./tag/office365.html">Office365</a>,      <a href="./tag/tls.html">TLS</a>    </p>
+      <a href="https://xo.tc/tag/windows.html">Windows</a>,      <a href="https://xo.tc/tag/email.html">email</a>,      <a href="https://xo.tc/tag/smtp.html">SMTP</a>,      <a href="https://xo.tc/tag/office365.html">Office365</a>,      <a href="https://xo.tc/tag/tls.html">TLS</a>    </p>
   </div>
 
 
@@ -111,7 +113,7 @@
     <div id="ending_message">
       <p>
         <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-            <img alt="Creative Commons License" src="./theme/images/cc-by-88x31.png" />
+            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
         </a>
         <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
         <br />Built using <a href="http://getpelican.com">Pelican</a>.
