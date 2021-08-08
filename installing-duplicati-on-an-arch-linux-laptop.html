@@ -3,23 +3,22 @@
 
 <head>
   <!-- ## for client-side less
-  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <link rel="stylesheet/less" type="text/css" href="./theme/css/style.less">
   <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
   -->
-  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
-  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
-  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <link rel="shortcut icon" type="image/png" href="./favicon.png" />
+  <link rel="stylesheet" type="text/css" href="./theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="./theme/css/pygments.css">
   <!--
   This is almost certainly the wrong way to do this but it's the only way
   I can find to load the fonts in a subdirectory
   -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+    <link rel="stylesheet" type="text/css" href="./theme/css/load-fonts.css">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
   <meta name="description" content="Posts and writings by Michael Van Delft">
 
-  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
 
 <meta name="keywords" content="Duplicati, Backblaze, Backups, Cloud, Linux, Arch Linux">
 
@@ -30,13 +29,13 @@
 <body>
   <aside>
     <div id="user_meta">
-      <a href="https://xo.tc">
+      <a href=".">
         <img src="/images/gavitar_140.png" alt="logo">
       </a>
-      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <h2><a href=".">Michael Van Delft</a></h2>
       <p>Exotic Security</p>
       <ul>
-        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="./pages/about.html">About</a></li>
         <li><a href="/tags.html">Tags</a></li>
       </ul>
     </div>
@@ -45,17 +44,16 @@
   <main>
     <header>
       <p>
-      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
-      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      <a href=".">Index</a> &brvbar; <a href="./archives.html">Archives</a>
       </p>
     </header>
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/installing-duplicati-on-an-arch-linux-laptop.html">Installing Duplicati on an Arch Linux Laptop</a></h3>
+    <h3><a href="./installing-duplicati-on-an-arch-linux-laptop.html">Installing Duplicati on an Arch Linux Laptop</a></h3>
   </div>
   <div class="article_text">
-    <p>For this setup I'm using <a href="https://www.duplicati.com/">Duplicati</a> to backup to <a href="https://www.backblaze.com">Backblaze</a>. In a previous post I've written some <a href="https://xo.tc/setting-up-backblaze-for-duplicati.html">instructions on setting up Backblaze</a>.</p>
+    <p>For this setup I'm using <a href="https://www.duplicati.com/">Duplicati</a> to backup to <a href="https://www.backblaze.com">Backblaze</a>. In a previous post I've written some <a href="./setting-up-backblaze-for-duplicati.html">instructions on setting up Backblaze</a>.</p>
 <h2>Installing</h2>
 <p>To install Duplicati simply run</p>
 <div class="highlight"><pre><span></span><code>git clone https://aur.archlinux.org/duplicati-latest.git
@@ -71,28 +69,28 @@ sudo systemctl start duplicati.service
 <h2>Setup Backups</h2>
 <p>Once duplicati has started browse to <a href="http://localhost:8200">http://localhost:8200</a></p>
 <p>The first message I got on Arch was asking if duplicati would be running on a multi-user system. I picked "No, my machine only has a single account".</p>
-<p><img alt="Duplicati Arch Multi-User" src="https://xo.tc/images/duplicati-arch-01-multi-user.png"></p>
+<p><img alt="Duplicati Arch Multi-User" src="./images/duplicati-arch-01-multi-user.png"></p>
 <p>Now click on Add Backup &gt; Configure a new backup &gt; Next</p>
-<p><img alt="Duplicati Arch New Backup" src="https://xo.tc/images/duplicati-arch-02-new-backup.png"></p>
+<p><img alt="Duplicati Arch New Backup" src="./images/duplicati-arch-02-new-backup.png"></p>
 <p>Give your backups a name, you don't need to use encryption but I'd highly recommend it, and I'd also recommend using their password generator and saving the password in a password manager.</p>
-<p><img alt="Duplicati Arch Setup General" src="https://xo.tc/images/duplicati-arch-03-settings-general.png"></p>
-<p>Pick B2 Cloud Storage, put in your Bucket Name, a folder path, your account ID and your application key (from the <a href="https://xo.tc/setting-up-backblaze-for-duplicati.html">instructions on setting up Backblaze</a>). It's also a good idea to test your connection before continuing.</p>
-<p><img alt="Duplicati Arch Setup Destination" src="https://xo.tc/images/duplicati-arch-04-settings-destination.png"></p>
+<p><img alt="Duplicati Arch Setup General" src="./images/duplicati-arch-03-settings-general.png"></p>
+<p>Pick B2 Cloud Storage, put in your Bucket Name, a folder path, your account ID and your application key (from the <a href="./setting-up-backblaze-for-duplicati.html">instructions on setting up Backblaze</a>). It's also a good idea to test your connection before continuing.</p>
+<p><img alt="Duplicati Arch Setup Destination" src="./images/duplicati-arch-04-settings-destination.png"></p>
 <p>Select your source data</p>
-<p><img alt="Duplicati Arch Setup Source Data" src="https://xo.tc/images/duplicati-arch-05-settings-source-data.png"></p>
+<p><img alt="Duplicati Arch Setup Source Data" src="./images/duplicati-arch-05-settings-source-data.png"></p>
 <p>Setup a schedule that works for you, the default on of once a day is pretty reasonable for most personal backups.</p>
-<p><img alt="Duplicati Arch Setup Schedule" src="https://xo.tc/images/duplicati-arch-06-settings-schedule.png"></p>
+<p><img alt="Duplicati Arch Setup Schedule" src="./images/duplicati-arch-06-settings-schedule.png"></p>
 <p>Unless you have a reason to change them I'd leave the default options.</p>
-<p><img alt="Duplicati Arch Setup Options" src="https://xo.tc/images/duplicati-arch-07-settings-options.png"></p>
+<p><img alt="Duplicati Arch Setup Options" src="./images/duplicati-arch-07-settings-options.png"></p>
 <p>And your done, you can hit Run now to start the backups or just wait for the schedule to kick in.</p>
-<p><img alt="Duplicati Windows Setup" src="https://xo.tc/images/duplicati-arch-08-finished.png"></p>
+<p><img alt="Duplicati Windows Setup" src="./images/duplicati-arch-08-finished.png"></p>
 <p>It's that easy.</p>
   </div>
   <div class="article_meta">
       <p>Posted on: <abbr title="2017-11-23 07:00:00+08:00" >Thu 23 November 2017</abbr></p>
-    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+    <p>Category: <a href="./category/posts.html">Posts</a>
  &ndash; Tags:
-      <a href="https://xo.tc/tag/duplicati.html">Duplicati</a>,      <a href="https://xo.tc/tag/backblaze.html">Backblaze</a>,      <a href="https://xo.tc/tag/backups.html">Backups</a>,      <a href="https://xo.tc/tag/cloud.html">Cloud</a>,      <a href="https://xo.tc/tag/linux.html">Linux</a>,      <a href="https://xo.tc/tag/arch-linux.html">Arch Linux</a>    </p>
+      <a href="./tag/duplicati.html">Duplicati</a>,      <a href="./tag/backblaze.html">Backblaze</a>,      <a href="./tag/backups.html">Backups</a>,      <a href="./tag/cloud.html">Cloud</a>,      <a href="./tag/linux.html">Linux</a>,      <a href="./tag/arch-linux.html">Arch Linux</a>    </p>
   </div>
 
 
@@ -102,7 +100,7 @@ sudo systemctl start duplicati.service
     <div id="ending_message">
       <p>
         <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+            <img alt="Creative Commons License" src="./theme/images/cc-by-88x31.png" />
         </a>
         <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
         <br />Built using <a href="http://getpelican.com">Pelican</a>.

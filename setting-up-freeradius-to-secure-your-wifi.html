@@ -3,23 +3,22 @@
 
 <head>
   <!-- ## for client-side less
-  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <link rel="stylesheet/less" type="text/css" href="./theme/css/style.less">
   <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
   -->
-  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
-  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
-  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <link rel="shortcut icon" type="image/png" href="./favicon.png" />
+  <link rel="stylesheet" type="text/css" href="./theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="./theme/css/pygments.css">
   <!--
   This is almost certainly the wrong way to do this but it's the only way
   I can find to load the fonts in a subdirectory
   -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+    <link rel="stylesheet" type="text/css" href="./theme/css/load-fonts.css">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
   <meta name="description" content="Posts and writings by Michael Van Delft">
 
-  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
 
 <meta name="keywords" content="FreeRADIUS, WiFi, Cryptography, TLS, OpenSSL, Debian">
 
@@ -30,13 +29,13 @@
 <body>
   <aside>
     <div id="user_meta">
-      <a href="https://xo.tc">
+      <a href=".">
         <img src="/images/gavitar_140.png" alt="logo">
       </a>
-      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <h2><a href=".">Michael Van Delft</a></h2>
       <p>Exotic Security</p>
       <ul>
-        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="./pages/about.html">About</a></li>
         <li><a href="/tags.html">Tags</a></li>
       </ul>
     </div>
@@ -45,36 +44,35 @@
   <main>
     <header>
       <p>
-      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
-      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      <a href=".">Index</a> &brvbar; <a href="./archives.html">Archives</a>
       </p>
     </header>
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/setting-up-freeradius-to-secure-your-wifi.html">Setting up FreeRADIUS to secure your WiFi</a></h3>
+    <h3><a href="./setting-up-freeradius-to-secure-your-wifi.html">Setting up FreeRADIUS to secure your WiFi</a></h3>
   </div>
   <div class="article_text">
-    <p>This is the last in a three part series of posts on; <a href="https://xo.tc/setting-up-a-personal-certification-authority.html">Setting up a personal Certification Authority</a>, <a href="https://xo.tc/securing-apache-with-client-certificates.html">Securing Apache with Client Certificates</a>, and <a href="https://xo.tc/setting-up-freeradius-to-secure-your-wifi.html">Setting up FreeRADIUS to secure your WiFi</a>.</p>
-<p>If you have followed the <a href="https://xo.tc/setting-up-a-personal-certification-authority.html">first tutorial</a> you should have a .pem encoded Certification Authority Certificate and a .p12 encoded client certificate with a key.</p>
+    <p>This is the last in a three part series of posts on; <a href="./setting-up-a-personal-certification-authority.html">Setting up a personal Certification Authority</a>, <a href="./securing-apache-with-client-certificates.html">Securing Apache with Client Certificates</a>, and <a href="./setting-up-freeradius-to-secure-your-wifi.html">Setting up FreeRADIUS to secure your WiFi</a>.</p>
+<p>If you have followed the <a href="./setting-up-a-personal-certification-authority.html">first tutorial</a> you should have a .pem encoded Certification Authority Certificate and a .p12 encoded client certificate with a key.</p>
 <h2>Server Certificate</h2>
 <p>We will also need a server certificate for the RADIUS server, so let's open TinyCA and create one.</p>
 <p>Create a new certificate request.
-<img alt="FreeRADIUS Certificate" src="https://xo.tc/images/radius-server-certificate-1.png"></p>
+<img alt="FreeRADIUS Certificate" src="./images/radius-server-certificate-1.png"></p>
 <p>This time for a server certificate so for example <code>radius.xo.tc</code>
-<img alt="FreeRADIUS Certificate" src="https://xo.tc/images/radius-server-certificate-2.png"></p>
+<img alt="FreeRADIUS Certificate" src="./images/radius-server-certificate-2.png"></p>
 <p>Sign the request
-<img alt="FreeRADIUS Certificate" src="https://xo.tc/images/radius-server-certificate-3.png"></p>
+<img alt="FreeRADIUS Certificate" src="./images/radius-server-certificate-3.png"></p>
 <p>as a server certificate
-<img alt="FreeRADIUS Certificate" src="https://xo.tc/images/radius-server-certificate-4.png"></p>
-<p><img alt="FreeRADIUS Certificate" src="https://xo.tc/images/radius-server-certificate-5.png"></p>
-<p><img alt="FreeRADIUS Certificate" src="https://xo.tc/images/radius-server-certificate-6.png"></p>
+<img alt="FreeRADIUS Certificate" src="./images/radius-server-certificate-4.png"></p>
+<p><img alt="FreeRADIUS Certificate" src="./images/radius-server-certificate-5.png"></p>
+<p><img alt="FreeRADIUS Certificate" src="./images/radius-server-certificate-6.png"></p>
 <p>Now export the certificate
-<img alt="FreeRADIUS Certificate" src="https://xo.tc/images/radius-server-certificate-7.png"></p>
+<img alt="FreeRADIUS Certificate" src="./images/radius-server-certificate-7.png"></p>
 <p>I prefer to export the certificate and the key separately.
-<img alt="FreeRADIUS Certificate" src="https://xo.tc/images/radius-server-certificate-8.png"></p>
-<p><img alt="FreeRADIUS Certificate" src="https://xo.tc/images/radius-server-certificate-9.png"></p>
-<p><img alt="FreeRADIUS Certificate" src="https://xo.tc/images/radius-server-certificate-10.png"></p>
+<img alt="FreeRADIUS Certificate" src="./images/radius-server-certificate-8.png"></p>
+<p><img alt="FreeRADIUS Certificate" src="./images/radius-server-certificate-9.png"></p>
+<p><img alt="FreeRADIUS Certificate" src="./images/radius-server-certificate-10.png"></p>
 <p>and scp the files across to the server.</p>
 <h2>RADIUS Server</h2>
 <p>Next we need to install FreeRADIUS on a server that your wireless access points can connect to, on Debian run <code>sudo apt-get install freeradius</code></p>
@@ -172,25 +170,25 @@
 <p>restart FreeRADUIS <code>sudo systemctl restart freeradius.service</code></p>
 <h2>Wireless Access Point</h2>
 <p>Next you need to configure your access point to use the RADIUS server, this will be slightly different for each type of access point, but it generally runs along the same lines. Log into your wireless access point through it's horribly buggy uncatchable web interface that's just dripping with 0 day.</p>
-<p><img alt="dlink wireless interface" src="https://xo.tc/images/wireless-access-point-login.png"></p>
+<p><img alt="dlink wireless interface" src="./images/wireless-access-point-login.png"></p>
 <p>Find the setting for wireless security, set the encryption to WPA2 and the mode to Enterprise (or 802.11x) and add in the IP address of you RADIUS server and your secret.</p>
-<p><img alt="RADIUS Settings" src="https://xo.tc/images/wireless-access-point-settings.png"></p>
+<p><img alt="RADIUS Settings" src="./images/wireless-access-point-settings.png"></p>
 <h2>The Client</h2>
 <p>Again this is going to be slightly different for each type of device but I'll run through Android<sup id="fnref:Android"><a class="footnote-ref" href="#fn:Android">2</a></sup> and Debian<sup id="fnref:Debian"><a class="footnote-ref" href="#fn:Debian">3</a></sup> because that's what I have to play with but it's going to be fairly similar on most devices.</p>
 <h3>Android</h3>
 <p>Load the .p12 format client certificate on to the phone.</p>
 <p>Now go to Settings</p>
-<p><img alt="Android Settings" src="https://xo.tc/images/android-radius-01-settings.png"></p>
+<p><img alt="Android Settings" src="./images/android-radius-01-settings.png"></p>
 <p>Security</p>
-<p><img alt="Android Security Settings" src="https://xo.tc/images/android-radius-02-security.png"></p>
+<p><img alt="Android Security Settings" src="./images/android-radius-02-security.png"></p>
 <p>Select Install from storage and browse to the certificate.</p>
-<p><img alt="Android Install Certificate" src="https://xo.tc/images/android-radius-03-install-cert.png"></p>
+<p><img alt="Android Install Certificate" src="./images/android-radius-03-install-cert.png"></p>
 <p>Enter the password.</p>
-<p><img alt="Android Certificate Password Prompt" src="https://xo.tc/images/android-radius-04-certificate-password.png"></p>
+<p><img alt="Android Certificate Password Prompt" src="./images/android-radius-04-certificate-password.png"></p>
 <p>Under usage select WiFi.</p>
-<p><img alt="Android Certificate Usage Prompt" src="https://xo.tc/images/android-radius-05-certificate-usage.png"></p>
+<p><img alt="Android Certificate Usage Prompt" src="./images/android-radius-05-certificate-usage.png"></p>
 <p>Now go to connect to your WiFi setting and tap on the network you want to connect to.</p>
-<p><img alt="Android WiFi Settings" src="https://xo.tc/images/android-radius-06-wifi-settings.png"></p>
+<p><img alt="Android WiFi Settings" src="./images/android-radius-06-wifi-settings.png"></p>
 <ul>
 <li>Set the Security 802.11x EAP.</li>
 <li>Set the EAP method to TLS.</li>
@@ -200,13 +198,13 @@
 <h3>Debian</h3>
 <p>For Debian we are going to have to export the client certificate differently, instead of a .p12 file we will export the Client Certificate, Client Private Key and CA Certificate separately.</p>
 <p>You should already have the CA Certificate, now export the client certificate.
-<img alt="Export Certificate" src="https://xo.tc/images/radius-install-cert-debian-export-1.png"></p>
+<img alt="Export Certificate" src="./images/radius-install-cert-debian-export-1.png"></p>
 <p>And export the client private key.
-<img alt="Export Private Key" src="https://xo.tc/images/radius-install-cert-debian-export-2.png"></p>
+<img alt="Export Private Key" src="./images/radius-install-cert-debian-export-2.png"></p>
 <p>Open network manager (Alt + F2 &gt; Connection Preferences) and select your network to connect to.
-<img alt="Network Manager" src="https://xo.tc/images/radius-install-cert-debian-1.png"></p>
+<img alt="Network Manager" src="./images/radius-install-cert-debian-1.png"></p>
 <p>Open the WiFi Security tab
-<img alt="Configure Network" src="https://xo.tc/images/radius-install-cert-debian-2.png"></p>
+<img alt="Configure Network" src="./images/radius-install-cert-debian-2.png"></p>
 <ul>
 <li>Set the Security to WPA &amp; WPA2 Enterprise.</li>
 <li>Set the Authentication to TLS.</li>
@@ -233,9 +231,9 @@
   </div>
   <div class="article_meta">
       <p>Posted on: <abbr title="2016-06-30 07:00:00+08:00" >Thu 30 June 2016</abbr></p>
-    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+    <p>Category: <a href="./category/posts.html">Posts</a>
  &ndash; Tags:
-      <a href="https://xo.tc/tag/freeradius.html">FreeRADIUS</a>,      <a href="https://xo.tc/tag/wifi.html">WiFi</a>,      <a href="https://xo.tc/tag/cryptography.html">Cryptography</a>,      <a href="https://xo.tc/tag/tls.html">TLS</a>,      <a href="https://xo.tc/tag/openssl.html">OpenSSL</a>,      <a href="https://xo.tc/tag/debian.html">Debian</a>    </p>
+      <a href="./tag/freeradius.html">FreeRADIUS</a>,      <a href="./tag/wifi.html">WiFi</a>,      <a href="./tag/cryptography.html">Cryptography</a>,      <a href="./tag/tls.html">TLS</a>,      <a href="./tag/openssl.html">OpenSSL</a>,      <a href="./tag/debian.html">Debian</a>    </p>
   </div>
 
 
@@ -245,7 +243,7 @@
     <div id="ending_message">
       <p>
         <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+            <img alt="Creative Commons License" src="./theme/images/cc-by-88x31.png" />
         </a>
         <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
         <br />Built using <a href="http://getpelican.com">Pelican</a>.

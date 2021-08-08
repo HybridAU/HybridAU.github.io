@@ -3,23 +3,22 @@
 
 <head>
   <!-- ## for client-side less
-  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <link rel="stylesheet/less" type="text/css" href="./theme/css/style.less">
   <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
   -->
-  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
-  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
-  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <link rel="shortcut icon" type="image/png" href="./favicon.png" />
+  <link rel="stylesheet" type="text/css" href="./theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="./theme/css/pygments.css">
   <!--
   This is almost certainly the wrong way to do this but it's the only way
   I can find to load the fonts in a subdirectory
   -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+    <link rel="stylesheet" type="text/css" href="./theme/css/load-fonts.css">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
   <meta name="description" content="Posts and writings by Michael Van Delft">
 
-  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
 
 <meta name="keywords" content="Good bye Google, Mailpile, Apache, Debian, Self Hosted, TLS">
 
@@ -30,13 +29,13 @@
 <body>
   <aside>
     <div id="user_meta">
-      <a href="https://xo.tc">
+      <a href=".">
         <img src="/images/gavitar_140.png" alt="logo">
       </a>
-      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <h2><a href=".">Michael Van Delft</a></h2>
       <p>Exotic Security</p>
       <ul>
-        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="./pages/about.html">About</a></li>
         <li><a href="/tags.html">Tags</a></li>
       </ul>
     </div>
@@ -45,17 +44,16 @@
   <main>
     <header>
       <p>
-      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
-      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      <a href=".">Index</a> &brvbar; <a href="./archives.html">Archives</a>
       </p>
     </header>
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/setting-up-mailpile-on-debian-8-jessie-for-remote-access.html">Setting up mailpile on Debian 8 Jessie for remote access</a></h3>
+    <h3><a href="./setting-up-mailpile-on-debian-8-jessie-for-remote-access.html">Setting up mailpile on Debian 8 Jessie for remote access</a></h3>
   </div>
   <div class="article_text">
-    <p>I've never yet found a mail client that I <em>really love</em>. Outlook is ok in corporate environments. Gmail is probably the best I've used but I'm <a href="https://xo.tc/good-bye-google.html">trying</a> to move away from Google and free 3rd party hosted solutions. <a href="https://roundcube.net/">Roundcube</a> is pretty good, I'm not a fan of PHP but most of the internet seems to run on it. I've run <a href="http://www.rainloop.net/">Rainloop</a> for a while I like it. I actually think <a href="https://www.kde.org/applications/internet/kmail/">KMail</a> and <a href="https://userbase.kde.org/Kontact">Kontact</a> as a whole are very nice. I kind of wish they handled HTML email a bit more elegantly but with some tweaking they work well. The problem is they are desktop solutions and I'd like something I can access remotely. I use <a href="http://www.mutt.org/">Mutt</a> over ssh a bit and that works well enough.</p>
+    <p>I've never yet found a mail client that I <em>really love</em>. Outlook is ok in corporate environments. Gmail is probably the best I've used but I'm <a href="./good-bye-google.html">trying</a> to move away from Google and free 3rd party hosted solutions. <a href="https://roundcube.net/">Roundcube</a> is pretty good, I'm not a fan of PHP but most of the internet seems to run on it. I've run <a href="http://www.rainloop.net/">Rainloop</a> for a while I like it. I actually think <a href="https://www.kde.org/applications/internet/kmail/">KMail</a> and <a href="https://userbase.kde.org/Kontact">Kontact</a> as a whole are very nice. I kind of wish they handled HTML email a bit more elegantly but with some tweaking they work well. The problem is they are desktop solutions and I'd like something I can access remotely. I use <a href="http://www.mutt.org/">Mutt</a> over ssh a bit and that works well enough.</p>
 <p>So I though I'd give <a href="https://www.mailpile.is/">mailpile</a> a go, I know it's not designed to run as a web service but it can.</p>
 <p>The <a href="https://github.com/mailpile/Mailpile/wiki/Getting-started-on-linux">install guide</a> is very well documented. I pretty much followed it verbatim although I tweaked a few things because I wanted it to run as a service.</p>
 <p>I SSHed into my home box and forwareded port 33411</p>
@@ -106,27 +104,27 @@ source mp-virtualenv/bin/activate
 <h2>Setup mail</h2>
 <p>The setup was very simple,</p>
 <p>You are first greeted with a welcome screen where you select your language</p>
-<p><img alt="Mailpile first welcome screen" src="https://xo.tc/images/mailpile_01_welcome_to_mailpile.png"></p>
+<p><img alt="Mailpile first welcome screen" src="./images/mailpile_01_welcome_to_mailpile.png"></p>
 <p>Next you choose a password</p>
-<p><img alt="Mailpile Choose a password" src="https://xo.tc/images/mailpile_02_Choose_a_password.png"></p>
+<p><img alt="Mailpile Choose a password" src="./images/mailpile_02_Choose_a_password.png"></p>
 <p>Click through to finish the setup</p>
-<p><img alt="Mailpile Finish setup" src="https://xo.tc/images/mailpile_03_Mailpile_Secured.png"></p>
+<p><img alt="Mailpile Finish setup" src="./images/mailpile_03_Mailpile_Secured.png"></p>
 <p>And you end up a login screen</p>
-<p><img alt="Mailpile Login screen" src="https://xo.tc/images/mailpile_04_Login_screen.png"></p>
+<p><img alt="Mailpile Login screen" src="./images/mailpile_04_Login_screen.png"></p>
 <p>Once you login you are presented with a welcome screen.</p>
-<p><img alt="Mailpile First welcome screen" src="https://xo.tc/images/mailpile_05_Welcom_screen.png"></p>
+<p><img alt="Mailpile First welcome screen" src="./images/mailpile_05_Welcom_screen.png"></p>
 <p>Before you can add an account you need to run through the privacy settings, I went with the defaults which were pertty good.</p>
-<p><img alt="Mailpile Privacy settings" src="https://xo.tc/images/mailpile_06_Privacy_settings.png"></p>
+<p><img alt="Mailpile Privacy settings" src="./images/mailpile_06_Privacy_settings.png"></p>
 <p>Then you go back to the welcome screen but this time you can add an account.</p>
-<p><img alt="Mailpile Retrun to welcome screen" src="https://xo.tc/images/mailpile_07_Returned_welcom_screen.png"></p>
+<p><img alt="Mailpile Retrun to welcome screen" src="./images/mailpile_07_Returned_welcom_screen.png"></p>
 <p>I added an account</p>
-<p><img alt="Mailpile Adding an account" src="https://xo.tc/images/mailpile_08_Add_account.png"></p>
+<p><img alt="Mailpile Adding an account" src="./images/mailpile_08_Add_account.png"></p>
 <p>I went with the 'Detect settings' option to see how well that worked, it took a couple of minutes but got everything right. Later I also tried adding settings manually and that was pretty easy too.</p>
-<p><img alt="Mailpile Auto detect settings" src="https://xo.tc/images/mailpile_09_auto_detect.png"></p>
+<p><img alt="Mailpile Auto detect settings" src="./images/mailpile_09_auto_detect.png"></p>
 <p>Lastly you setup your encryption options and your done.</p>
-<p><img alt="Mailpile Auto detect settings" src="https://xo.tc/images/mailpile_10_finished_setup.png"></p>
+<p><img alt="Mailpile Auto detect settings" src="./images/mailpile_10_finished_setup.png"></p>
 <p>Now you can check your mail.</p>
-<p><img alt="Mailpile Home screen" src="https://xo.tc/images/mailpile_11_Showing_mail.png"></p>
+<p><img alt="Mailpile Home screen" src="./images/mailpile_11_Showing_mail.png"></p>
 <p>When I was setting up Mailpile I ran into <a href="https://github.com/mailpile/Mailpile/issues/1578">issue 1578</a> and so no mail was showing up. Fortunatly there is a <a href="https://github.com/cbrouwer/Mailpile/commit/b1708c98df6ed60a2a0c513a9ab1683e4530156a">simple fix</a> for that which will hopefully be merged soon.</p>
 <p>I'm planning on running Mailpile under a subdirectory (e.g. example.com/mailpile) so in the mailpile terminal I ran <code>set sys.http_path = /mailpile</code> but that's not necessary if your planning on running it in the root of your domain.</p>
 <div class="highlight"><pre><span></span><code>mailpile&gt; login
@@ -179,7 +177,7 @@ sudo systemctl start mailpile.service
 <blockquote>
 <p>At the moment, we do not recommend exposing Mailpile directly to the wider Internet.</p>
 </blockquote>
-<p>So I'm going to be setting mine up so you need a client certificate to access it. This isn't necessary but it's an extra layer of security and I'd recommend it. I've got a tutorial on <a href="https://xo.tc/setting-up-a-personal-certification-authority.html">setting up a personal certification authority</a> and <a href="https://xo.tc/securing-apache-with-client-certificates.html">securing apache with client certificates</a> if you want more information on how that works.</p>
+<p>So I'm going to be setting mine up so you need a client certificate to access it. This isn't necessary but it's an extra layer of security and I'd recommend it. I've got a tutorial on <a href="./setting-up-a-personal-certification-authority.html">setting up a personal certification authority</a> and <a href="./securing-apache-with-client-certificates.html">securing apache with client certificates</a> if you want more information on how that works.</p>
 <p><code>sudo vim /etc/apache2/sites-enabled/000-default.conf</code></p>
 <p>Below is most of my apache2 config, but the important bits are under <code># SSL Client</code> Certificates and <code># Mailpile</code></p>
 <div class="highlight"><pre><span></span><code><span class="o">&lt;</span><span class="n">VirtualHost</span> <span class="o">*</span><span class="p">:</span><span class="mi">443</span><span class="o">&gt;</span>
@@ -251,9 +249,9 @@ sudo systemctl start mailpile.service
   </div>
   <div class="article_meta">
       <p>Posted on: <abbr title="2016-10-06 07:00:00+08:00" >Thu 06 October 2016</abbr></p>
-    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+    <p>Category: <a href="./category/posts.html">Posts</a>
  &ndash; Tags:
-      <a href="https://xo.tc/tag/good-bye-google.html">Good bye Google</a>,      <a href="https://xo.tc/tag/mailpile.html">Mailpile</a>,      <a href="https://xo.tc/tag/apache.html">Apache</a>,      <a href="https://xo.tc/tag/debian.html">Debian</a>,      <a href="https://xo.tc/tag/self-hosted.html">Self Hosted</a>,      <a href="https://xo.tc/tag/tls.html">TLS</a>    </p>
+      <a href="./tag/good-bye-google.html">Good bye Google</a>,      <a href="./tag/mailpile.html">Mailpile</a>,      <a href="./tag/apache.html">Apache</a>,      <a href="./tag/debian.html">Debian</a>,      <a href="./tag/self-hosted.html">Self Hosted</a>,      <a href="./tag/tls.html">TLS</a>    </p>
   </div>
 
 
@@ -263,7 +261,7 @@ sudo systemctl start mailpile.service
     <div id="ending_message">
       <p>
         <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+            <img alt="Creative Commons License" src="./theme/images/cc-by-88x31.png" />
         </a>
         <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
         <br />Built using <a href="http://getpelican.com">Pelican</a>.

@@ -3,23 +3,22 @@
 
 <head>
   <!-- ## for client-side less
-  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <link rel="stylesheet/less" type="text/css" href="./theme/css/style.less">
   <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
   -->
-  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
-  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
-  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <link rel="shortcut icon" type="image/png" href="./favicon.png" />
+  <link rel="stylesheet" type="text/css" href="./theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="./theme/css/pygments.css">
   <!--
   This is almost certainly the wrong way to do this but it's the only way
   I can find to load the fonts in a subdirectory
   -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+    <link rel="stylesheet" type="text/css" href="./theme/css/load-fonts.css">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
   <meta name="description" content="Posts and writings by Michael Van Delft">
 
-  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
 
 <meta name="keywords" content="Analytics, IPv6, TLS, Technology, Wikipedia, Google, Statistics">
 
@@ -30,13 +29,13 @@
 <body>
   <aside>
     <div id="user_meta">
-      <a href="https://xo.tc">
+      <a href=".">
         <img src="/images/gavitar_140.png" alt="logo">
       </a>
-      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <h2><a href=".">Michael Van Delft</a></h2>
       <p>Exotic Security</p>
       <ul>
-        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="./pages/about.html">About</a></li>
         <li><a href="/tags.html">Tags</a></li>
       </ul>
     </div>
@@ -45,27 +44,26 @@
   <main>
     <header>
       <p>
-      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
-      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      <a href=".">Index</a> &brvbar; <a href="./archives.html">Archives</a>
       </p>
     </header>
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/adoption-of-new-technologies.html">Adoption of new technologies</a></h3>
+    <h3><a href="./adoption-of-new-technologies.html">Adoption of new technologies</a></h3>
   </div>
   <div class="article_text">
     <p>Google have published some <a href="https://www.google.com/intl/en/ipv6/statistics.html">statistics</a> about the rate of IPv6 adoption. They have a better view into traffic and adoption rates than most and so their statistics are generally considered to be the most accurate, but I've always found their graph a little puzzling. Some days it's around 9% and others it's about 7%.</p>
-<p><img alt="IPv6 Adoption rates over years" src="https://xo.tc/images/google-IPv6-adoption-years.png"></p>
+<p><img alt="IPv6 Adoption rates over years" src="./images/google-IPv6-adoption-years.png"></p>
 <p>It's clearly going up but for something that seems like it should be a fairly smooth graph<sup id="fnref:smooth"><a class="footnote-ref" href="#fn:smooth">1</a></sup> it seems to have a huge amount of fluctuation.</p>
 <p>I couldn't work out why there was such variation until I started to zoom in and view the data over a few weeks rather than years.</p>
-<p><img alt="IPv6 Adoption rates over weeks" src="https://xo.tc/images/google-IPv6-adoption-weeks.png"></p>
+<p><img alt="IPv6 Adoption rates over weeks" src="./images/google-IPv6-adoption-weeks.png"></p>
 <p>When you zoom in a bit more you can see that there is a spike in IPv6 traffic over the weekend and then it drops off on weekdays. I have a theory that when people visit Google on weekdays most of them are at work. Many people are on an "enterprise" network. This means that changes move slowly, usually need a cost benefit analysis to change anything and changes need to be signed off by different folk.</p>
 <p>While on the weekends they are on their home network or mobile phones and probably just get IPv6 as soon as their ISP rolls it out.</p>
-<p><img alt="IPv6 Adoption rates over weekends" src="https://xo.tc/images/google-IPv6-adoption-weekends.png"></p>
+<p><img alt="IPv6 Adoption rates over weekends" src="./images/google-IPv6-adoption-weekends.png"></p>
 <p>It seems reasonable to assume that IPv6 rollout is much more progressed for home users than it is for business.</p>
 <p>Interestingly this is not the only place you can see these patterns. Wikipedia also shares some interesting <a href="https://grafana.wikimedia.org/dashboard/db/tls-ciphers">statistics</a> about which ciphers are being used in TLS connections by people browsing Wikipedia.</p>
-<p><img alt="TLS Ciphers" src="https://xo.tc/images/wikipedia-ciphers.png"></p>
+<p><img alt="TLS Ciphers" src="./images/wikipedia-ciphers.png"></p>
 <p>On this graph, I've only shown two ciphers because I believe these two show the clearest example<sup id="fnref:example"><a class="footnote-ref" href="#fn:example">2</a></sup>. You can easily see a spike in the modern high-quality ciphers like AES on the weekends and a drop on weekdays. While low-quality ciphers like Triple DES are the reverse, with spikes Monday to Friday and then a drop off over the weekend. Again my theory is that it's because when people are at work they are using the work "Standard Operating Environment" which probably still includes IE8 as the only browser because "that's what works with the intranet". While at home, people use their browser of choice usually something more modern like Firefox or Chrome.</p>
 <p>I suppose that saying "new technologies tend to be adopted by consumers before they are adopted by enterprise" isn't some revolutionary new insight. But it is interesting to see how clear and far-reaching the effects of that are, even down to changing how much a particular cipher is used on Wikipedia depending on if it's a Tuesday or a Sunday.</p>
 <div class="footnote">
@@ -82,9 +80,9 @@
   </div>
   <div class="article_meta">
       <p>Posted on: <abbr title="2015-11-26 07:00:00+08:00" >Thu 26 November 2015</abbr></p>
-    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+    <p>Category: <a href="./category/posts.html">Posts</a>
  &ndash; Tags:
-      <a href="https://xo.tc/tag/analytics.html">Analytics</a>,      <a href="https://xo.tc/tag/ipv6.html">IPv6</a>,      <a href="https://xo.tc/tag/tls.html">TLS</a>,      <a href="https://xo.tc/tag/technology.html">Technology</a>,      <a href="https://xo.tc/tag/wikipedia.html">Wikipedia</a>,      <a href="https://xo.tc/tag/google.html">Google</a>,      <a href="https://xo.tc/tag/statistics.html">Statistics</a>    </p>
+      <a href="./tag/analytics.html">Analytics</a>,      <a href="./tag/ipv6.html">IPv6</a>,      <a href="./tag/tls.html">TLS</a>,      <a href="./tag/technology.html">Technology</a>,      <a href="./tag/wikipedia.html">Wikipedia</a>,      <a href="./tag/google.html">Google</a>,      <a href="./tag/statistics.html">Statistics</a>    </p>
   </div>
 
 
@@ -94,7 +92,7 @@
     <div id="ending_message">
       <p>
         <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+            <img alt="Creative Commons License" src="./theme/images/cc-by-88x31.png" />
         </a>
         <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
         <br />Built using <a href="http://getpelican.com">Pelican</a>.

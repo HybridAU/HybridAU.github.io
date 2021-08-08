@@ -3,23 +3,22 @@
 
 <head>
   <!-- ## for client-side less
-  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <link rel="stylesheet/less" type="text/css" href="./theme/css/style.less">
   <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
   -->
-  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
-  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
-  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <link rel="shortcut icon" type="image/png" href="./favicon.png" />
+  <link rel="stylesheet" type="text/css" href="./theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="./theme/css/pygments.css">
   <!--
   This is almost certainly the wrong way to do this but it's the only way
   I can find to load the fonts in a subdirectory
   -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+    <link rel="stylesheet" type="text/css" href="./theme/css/load-fonts.css">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
   <meta name="description" content="Posts and writings by Michael Van Delft">
 
-  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
 
 <meta name="keywords" content="Content security policy, SHA256, OpenSSL, Piwik, HTTP">
 
@@ -30,13 +29,13 @@
 <body>
   <aside>
     <div id="user_meta">
-      <a href="https://xo.tc">
+      <a href=".">
         <img src="/images/gavitar_140.png" alt="logo">
       </a>
-      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <h2><a href=".">Michael Van Delft</a></h2>
       <p>Exotic Security</p>
       <ul>
-        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="./pages/about.html">About</a></li>
         <li><a href="/tags.html">Tags</a></li>
       </ul>
     </div>
@@ -45,17 +44,16 @@
   <main>
     <header>
       <p>
-      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
-      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      <a href=".">Index</a> &brvbar; <a href="./archives.html">Archives</a>
       </p>
     </header>
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/calculating-a-base64-encoded-sha256-sum-of-inline-scripts-for-your-content-security-policy.html">Calculating a base64 encoded sha256 sum of inline scripts for your content security policy</a></h3>
+    <h3><a href="./calculating-a-base64-encoded-sha256-sum-of-inline-scripts-for-your-content-security-policy.html">Calculating a base64 encoded sha256 sum of inline scripts for your content security policy</a></h3>
   </div>
   <div class="article_text">
-    <p>A while ago I wrote a post on <a href="https://xo.tc/http-secuirty-headers.html">HTTP Security Headers</a> and part of that invloved setting up a content security policy (CSP) and in that I say</p>
+    <p>A while ago I wrote a post on <a href="./http-secuirty-headers.html">HTTP Security Headers</a> and part of that invloved setting up a content security policy (CSP) and in that I say</p>
 <blockquote>
 <p>I've done a SHA-256 hash of the script</p>
 </blockquote>
@@ -72,7 +70,7 @@
 <p>Either the 'unsafe-inline' keyword, <strong>a hash ('sha256-j69kMLNHErwf2Xyju05S+HrqhF6iQdmyWjxO2peCm10=')</strong>, or a nonce ('nonce-...') is required to enable inline execution.</p>
 </blockquote>
 <p><em>(emphasis mine)</em></p>
-<p><img alt="Content Security Policy vialation" src="https://xo.tc/images/content-security-policy-vialation.png"></p>
+<p><img alt="Content Security Policy vialation" src="./images/content-security-policy-vialation.png"></p>
 <p>Of course that's fine if you are ok with temporarily breaking your script but what if you want to calculate it before putting it on you your site?</p>
 <p>My new inline script is:</p>
 <div class="highlight"><pre><span></span><code><span class="c">&lt;!-- Piwik --&gt;</span>
@@ -92,7 +90,7 @@
 <span class="c">&lt;!-- End Piwik Code --&gt;</span>
 </code></pre></div>
 
-<p>Now we don't include the &lt;script&gt; tags but white space is significant so in my case I needed a line break (blank line) at the start because there is a linebreak just after the opeing &lt;script&gt; tag but I didn't need a blank line at the end. I saved a <a href="https://xo.tc/documents/piwik_script.txt">text file</a> with the script in it and ran</p>
+<p>Now we don't include the &lt;script&gt; tags but white space is significant so in my case I needed a line break (blank line) at the start because there is a linebreak just after the opeing &lt;script&gt; tag but I didn't need a blank line at the end. I saved a <a href="./documents/piwik_script.txt">text file</a> with the script in it and ran</p>
 <div class="highlight"><pre><span></span><code>openssl dgst -sha256 -binary piwik_script.txt <span class="p">|</span> openssl enc -base64
 </code></pre></div>
 
@@ -100,9 +98,9 @@
   </div>
   <div class="article_meta">
       <p>Posted on: <abbr title="2017-04-06 07:00:00+08:00" >Thu 06 April 2017</abbr></p>
-    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+    <p>Category: <a href="./category/posts.html">Posts</a>
  &ndash; Tags:
-      <a href="https://xo.tc/tag/content-security-policy.html">Content security policy</a>,      <a href="https://xo.tc/tag/sha256.html">SHA256</a>,      <a href="https://xo.tc/tag/openssl.html">OpenSSL</a>,      <a href="https://xo.tc/tag/piwik.html">Piwik</a>,      <a href="https://xo.tc/tag/http.html">HTTP</a>    </p>
+      <a href="./tag/content-security-policy.html">Content security policy</a>,      <a href="./tag/sha256.html">SHA256</a>,      <a href="./tag/openssl.html">OpenSSL</a>,      <a href="./tag/piwik.html">Piwik</a>,      <a href="./tag/http.html">HTTP</a>    </p>
   </div>
 
 
@@ -112,7 +110,7 @@
     <div id="ending_message">
       <p>
         <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+            <img alt="Creative Commons License" src="./theme/images/cc-by-88x31.png" />
         </a>
         <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
         <br />Built using <a href="http://getpelican.com">Pelican</a>.

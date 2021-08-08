@@ -3,23 +3,22 @@
 
 <head>
   <!-- ## for client-side less
-  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <link rel="stylesheet/less" type="text/css" href="./theme/css/style.less">
   <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
   -->
-  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
-  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
-  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <link rel="shortcut icon" type="image/png" href="./favicon.png" />
+  <link rel="stylesheet" type="text/css" href="./theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="./theme/css/pygments.css">
   <!--
   This is almost certainly the wrong way to do this but it's the only way
   I can find to load the fonts in a subdirectory
   -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+    <link rel="stylesheet" type="text/css" href="./theme/css/load-fonts.css">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
   <meta name="description" content="Posts and writings by Michael Van Delft">
 
-  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
 
 <meta name="keywords" content="Android, Passwords, Biometrics, CyanogenMod, Usability">
 
@@ -30,13 +29,13 @@
 <body>
   <aside>
     <div id="user_meta">
-      <a href="https://xo.tc">
+      <a href=".">
         <img src="/images/gavitar_140.png" alt="logo">
       </a>
-      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <h2><a href=".">Michael Van Delft</a></h2>
       <p>Exotic Security</p>
       <ul>
-        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="./pages/about.html">About</a></li>
         <li><a href="/tags.html">Tags</a></li>
       </ul>
     </div>
@@ -45,19 +44,18 @@
   <main>
     <header>
       <p>
-      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
-      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      <a href=".">Index</a> &brvbar; <a href="./archives.html">Archives</a>
       </p>
     </header>
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/fingerprint-readers-on-phones.html">Fingerprint readers on phones</a></h3>
+    <h3><a href="./fingerprint-readers-on-phones.html">Fingerprint readers on phones</a></h3>
   </div>
   <div class="article_text">
     <p>I can clearly remember my first reaction when I heard about fingerprint readers on phones. It was a stream of thoughts along the lines of "I bet that will be broken in an matter of days, biometrics are not ready for prime time", "You don't go around leaving a smudgy copy of your password on every glass you hold" and "You can change your password but good luck resetting your fingerprint after that gets compromised."</p>
-<p>But I was falling into a trap that's all to common in information security<sup id="fnref:security"><a class="footnote-ref" href="#fn:security">1</a></sup> of rejecting an idea because it isn't perfect. When the question that I <a href="https://xo.tc/perfectly-good.html">should have been asking</a> isn't "Is it flawless?" but "Is it better than what we currently have?".</p>
-<p>Shortly after my initial reaction I started thinking a little more deeply about the idea and I could think of a number of friends and family that didn't even use a pin on their phone because it was too much effort to unlock every time. I decided that if a fingerprint reader was significantly more <a href="https://xo.tc/avids-rule-of-usability.html">convenient</a> and if that was enough to get people to lock their phone then it would be a net win for security.</p>
+<p>But I was falling into a trap that's all to common in information security<sup id="fnref:security"><a class="footnote-ref" href="#fn:security">1</a></sup> of rejecting an idea because it isn't perfect. When the question that I <a href="./perfectly-good.html">should have been asking</a> isn't "Is it flawless?" but "Is it better than what we currently have?".</p>
+<p>Shortly after my initial reaction I started thinking a little more deeply about the idea and I could think of a number of friends and family that didn't even use a pin on their phone because it was too much effort to unlock every time. I decided that if a fingerprint reader was significantly more <a href="./avids-rule-of-usability.html">convenient</a> and if that was enough to get people to lock their phone then it would be a net win for security.</p>
 <p>I recently bought a <a href="https://store.google.com/product/nexus_6p">Nexus 6P</a> and installed <a href="https://wiki.cyanogenmod.org/w/Angler_Info">CyanogenMod</a>. Now that I've got a fingerprint reader I think it's just brilliant. Previously I used a pattern to lock my screen and for my encryption key because it was quick and easy. Now I use a 16 character password<sup id="fnref:16-character-password"><a class="footnote-ref" href="#fn:16-character-password">2</a></sup> which is hard to type for the lock screen and encryption key. Then when I want to unlock it for every day use I just use my fingerprint.</p>
 <p>I still need to enter my password to decrypt my phone if I reboot it. And every three days it <a href="https://github.com/android/platform_frameworks_base/blob/25b4d4b280c6aa07656328bd9dd90977781d00e1/packages/Keyguard/src/com/android/keyguard/KeyguardUpdateMonitor.java#L136-L140">times out</a> but because I don't have to enter it every single time I unlock it, it's not too much of a hassle so I don't mind having a longer and more secure password.</p>
 <div class="footnote">
@@ -74,9 +72,9 @@
   </div>
   <div class="article_meta">
       <p>Posted on: <abbr title="2016-08-18 07:00:00+08:00" >Thu 18 August 2016</abbr></p>
-    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+    <p>Category: <a href="./category/posts.html">Posts</a>
  &ndash; Tags:
-      <a href="https://xo.tc/tag/android.html">Android</a>,      <a href="https://xo.tc/tag/passwords.html">Passwords</a>,      <a href="https://xo.tc/tag/biometrics.html">Biometrics</a>,      <a href="https://xo.tc/tag/cyanogenmod.html">CyanogenMod</a>,      <a href="https://xo.tc/tag/usability.html">Usability</a>    </p>
+      <a href="./tag/android.html">Android</a>,      <a href="./tag/passwords.html">Passwords</a>,      <a href="./tag/biometrics.html">Biometrics</a>,      <a href="./tag/cyanogenmod.html">CyanogenMod</a>,      <a href="./tag/usability.html">Usability</a>    </p>
   </div>
 
 
@@ -86,7 +84,7 @@
     <div id="ending_message">
       <p>
         <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+            <img alt="Creative Commons License" src="./theme/images/cc-by-88x31.png" />
         </a>
         <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
         <br />Built using <a href="http://getpelican.com">Pelican</a>.

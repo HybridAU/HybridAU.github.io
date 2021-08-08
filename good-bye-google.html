@@ -3,23 +3,22 @@
 
 <head>
   <!-- ## for client-side less
-  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <link rel="stylesheet/less" type="text/css" href="./theme/css/style.less">
   <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
   -->
-  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
-  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
-  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <link rel="shortcut icon" type="image/png" href="./favicon.png" />
+  <link rel="stylesheet" type="text/css" href="./theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="./theme/css/pygments.css">
   <!--
   This is almost certainly the wrong way to do this but it's the only way
   I can find to load the fonts in a subdirectory
   -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+    <link rel="stylesheet" type="text/css" href="./theme/css/load-fonts.css">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
   <meta name="description" content="Posts and writings by Michael Van Delft">
 
-  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
 
 <meta name="keywords" content="Good bye Google, privacy, Self Hosted, Bruce Schneier">
 
@@ -30,13 +29,13 @@
 <body>
   <aside>
     <div id="user_meta">
-      <a href="https://xo.tc">
+      <a href=".">
         <img src="/images/gavitar_140.png" alt="logo">
       </a>
-      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <h2><a href=".">Michael Van Delft</a></h2>
       <p>Exotic Security</p>
       <ul>
-        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="./pages/about.html">About</a></li>
         <li><a href="/tags.html">Tags</a></li>
       </ul>
     </div>
@@ -45,17 +44,16 @@
   <main>
     <header>
       <p>
-      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
-      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      <a href=".">Index</a> &brvbar; <a href="./archives.html">Archives</a>
       </p>
     </header>
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/good-bye-google.html">Good Bye Google</a></h3>
+    <h3><a href="./good-bye-google.html">Good Bye Google</a></h3>
   </div>
   <div class="article_text">
-    <p>I'm planning on writing a series of posts tagged with "<a href="https://xo.tc/tag/good-bye-google.html">Good bye Google</a>" that will cover my progress over the last few year in leaving the Google eco-system and moving to open source self hosted alternatives.</p>
+    <p>I'm planning on writing a series of posts tagged with "<a href="./tag/good-bye-google.html">Good bye Google</a>" that will cover my progress over the last few year in leaving the Google eco-system and moving to open source self hosted alternatives.</p>
 <p>I wanted to start with this post first though to explain my rational behind the decision. I think the first thing I should cover is why you should <strong>not</strong> migrate away from Google services. There are many good reasons to use Google's infrastructure;</p>
 <ul>
 <li>Google is significantly cheaper than running your own kit, even if you host everything on a single cheap VPS or hosted on your home ADSL connection it's still going to cost you.</li>
@@ -69,17 +67,17 @@
 <p>I think that Bruce Schneier has a great metaphor where he likens <a href="https://www.schneier.com/blog/archives/2012/12/feudal_sec.html">tech companies to feudal lords</a>. It's a great analogy and if you haven't seen it before I recommend reading it.</p>
 <p>I will be updating this post with links to the relevant posts which will cover each one in more details but the services I had with Google were:</p>
 <ul>
-<li><strong>Analytics</strong> - I've moved to <a href="https://piwik.org/">Piwik</a>. Related <a href="https://xo.tc/using-piwik-analytics.html">post</a>.</li>
-<li><strong>Android</strong> - I'm still using Android but I'm using <a href="http://cyanogenmod.org/">CynaogenMod</a> which has a lot of the Google services removed. Related <a href="https://xo.tc/using-cyanogenmod-on-the-samsung-galaxy-s4.html">post</a></li>
+<li><strong>Analytics</strong> - I've moved to <a href="https://piwik.org/">Piwik</a>. Related <a href="./using-piwik-analytics.html">post</a>.</li>
+<li><strong>Android</strong> - I'm still using Android but I'm using <a href="http://cyanogenmod.org/">CynaogenMod</a> which has a lot of the Google services removed. Related <a href="./using-cyanogenmod-on-the-samsung-galaxy-s4.html">post</a></li>
 <li><strong>Calendar</strong> - I'm using <a href="http://owncloud.org">OwnCloud</a> with <a href="https://davdroid.bitfire.at">DAVdroid</a> to sync.</li>
 <li><strong>Chrome Browser</strong> - This wasn't a big change because I always preferred <a href="https://www.mozilla.org/en-US/firefox/new/">FireFox</a> as my main browser. There were some developer features that chrome had and FireFox didn't for awhile, so sometimes I'd switch to Chrome but now I feel FireFox is ahead in terms of developer features.</li>
 <li><strong>Contacts</strong> - I'm using <a href="http://owncloud.org">OwnCloud</a> with <a href="https://davdroid.bitfire.at">DAVdroid</a> to sync.</li>
 <li><strong>Docs</strong> - I did look at <a href="http://www.fengoffice.com/web/">Feng Office</a> and ran it for a while, I've played with <a href="http://etherpad.org/">Etherpad</a> and a few others too. They were all ok but generally I just use LibreOffice and work offline.</li>
 <li><strong>Drive</strong> - Using <a href="http://owncloud.org">OwnCloud</a>.</li>
 <li><strong>Fonts</strong> - Depending on the license for the font, you can usually download it and host it yourself. EDIT 2016-06-23: I have downloaded the <a href="https://fonts.google.com/specimen/PT+Sans">fonts</a> used by this blog as they are "released with a libre license and can be freely redistributed". I am hosting the fonts for this site myself. So no connections are made to Google when loading this site. (Original text was "Although the theme for this blog uses Google fonts and I haven't moved yet.")</li>
-<li><strong>Hangouts</strong> - I rarely used hangouts, maybe two or three times a year. But I use <a href="http://wiki.mumble.info/wiki/Main_Page">Mumble</a> and xmpp a bit. EDIT to add: I started using <a href="https://riot.im/">Riot</a> to chat and make video calls with my fiancé while she was in Vietnam for 3 months. It's works really well and I love it, related <a href="https://xo.tc/seting-up-matrix-synapse-and-riot-on-debian-8-jessie.html">post</a>.</li>
+<li><strong>Hangouts</strong> - I rarely used hangouts, maybe two or three times a year. But I use <a href="http://wiki.mumble.info/wiki/Main_Page">Mumble</a> and xmpp a bit. EDIT to add: I started using <a href="https://riot.im/">Riot</a> to chat and make video calls with my fiancé while she was in Vietnam for 3 months. It's works really well and I love it, related <a href="./seting-up-matrix-synapse-and-riot-on-debian-8-jessie.html">post</a>.</li>
 <li><strong>Mail</strong> - This is the big one, I have not migrated yet. I've played with Postfix, EXIM, Dovecot, spamassassin, rainloop, tutanota and a few other bits and pieces. I've got it setup and self hosted for a few of my less critical domains and it's working pretty well, but I haven't made the plunge yet for my main email.</li>
-<li><strong>Maps</strong> - <a href="http://http://osm.org/">Open Street Maps</a> from the browser and <a href="http://osmand.net/">OsmAnd</a> on the phone. Related <a href="https://xo.tc/google-maps-vs-openstreetmap.html">post</a></li>
+<li><strong>Maps</strong> - <a href="http://http://osm.org/">Open Street Maps</a> from the browser and <a href="http://osmand.net/">OsmAnd</a> on the phone. Related <a href="./google-maps-vs-openstreetmap.html">post</a></li>
 <li><strong>Play Store</strong> - <a href="https://f-droid.org/">F-Droid</a></li>
 <li><strong>Reader</strong> - When Google Reader got end of lifed I'd been thinking about moving for a while and in a way it kicked off this whole migration. I moved to <a href="https://newsblur.com/">NewsBlur</a>, it's open source and can be self hosted but I've gone with the paid hosting version for now.</li>
 <li><strong>Search</strong> - <a href="https://duckduckgo.com/">Duck Duck Go</a> in my experience the results are not quite as good as Google but they are not too bad. I like the <a href="https://duckduckgo.com/bang">bang searching</a></li>
@@ -88,9 +86,9 @@
   </div>
   <div class="article_meta">
       <p>Posted on: <abbr title="2015-11-19 07:00:00+08:00" >Thu 19 November 2015</abbr></p>
-    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+    <p>Category: <a href="./category/posts.html">Posts</a>
  &ndash; Tags:
-      <a href="https://xo.tc/tag/good-bye-google.html">Good bye Google</a>,      <a href="https://xo.tc/tag/privacy.html">privacy</a>,      <a href="https://xo.tc/tag/self-hosted.html">Self Hosted</a>,      <a href="https://xo.tc/tag/bruce-schneier.html">Bruce Schneier</a>    </p>
+      <a href="./tag/good-bye-google.html">Good bye Google</a>,      <a href="./tag/privacy.html">privacy</a>,      <a href="./tag/self-hosted.html">Self Hosted</a>,      <a href="./tag/bruce-schneier.html">Bruce Schneier</a>    </p>
   </div>
 
 
@@ -100,7 +98,7 @@
     <div id="ending_message">
       <p>
         <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+            <img alt="Creative Commons License" src="./theme/images/cc-by-88x31.png" />
         </a>
         <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
         <br />Built using <a href="http://getpelican.com">Pelican</a>.

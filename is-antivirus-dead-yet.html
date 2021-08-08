@@ -3,23 +3,22 @@
 
 <head>
   <!-- ## for client-side less
-  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <link rel="stylesheet/less" type="text/css" href="./theme/css/style.less">
   <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
   -->
-  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
-  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
-  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <link rel="shortcut icon" type="image/png" href="./favicon.png" />
+  <link rel="stylesheet" type="text/css" href="./theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="./theme/css/pygments.css">
   <!--
   This is almost certainly the wrong way to do this but it's the only way
   I can find to load the fonts in a subdirectory
   -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+    <link rel="stylesheet" type="text/css" href="./theme/css/load-fonts.css">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
   <meta name="description" content="Posts and writings by Michael Van Delft">
 
-  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
 
 <meta name="keywords" content="Antiviurs, Linux, Defence in Depth">
 
@@ -30,13 +29,13 @@
 <body>
   <aside>
     <div id="user_meta">
-      <a href="https://xo.tc">
+      <a href=".">
         <img src="/images/gavitar_140.png" alt="logo">
       </a>
-      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <h2><a href=".">Michael Van Delft</a></h2>
       <p>Exotic Security</p>
       <ul>
-        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="./pages/about.html">About</a></li>
         <li><a href="/tags.html">Tags</a></li>
       </ul>
     </div>
@@ -45,14 +44,13 @@
   <main>
     <header>
       <p>
-      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
-      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      <a href=".">Index</a> &brvbar; <a href="./archives.html">Archives</a>
       </p>
     </header>
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/is-antivirus-dead-yet.html">Is antivirus dead yet?</a></h3>
+    <h3><a href="./is-antivirus-dead-yet.html">Is antivirus dead yet?</a></h3>
   </div>
   <div class="article_text">
     <p>For a long time I've felt that the usefulness of antivirus has been declining and I'm starting to wonder when it will finally die out, or more likely be absorbed into other security products and cease to exist as a standalone product.</p>
@@ -76,7 +74,7 @@ to evade antivirus software detection.</p>
 <p>24 hours to add signatures is incredibly fast, but clearly it's not fast enough. Updating signatures can never be fast enough, conceivably malware authors could uniquely package every single file they send out.</p>
 <p>Within an enterprise there are much better ways to deal with malware. I believe application whitelisting, patching software and reducing user permissions is far more effective than antivirus can ever be. Antivirus has been bumped down the chain of the <a href="http://www.asd.gov.au/infosec/top-mitigations/mitigations-2014-table.htm">ASD top 35</a> to number 22. With the top 4 being Application whitelisting, Patch applications, Patch operating system vulnerabilities and Restrict administrative privileges.</p>
 <p>There was a great paper <a href="https://www.usenix.org/system/files/conference/soups2015/soups15-paper-ion.pdf">Comparing Expert and Non-Expert Security Practices</a> which showed that the top thing security experts did to stay safe was update their system while the top thing non-experts did was run antivirus.</p>
-<p><img alt="Expert and Non-Expert Security Practices" src="https://xo.tc/images/Expert-and-Non-Expert-Security-Practices.png"></p>
+<p><img alt="Expert and Non-Expert Security Practices" src="./images/Expert-and-Non-Expert-Security-Practices.png"></p>
 <p>I don't know any Linux or Mac users that run antivirus and I know a few Windows users who don't run antivirus (they also don't run Java, Flash Player, Silverlight or other browser plugins and they keep their systems up to date.)</p>
 <p>Maybe in a home environment where the users need administrative access<sup id="fnref:administrative-access"><a class="footnote-ref" href="#fn:administrative-access">3</a></sup> to install new programs and updates, where whitelisting and removing privileges is not an option something like antivirus to say "Are you sure you want to run trojan.exe?" might still be useful. But in the enterprise I think its days are numbered.</p>
 <div class="footnote">
@@ -96,9 +94,9 @@ to evade antivirus software detection.</p>
   </div>
   <div class="article_meta">
       <p>Posted on: <abbr title="2015-09-17 07:00:00+08:00" >Thu 17 September 2015</abbr></p>
-    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+    <p>Category: <a href="./category/posts.html">Posts</a>
  &ndash; Tags:
-      <a href="https://xo.tc/tag/antiviurs.html">Antiviurs</a>,      <a href="https://xo.tc/tag/linux.html">Linux</a>,      <a href="https://xo.tc/tag/defence-in-depth.html">Defence in Depth</a>    </p>
+      <a href="./tag/antiviurs.html">Antiviurs</a>,      <a href="./tag/linux.html">Linux</a>,      <a href="./tag/defence-in-depth.html">Defence in Depth</a>    </p>
   </div>
 
 
@@ -108,7 +106,7 @@ to evade antivirus software detection.</p>
     <div id="ending_message">
       <p>
         <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+            <img alt="Creative Commons License" src="./theme/images/cc-by-88x31.png" />
         </a>
         <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
         <br />Built using <a href="http://getpelican.com">Pelican</a>.

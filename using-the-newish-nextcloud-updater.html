@@ -3,23 +3,22 @@
 
 <head>
   <!-- ## for client-side less
-  <link rel="stylesheet/less" type="text/css" href="https://xo.tc/theme/css/style.less">
+  <link rel="stylesheet/less" type="text/css" href="./theme/css/style.less">
   <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
   -->
-  <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
-  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
-  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
+  <link rel="shortcut icon" type="image/png" href="./favicon.png" />
+  <link rel="stylesheet" type="text/css" href="./theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="./theme/css/pygments.css">
   <!--
   This is almost certainly the wrong way to do this but it's the only way
   I can find to load the fonts in a subdirectory
   -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+    <link rel="stylesheet" type="text/css" href="./theme/css/load-fonts.css">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
   <meta name="description" content="Posts and writings by Michael Van Delft">
 
-  <link href="https://xo.tc/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Exotic Security Atom" />
 
 <meta name="keywords" content="ownCloud, Nextcloud, updates, patching, Good bye Google">
 
@@ -30,13 +29,13 @@
 <body>
   <aside>
     <div id="user_meta">
-      <a href="https://xo.tc">
+      <a href=".">
         <img src="/images/gavitar_140.png" alt="logo">
       </a>
-      <h2><a href="https://xo.tc">Michael Van Delft</a></h2>
+      <h2><a href=".">Michael Van Delft</a></h2>
       <p>Exotic Security</p>
       <ul>
-        <li><a href="https://xo.tc/pages/about.html">About</a></li>
+        <li><a href="./pages/about.html">About</a></li>
         <li><a href="/tags.html">Tags</a></li>
       </ul>
     </div>
@@ -45,46 +44,45 @@
   <main>
     <header>
       <p>
-      <a href="https://xo.tc">Index</a> &brvbar; <a href="https://xo.tc/archives.html">Archives</a>
-      &brvbar; <a href="https://xo.tc/feeds/all.atom.xml">Atom</a>
+      <a href=".">Index</a> &brvbar; <a href="./archives.html">Archives</a>
       </p>
     </header>
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/using-the-newish-nextcloud-updater.html">Using the new(ish) Nextcloud updater</a></h3>
+    <h3><a href="./using-the-newish-nextcloud-updater.html">Using the new(ish) Nextcloud updater</a></h3>
   </div>
   <div class="article_text">
     <p>I first started playing with ownCloud back in early 2012 with version 3, and started using it seriously in mid 2014 as my main tool for syncing my Calendar, Contacts and files having migrated away from Google's Calendar/Contacts/Drive.</p>
-<p>But one of my biggest complaints was the update mechanism, or rather the lack of one. On September 29th 2016 I published a copy of <a href="https://xo.tc/using-the-newish-nextcloud-updater.html">my ownCloud update script</a> nothing amazing but it did the job. In that post I said that</p>
+<p>But one of my biggest complaints was the update mechanism, or rather the lack of one. On September 29th 2016 I published a copy of <a href="./using-the-newish-nextcloud-updater.html">my ownCloud update script</a> nothing amazing but it did the job. In that post I said that</p>
 <blockquote>
 <p>I've been looking at <a href="https://nextcloud.com/">NextCloud</a>, I haven't made the switch yet but if they introduce an automatic update mechanism that would be a big enough draw card for me to change.</p>
 </blockquote>
 <p>I didn't realise it at the time but also on the 29th of September 2016 Nextcloud  <a href="https://nextcloud.com/blog/new-nextcloud-maintenance-releases-out-with-improved-updater-and-over-40-fixes/">annoucned</a> a new updater mechanism. Not fully automatic like wordpress security updates, but a good step in the right directon.</p>
 <p>Early in 2017 I decided to take the plunge and migrate across to Nextcloud and I've just done my first in browser upgrade, from 11.0.1 to 11.0.2.</p>
 <p>It started with a notificaton in the browser and also on the desktop client.</p>
-<p><img alt="Update notification" src="https://xo.tc/images/next-cloud-updater-1-notification.png"></p>
+<p><img alt="Update notification" src="./images/next-cloud-updater-1-notification.png"></p>
 <p>I went into the admin panel</p>
-<p><img alt="Admin panel" src="https://xo.tc/images/next-cloud-updater-2-admin.png"></p>
+<p><img alt="Admin panel" src="./images/next-cloud-updater-2-admin.png"></p>
 <p>Under the version section I clicked Open updater</p>
-<p><img alt="Open updater" src="https://xo.tc/images/next-cloud-updater-3-open-updater.png"></p>
+<p><img alt="Open updater" src="./images/next-cloud-updater-3-open-updater.png"></p>
 <p>Then simply hit Start update</p>
-<p><img alt="Start update" src="https://xo.tc/images/next-cloud-updater-4-start-update.png"></p>
+<p><img alt="Start update" src="./images/next-cloud-updater-4-start-update.png"></p>
 <p>It ran through all of the steps in a couple of minutes then I picked "No" to exit maintenance mode.</p>
-<p><img alt="exit maintenance mode" src="https://xo.tc/images/next-cloud-updater-5-exit-maintenance-mode.png"></p>
+<p><img alt="exit maintenance mode" src="./images/next-cloud-updater-5-exit-maintenance-mode.png"></p>
 <p>Then I returned back to the home page to finish the database upgrade</p>
-<p><img alt="return to home page" src="https://xo.tc/images/next-cloud-updater-6-return-to-home-page.png"></p>
+<p><img alt="return to home page" src="./images/next-cloud-updater-6-return-to-home-page.png"></p>
 <p>From there, the update was the same as before; click on "Start update" to start upgrading the database</p>
-<p><img alt="start database upgrade" src="https://xo.tc/images/next-cloud-updater-7-database-upgrade.png"></p>
+<p><img alt="start database upgrade" src="./images/next-cloud-updater-7-database-upgrade.png"></p>
 <p>After the upgrade continue on to Nextcloud and re-enable any 3rd party apps that have been disabled.</p>
-<p><img alt="finish Nexcloud update" src="https://xo.tc/images/next-cloud-updater-8-database-upgrade-finished.png"></p>
+<p><img alt="finish Nexcloud update" src="./images/next-cloud-updater-8-database-upgrade-finished.png"></p>
 <p>The overall process was very easy and felt much more user friendly than SSHing in and running my bash script.</p>
   </div>
   <div class="article_meta">
       <p>Posted on: <abbr title="2017-03-02 07:00:00+08:00" >Thu 02 March 2017</abbr></p>
-    <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
+    <p>Category: <a href="./category/posts.html">Posts</a>
  &ndash; Tags:
-      <a href="https://xo.tc/tag/owncloud.html">ownCloud</a>,      <a href="https://xo.tc/tag/nextcloud.html">Nextcloud</a>,      <a href="https://xo.tc/tag/updates.html">updates</a>,      <a href="https://xo.tc/tag/patching.html">patching</a>,      <a href="https://xo.tc/tag/good-bye-google.html">Good bye Google</a>    </p>
+      <a href="./tag/owncloud.html">ownCloud</a>,      <a href="./tag/nextcloud.html">Nextcloud</a>,      <a href="./tag/updates.html">updates</a>,      <a href="./tag/patching.html">patching</a>,      <a href="./tag/good-bye-google.html">Good bye Google</a>    </p>
   </div>
 
 
@@ -94,7 +92,7 @@
     <div id="ending_message">
       <p>
         <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-            <img alt="Creative Commons License" src="https://xo.tc/theme/images/cc-by-88x31.png" />
+            <img alt="Creative Commons License" src="./theme/images/cc-by-88x31.png" />
         </a>
         <br />Content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
         <br />Built using <a href="http://getpelican.com">Pelican</a>.
