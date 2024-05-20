@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,7 +49,10 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/alternative-networks-for-this-site-i2p.html">Alternative Networks for this site - I2P</a></h3>
+    <h1><a href="https://xo.tc/alternative-networks-for-this-site-i2p.html">Alternative Networks for this site - I2P</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 25 August 2016</p>
   </div>
   <div class="article_text">
     <p>I've been very interested in all the different censorship resistant that seem to have sprung up over the last few years so I thought I'd have a look at hosting this site on them. It seems like the ideal site to try them out with because I use <a href="http://blog.getpelican.com/">pelican</a> to generate static html files and they should be fairly easy to host anywhere.</p>
@@ -81,32 +81,32 @@ Listen 127.0.0.1:7658
 
 <p>and added an entry in <code>/etc/apache2/sites-enabled/000-default.conf</code></p>
 <div class="highlight"><pre><span></span><code><span class="nt">&lt;VirtualHost</span> <span class="err">127.0.0.1:7658</span><span class="nt">&gt;</span>
-    # Host settings
-    ServerName xotc.i2p
+<span class="w">    </span>#<span class="w"> </span>Host<span class="w"> </span>settings
+<span class="w">    </span>ServerName<span class="w"> </span>xotc.i2p
 
-    ServerAdmin webmaster@xo.tc
-    DocumentRoot /var/www/eepsite
-    ErrorDocument 404 /pages/404-not-found.html
+<span class="w">    </span>ServerAdmin<span class="w"> </span>webmaster@xo.tc
+<span class="w">    </span>DocumentRoot<span class="w"> </span>/var/www/eepsite
+<span class="w">    </span>ErrorDocument<span class="w"> </span>404<span class="w"> </span>/pages/404-not-found.html
 
-    # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
-    # error, crit, alert, emerg.
-    # It is also possible to configure the loglevel for particular
-    # modules, e.g.
-    #LogLevel info ssl:warn
+<span class="w">    </span>#<span class="w"> </span>Available<span class="w"> </span>loglevels:<span class="w"> </span>trace8,<span class="w"> </span>...,<span class="w"> </span>trace1,<span class="w"> </span>debug,<span class="w"> </span>info,<span class="w"> </span>notice,<span class="w"> </span>warn,
+<span class="w">    </span>#<span class="w"> </span>error,<span class="w"> </span>crit,<span class="w"> </span>alert,<span class="w"> </span>emerg.
+<span class="w">    </span>#<span class="w"> </span>It<span class="w"> </span>is<span class="w"> </span>also<span class="w"> </span>possible<span class="w"> </span>to<span class="w"> </span>configure<span class="w"> </span>the<span class="w"> </span>loglevel<span class="w"> </span>for<span class="w"> </span>particular
+<span class="w">    </span>#<span class="w"> </span>modules,<span class="w"> </span>e.g.
+<span class="w">    </span>#LogLevel<span class="w"> </span>info<span class="w"> </span>ssl:warn
 
-    # As we are hosting on localhost, by default the server-status and
-    # server-info pages are avalible.
-    <span class="nt">&lt;Location</span> <span class="err">/server-status</span><span class="nt">&gt;</span>
-        Order allow,deny
-        Deny from all
-    <span class="nt">&lt;/Location&gt;</span>
-    <span class="nt">&lt;Location</span> <span class="err">/server-info</span><span class="nt">&gt;</span>
-        Order allow,deny
-        Deny from all
-    <span class="nt">&lt;/Location&gt;</span>
+<span class="w">    </span>#<span class="w"> </span>As<span class="w"> </span>we<span class="w"> </span>are<span class="w"> </span>hosting<span class="w"> </span>on<span class="w"> </span>localhost,<span class="w"> </span>by<span class="w"> </span>default<span class="w"> </span>the<span class="w"> </span>server-status<span class="w"> </span>and
+<span class="w">    </span>#<span class="w"> </span>server-info<span class="w"> </span>pages<span class="w"> </span>are<span class="w"> </span>avalible.
+<span class="w">    </span><span class="nt">&lt;Location</span> <span class="err">/server-status</span><span class="nt">&gt;</span>
+<span class="w">        </span>Order<span class="w"> </span>allow,deny
+<span class="w">        </span>Deny<span class="w"> </span>from<span class="w"> </span>all
+<span class="w">    </span><span class="nt">&lt;/Location&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Location</span> <span class="err">/server-info</span><span class="nt">&gt;</span>
+<span class="w">        </span>Order<span class="w"> </span>allow,deny
+<span class="w">        </span>Deny<span class="w"> </span>from<span class="w"> </span>all
+<span class="w">    </span><span class="nt">&lt;/Location&gt;</span>
 
-    ErrorLog <span class="cp">${</span><span class="n">APACHE_LOG_DIR</span><span class="cp">}</span>/error.log
-    CustomLog <span class="cp">${</span><span class="n">APACHE_LOG_DIR</span><span class="cp">}</span>/access.log combined
+<span class="w">    </span>ErrorLog<span class="w"> </span><span class="cp">${</span><span class="n">APACHE_LOG_DIR</span><span class="cp">}</span>/error.log
+<span class="w">    </span>CustomLog<span class="w"> </span><span class="cp">${</span><span class="n">APACHE_LOG_DIR</span><span class="cp">}</span>/access.log<span class="w"> </span>combined
 <span class="nt">&lt;/VirtualHost&gt;</span>
 </code></pre></div>
 
@@ -122,7 +122,6 @@ Listen 127.0.0.1:7658
 </div>
   </div>
   <div class="article_meta">
-      <p>Posted on: <abbr title="2016-08-25 07:00:00+08:00" >Thu 25 August 2016</abbr></p>
     <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
       <a href="https://xo.tc/tag/darknet.html">Darknet</a>,      <a href="https://xo.tc/tag/alternative-networks.html">Alternative Networks</a>,      <a href="https://xo.tc/tag/tor.html">Tor</a>,      <a href="https://xo.tc/tag/i2p.html">I2P</a>,      <a href="https://xo.tc/tag/zeronet.html">ZeroNet</a>,      <a href="https://xo.tc/tag/riffle.html">Riffle</a>,      <a href="https://xo.tc/tag/apache.html">Apache</a>    </p>

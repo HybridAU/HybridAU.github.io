@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,11 +49,14 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/installing-duplicati-on-windows-10.html">Installing Duplicati on Windows 10</a></h3>
+    <h1><a href="https://xo.tc/installing-duplicati-on-windows-10.html">Installing Duplicati on Windows 10</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 09 November 2017</p>
   </div>
   <div class="article_text">
     <p>For this setup I'm using <a href="https://www.duplicati.com/">Duplicati</a> to backup to <a href="https://www.backblaze.com">Backblaze</a>. In a previous post I've written some <a href="https://xo.tc/setting-up-backblaze-for-duplicati.html">instructions on setting up Backblaze</a>.</p>
-<h2>Install</h2>
+<h2 id="install">Install</h2>
 <p>First head on over to <a href="https://www.duplicati.com/download">Duplicati</a> and download the latest version for Windows (at the time of this writing that's 2.0.2.1)</p>
 <p>Start the installer</p>
 <p><img alt="Duplicati Windows Installer" src="https://xo.tc/images/duplicati-windows-01-installer.png"></p>
@@ -68,10 +68,10 @@
 <p><img alt="Duplicati Windows Install" src="https://xo.tc/images/duplicati-windows-04-install.png"></p>
 <p>Hit Finish to launch Duplicati</p>
 <p><img alt="Duplicati Windows Install" src="https://xo.tc/images/duplicati-windows-05-install-finished.png"></p>
-<h2>Launch</h2>
+<h2 id="launch">Launch</h2>
 <p>Duplicati should automatically launch in your default web browser after installing. If it doesn't, simply open your web browser and go to <a href="http://localhost:8200/ngax/index.html">http://localhost:8200/ngax/index.html</a></p>
 <p><img alt="Duplicati Windows Home" src="https://xo.tc/images/duplicati-windows-06-home.png"></p>
-<h2>Setup backups</h2>
+<h2 id="setup-backups">Setup backups</h2>
 <p>Click on Add Backup &gt; Configure a new backup &gt; Next</p>
 <p><img alt="Duplicati Windows New Backup" src="https://xo.tc/images/duplicati-windows-07-add-backup.png"></p>
 <p>Give your backups a name, you don't need to use encryption but I'd highly recommend it, and I'd also recommend using their password generator and saving the password in a password manager.</p>
@@ -90,7 +90,6 @@
 <p><img alt="Duplicati Windows Setup Finished" src="https://xo.tc/images/duplicati-windows-14-running.png"></p>
   </div>
   <div class="article_meta">
-      <p>Posted on: <abbr title="2017-11-09 07:00:00+08:00" >Thu 09 November 2017</abbr></p>
     <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
       <a href="https://xo.tc/tag/duplicati.html">Duplicati</a>,      <a href="https://xo.tc/tag/backblaze.html">Backblaze</a>,      <a href="https://xo.tc/tag/backups.html">Backups</a>,      <a href="https://xo.tc/tag/crashplan.html">CrashPlan</a>,      <a href="https://xo.tc/tag/cloud.html">Cloud</a>,      <a href="https://xo.tc/tag/windows.html">Windows</a>    </p>

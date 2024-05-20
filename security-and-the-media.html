@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,16 +49,19 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/security-and-the-media.html">Security and the Media</a></h3>
+    <h1><a href="https://xo.tc/security-and-the-media.html">Security and the Media</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 15 October 2015</p>
   </div>
   <div class="article_text">
     <p>It's time for me to don my grumpy old man pants and have a whinge about how the attention of the main stream media is like a kitten with glittery bauble. Running all over the place focusing on the flashy and the new instead of focusing on the real issues. Now this is by no means an issue constrained to just computer security, it happens in all fields but that's what I'm going to be focusing on.</p>
 <p>I'd like to run through a few examples where I look at an incident that got a lot of media coverage and a comparable one that got almost none.</p>
-<h3>Ashley Madison Vs Office of Personnel Management</h3>
+<h3 id="ashley-madison-vs-office-of-personnel-management">Ashley Madison Vs Office of Personnel Management</h3>
 <p>First let's look at two large data breaches that happened in the last 6 months, the <a href="https://en.wikipedia.org/wiki/Office_of_Personnel_Management_data_breach">Office of Personnel Management data breach</a> (OPM) and the <a href="https://en.wikipedia.org/wiki/Ashley_Madison_data_breach">Ashley Madison data breach</a>.</p>
 <p>Both were disclosed about a month apart, the OPM breach kind of made it into the main stream press (In Australia at least) but was really a non-event. Despite the fact that a significant amount of very personal details was leaked about tens of millions of people. It was not just information about personnel leaked but details of their friends, family and even neighbours. There was a recent update that <a href="http://www.wired.com/2015/09/opm-now-admits-5-6m-feds-fingerprints-stolen-hackers/">over 5 million fingerprints</a> were lost, in a world where we are using our fingerprints to unlock smart phones it this is a serious issue<sup id="fnref:fingerprints"><a class="footnote-ref" href="#fn:fingerprints">1</a></sup>.</p>
 <p>Meanwhile the Ashley Madison breach was announced and it was a media frenzy. Stories where running wild because of the saucy nature of the site. There were announcers<sup id="fnref:announcers"><a class="footnote-ref" href="#fn:announcers">2</a></sup> on the main stream TV and Radio stations giving the story a good run in peak times.</p>
-<h3>Heartblead Vs CVE 2015-0093</h3>
+<h3 id="heartblead-vs-cve-2015-0093">Heartblead Vs CVE 2015-0093</h3>
 <p>The odds are pretty good you won't even know what <a href="http://www.cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-0093">CVE-2015-0093</a> is unless you look it up, and that's completely understandable. Unlike <a href="http://heartbleed.com/">Heartbleed</a> it did not have it's own fancy name, logo, dedicated website and PR campaign. I heard ridiculous terms bandied about with heartbleed even from reputable names like <a href="https://www.schneier.com/blog/archives/2014/04/heartbleed.html">Bruce Schneier</a> describing saying</p>
 <blockquote>
 <p>"Catastrophic" is the right word. On the scale of 1 to 10, this is an 11.</p>
@@ -76,7 +76,7 @@
 </blockquote>
 <p>I wonder which I'd be more worried about; the remote code execution as root from simply viewing<sup id="fnref:viewing-a-font"><a class="footnote-ref" href="#fn:viewing-a-font">3</a></sup> a font that could be embedded in a web page or PDF (regardless of browser or PDF viewer used) or the information disclosure bug that could leak any data (including private keys) that was in memory. The adobe font driver bug just got a CVE and a <a href="https://technet.microsoft.com/library/security/ms15-021">patch</a> without making headlines. Although there was an incredibly in depth write up over at <a href="http://googleprojectzero.blogspot.com.au/2015/07/one-font-vulnerability-to-rule-them-all.html">project zero</a> if your interested.</p>
 <p>Now I want to be clear here, heartbleed was a very serious bug. It affected a huge percentage of the internet facing infrastructure and will show up in unexpected (and hard to patch) locations for years to come, was very easy to exploit and had fairly serious ramifications but I don't think it would have got even a tenth of the media coverage it did without massive PR campaign behind it.</p>
-<h3>The "Unhackable kernel" Vs Wordpress 3.7+ Background Updates</h3>
+<h3 id="the-unhackable-kernel-vs-wordpress-37-background-updates">The "Unhackable kernel" Vs Wordpress 3.7+ Background Updates</h3>
 <p>The "<a href="https://www.google.com.au/search?q=unhackable+kernel">Unhackable Kernel</a>" was the thing that triggered this whole rant. I turned on the radio the other day and a pop science show came on with a couple of guys talking about how the University of New South Wales had developed an "Unhackable operating system<sup id="fnref:operating-system"><a class="footnote-ref" href="#fn:operating-system">4</a></sup>" and all our security problems will be solved in the next couple of years as this thing gets rolled out, and wouldn't it have been great if Ashley Madison had been using it, it could have stopped that breach. Now I want to be careful not to rip into the wrong people here. The <a href="http://sel4.systems">seL4</a> project is very interesting research that is just starting to have some real world practical applications. It's done by some very smart and reasonable people who do genuinely understand security. From their FAQs</p>
 <blockquote>
 <p><strong>If I run seL4, is my system secure?</strong></p>
@@ -87,7 +87,7 @@
 <blockquote>
 <p>"You might not notice a thing, and we’re okay with that."</p>
 </blockquote>
-<h3>Charlie Miller and Chris Valasek 2013 Vs Charlie Miller and Chris Valasek 2015</h3>
+<h3 id="charlie-miller-and-chris-valasek-2013-vs-charlie-miller-and-chris-valasek-2015">Charlie Miller and Chris Valasek 2013 Vs Charlie Miller and Chris Valasek 2015</h3>
 <p>In 2013 Charlie Miller and Chris Valasek <a href="https://www.youtube.com/watch?v=n70hIu9lcYo">presented</a> at DEF CON 21 and then <a href="https://www.youtube.com/watch?v=OobLb1McxnI">again</a> at DEF CON 23. Now admittedly the bugs they were talking about at DEF CON 23 were more interesting but the underlying vulnerability (that you can get to the CAN bus and reflash chips from the entertainment system) didn't really change. But the first response could largely be summed up as "Meh, you need physical access to do any of that stuff, and if you had physical access you could just slash the tires or whatever... Come back when you have something real to show us." It was referred to as "<a href="https://lists.immunityinc.com/pipermail/dailydave/2014-September/000746.html">Junk Hacking</a>". Then before DEF CON 23 after they disabled the breaks on <a href="http://www.wired.com/2015/07/hackers-remotely-kill-jeep-highway/">Andy Greenberg</a> while he was driving a Jeep down the highway. They got an amazing writeup and suddenly the response could be summed with the headline <a href="http://www.foxnews.com/tech/2015/07/21/patch-your-chrysler-vehicle-before-hackers-kill/">Patch your Chrysler vehicle before hackers kill you</a>.</p>
 <p>There is now a <a href="http://www.wired.com/2015/08/chrysler-harman-hit-class-action-complaint-jeep-hack/">class action law suit</a> about this, but the real vulnerability (or at least the one addressed by the suit) that the CAM bus should never have been physically connected to the entertainment system is not something new. The new part is the PR drama.</p>
 <p>Now I understand that journalist write what people want to read. I understand that a big PR splash can help get bugs fixed. But it doesn't mean that I have to like it.</p>
@@ -110,7 +110,6 @@
 </div>
   </div>
   <div class="article_meta">
-      <p>Posted on: <abbr title="2015-10-15 07:00:00+08:00" >Thu 15 October 2015</abbr></p>
     <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
       <a href="https://xo.tc/tag/media.html">Media</a>,      <a href="https://xo.tc/tag/heartbleed.html">Heartbleed</a>,      <a href="https://xo.tc/tag/cve.html">CVE</a>,      <a href="https://xo.tc/tag/ashley-madison.html">Ashley Madison</a>,      <a href="https://xo.tc/tag/office-of-personnel-management.html">Office of Personnel Management</a>,      <a href="https://xo.tc/tag/wordpress.html">WordPress</a>,      <a href="https://xo.tc/tag/unhackable-kernel.html">Unhackable kernel</a>,      <a href="https://xo.tc/tag/car-hacking.html">Car Hacking</a>    </p>

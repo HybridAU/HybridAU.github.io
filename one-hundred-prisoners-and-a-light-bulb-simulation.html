@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,7 +49,10 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/one-hundred-prisoners-and-a-light-bulb-simulation.html">One hundred prisoners and a light bulb simulation</a></h3>
+    <h1><a href="https://xo.tc/one-hundred-prisoners-and-a-light-bulb-simulation.html">One hundred prisoners and a light bulb simulation</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 09 March 2017</p>
   </div>
   <div class="article_text">
     <p>This is a little off my usual topic of IT Security but it's something I've been thinking about a bit lately. I recently came across the "One hundred prisoners and a light bulb" riddle. It was <a href="http://www.ias.uwa.edu.au/lectures/van-ditmarsch">posed as</a>:</p>
@@ -92,14 +92,14 @@
 
 
 <span class="k">class</span> <span class="nc">Prisoner</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;The basic class there should be 100 of these&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The basic class there should be 100 of these&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets up the initial variables&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets up the initial variables&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">has_switched_on_light_bulb</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="nf">interigation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        When the prisoner goes into the room, if the light is on they leave it</span>
 <span class="sd">        otherwise if it&#39;s off and they have not yet switched it on they turn</span>
 <span class="sd">        the light bulb on</span>
@@ -112,18 +112,18 @@
 
 
 <span class="k">class</span> <span class="nc">Leader</span><span class="p">(</span><span class="n">Prisoner</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Only the leader can switch the light bulb off. After they have swtiched the</span>
 <span class="sd">    light bulb off 99 times, they know all prisoners have been interrogated.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets up the initial variables&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets up the initial variables&quot;&quot;&quot;</span>
         <span class="n">Prisoner</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">switch_off_count</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="k">def</span> <span class="nf">interigation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        When the leader gets in interrogated they can switch the light off</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">global</span> <span class="n">light_bulb_on</span>
@@ -137,7 +137,7 @@
 
 
 <span class="k">def</span> <span class="nf">run_simulation</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Runs a simulation of the onehundred prisoners and a light bulb problem and</span>
 <span class="sd">    returns the number of interigations before the prisoners are released.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -170,7 +170,6 @@
 <p>It usually takes around 10400 interigations before the prisoners are set free. I then started thinking about other issues like what if the interigations are not random. My sister sent me a link to a <a href="http://homepages.cwi.nl/~jve/papers/10/pdfs/JANCLlightbulb.pdf">journal article</a> that looks into all these posibilities. It's a fun little distraction for those who like logic puzzles.</p>
   </div>
   <div class="article_meta">
-      <p>Posted on: <abbr title="2017-03-09 07:00:00+08:00" >Thu 09 March 2017</abbr></p>
     <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
       <a href="https://xo.tc/tag/off-topic.html">Off topic</a>,      <a href="https://xo.tc/tag/python.html">Python</a>,      <a href="https://xo.tc/tag/problem-solving.html">Problem Solving</a>,      <a href="https://xo.tc/tag/logic-puzzle.html">Logic puzzle</a>    </p>

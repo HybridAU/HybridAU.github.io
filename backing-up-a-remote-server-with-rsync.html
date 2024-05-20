@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,23 +49,26 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/backing-up-a-remote-server-with-rsync.html">Backing up a remote server with rsync</a></h3>
+    <h1><a href="https://xo.tc/backing-up-a-remote-server-with-rsync.html">Backing up a remote server with rsync</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 27 October 2016</p>
   </div>
   <div class="article_text">
     <p>I've got a couple of VPS boxes over at <a href="https://www.ransomit.com.au/">RansomIT</a> including the server that run this site<sup id="fnref:RansomIT"><a class="footnote-ref" href="#fn:RansomIT">1</a></sup>. One of those boxes is a cheap little VPS with 512MB of RAM that costs me $5 a month. I need to back up this box, my usual go to for personal servers is <a href="https://www.crashplan.com/en-us/">Crashplan</a> but Crashplan <a href="https://support.code42.com/CrashPlan/4/Getting_Started/Code42_CrashPlan_System_Requirements">needs</a> 1GB of RAM.</p>
 <p>So I thought, why not sync<sup id="fnref:sync"><a class="footnote-ref" href="#fn:sync">2</a></sup> the contents of the small server over to more powerful server (with 8GB of RAM) that can run Crashplan.</p>
-<h2>Create a backup user on the source server</h2>
+<h2 id="create-a-backup-user-on-the-source-server">Create a backup user on the source server</h2>
 <p>I'm going to create a 'backups' account on the source server, add an SSH key and add the backups account into the sudoers group<sup id="fnref:Account"><a class="footnote-ref" href="#fn:Account">3</a></sup>.</p>
-<div class="highlight"><pre><span></span><code>sudo useradd --system --shell /bin/bash --home-dir /home/backups --create-home backups
-sudo su backups
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>useradd<span class="w"> </span>--system<span class="w"> </span>--shell<span class="w"> </span>/bin/bash<span class="w"> </span>--home-dir<span class="w"> </span>/home/backups<span class="w"> </span>--create-home<span class="w"> </span>backups
+sudo<span class="w"> </span>su<span class="w"> </span>backups
 <span class="nb">cd</span>
 ssh-keygen
 <span class="c1"># Accept the defaults</span>
-mv id_rsa.pub authorized_keys
-less ~/.ssh/id_rsa
+mv<span class="w"> </span>id_rsa.pub<span class="w"> </span>authorized_keys
+less<span class="w"> </span>~/.ssh/id_rsa
 <span class="c1"># Copy the private key and press Q to quit</span>
 <span class="nb">exit</span>
-sudo visudo
+sudo<span class="w"> </span>visudo
 </code></pre></div>
 
 <p>Add to the sudoers file</p>
@@ -76,18 +76,18 @@ sudo visudo
 backups ALL=NOPASSWD:/usr/bin/rsync
 </code></pre></div>
 
-<h2>Create our backups script on the destinaton server</h2>
+<h2 id="create-our-backups-script-on-the-destinaton-server">Create our backups script on the destinaton server</h2>
 <p>Copy the ssh private key (id_rsa) to the destination server.</p>
-<div class="highlight"><pre><span></span><code>mkdir backups
-<span class="nb">cd</span> backups
-vim backups.id_rsa
-sudo chown root:root backups.id_rsa
-sudo chmod <span class="m">400</span> backups.id_rsa
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>backups
+<span class="nb">cd</span><span class="w"> </span>backups
+vim<span class="w"> </span>backups.id_rsa
+sudo<span class="w"> </span>chown<span class="w"> </span>root:root<span class="w"> </span>backups.id_rsa
+sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">400</span><span class="w"> </span>backups.id_rsa
 <span class="c1"># SSH into the source server, this is both so we get the servers host key</span>
 <span class="c1"># added and also a a bit of a &#39;hello world&#39; sanity check.</span>
-sudo ssh -i backups.id_rsa backups@source.example.com
+sudo<span class="w"> </span>ssh<span class="w"> </span>-i<span class="w"> </span>backups.id_rsa<span class="w"> </span>backups@source.example.com
 <span class="nb">exit</span>
-vim nightly-backups.sh
+vim<span class="w"> </span>nightly-backups.sh
 </code></pre></div>
 
 <p>I've based my backups script on the one in the <a href="https://wiki.archlinux.org/index.php/full_system_backup_with_rsync">Arch Wiki</a></p>
@@ -98,24 +98,24 @@ vim nightly-backups.sh
 <span class="c1"># -X keep extended attributeds</span>
 
 <span class="c1"># Backup www.example.com</span>
-rsync -aAX <span class="se">\</span>
-    -e <span class="s2">&quot;ssh -i /home/michael/backups/backups.id_rsa&quot;</span> <span class="se">\</span>
-    --rsync-path<span class="o">=</span><span class="s2">&quot;sudo rsync&quot;</span> <span class="se">\</span>
-    --exclude<span class="o">={</span><span class="s2">&quot;/dev/*&quot;</span>,<span class="s2">&quot;/proc/*&quot;</span>,<span class="s2">&quot;/sys/*&quot;</span>,<span class="s2">&quot;/tmp/*&quot;</span>,<span class="s2">&quot;/run/*&quot;</span>,<span class="s2">&quot;/mnt/*&quot;</span>,<span class="s2">&quot;/media/*&quot;</span>,<span class="s2">&quot;/lost+found&quot;</span><span class="o">}</span> <span class="se">\</span>
-    --delete <span class="se">\</span>
-    backups@www.example.com:/ <span class="se">\</span>
-    /home/michael/backups/www.example.com/
+rsync<span class="w"> </span>-aAX<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-e<span class="w"> </span><span class="s2">&quot;ssh -i /home/michael/backups/backups.id_rsa&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--rsync-path<span class="o">=</span><span class="s2">&quot;sudo rsync&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--exclude<span class="o">={</span><span class="s2">&quot;/dev/*&quot;</span>,<span class="s2">&quot;/proc/*&quot;</span>,<span class="s2">&quot;/sys/*&quot;</span>,<span class="s2">&quot;/tmp/*&quot;</span>,<span class="s2">&quot;/run/*&quot;</span>,<span class="s2">&quot;/mnt/*&quot;</span>,<span class="s2">&quot;/media/*&quot;</span>,<span class="s2">&quot;/lost+found&quot;</span><span class="o">}</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--delete<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>backups@www.example.com:/<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>/home/michael/backups/www.example.com/
 </code></pre></div>
 
 <p>And link the script to crontab</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># The script needs to be owned by root or it won&#39;t execute.</span>
-sudo chown root:root nightly-backups.sh
-sudo chmod <span class="m">774</span> nightly-backups.sh
-sudo vim /etc/crontab
+sudo<span class="w"> </span>chown<span class="w"> </span>root:root<span class="w"> </span>nightly-backups.sh
+sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">774</span><span class="w"> </span>nightly-backups.sh
+sudo<span class="w"> </span>vim<span class="w"> </span>/etc/crontab
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code># rsync servers back here 01:15 every day.
-15   1  *   *   *   root    /home/michael/backups/nightly-backups.sh
+<div class="highlight"><pre><span></span><code><span class="gh">#</span> rsync servers back here 01:15 every day.
+15   1  <span class="gs">*   *</span>   *   root    /home/michael/backups/nightly-backups.sh
 </code></pre></div>
 
 <p>The reason I've got the backup job also running as root on the destination server is we are keeping the file permissions and some files will be owned by root (from the source server) so we need to be root on the destination server to overwrite them when they change.</p>
@@ -138,7 +138,6 @@ sudo vim /etc/crontab
 </div>
   </div>
   <div class="article_meta">
-      <p>Posted on: <abbr title="2016-10-27 07:00:00+08:00" >Thu 27 October 2016</abbr></p>
     <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
       <a href="https://xo.tc/tag/backups.html">Backups</a>,      <a href="https://xo.tc/tag/rsync.html">Rsync</a>,      <a href="https://xo.tc/tag/cron.html">Cron</a>,      <a href="https://xo.tc/tag/linux.html">Linux</a>,      <a href="https://xo.tc/tag/ssh.html">SSH</a>,      <a href="https://xo.tc/tag/stack-exchange.html">Stack Exchange</a>    </p>

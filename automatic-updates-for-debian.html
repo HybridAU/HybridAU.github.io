@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,21 +49,23 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/automatic-updates-for-debian.html">Automatic Updates for Debian</a></h3>
+    <h1><a href="https://xo.tc/automatic-updates-for-debian.html">Automatic Updates for Debian</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 01 December 2016</p>
   </div>
   <div class="article_text">
     <p>Good security is about defence in depth, layers of security. There is no one thing that will make you secure but one of the easiest things to do that gets you the best bang for your buck is patching your software.</p>
 <p>On windows this is called Automatic Updates, in Debian it's called Unattended Upgrades but it's essentially the same thing. There is an <a href="https://wiki.debian.org/UnattendedUpgrades">Unattended Upgrades page</a> on the Debian wiki that is pretty good. Enabling updates basicly boils down to:</p>
-<div class="highlight"><pre><span></span><code>sudo apt-get install unattended-upgrades apt-listchanges
-sudo dpkg-reconfigure -plow unattended-upgrades
-vim /etc/apt/apt.conf.d/50unattended-upgrades
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>unattended-upgrades<span class="w"> </span>apt-listchanges
+sudo<span class="w"> </span>dpkg-reconfigure<span class="w"> </span>-plow<span class="w"> </span>unattended-upgrades
+vim<span class="w"> </span>/etc/apt/apt.conf.d/50unattended-upgrades
 <span class="c1"># Edit line 71 to send emails to a monitored address</span>
 </code></pre></div>
 
 <p>If your current update strategy is to SSH into boxes and run <code>sudo apt-get update &amp;&amp; sudo apt-get dist-upgrade</code> whenever you remember then you should look automating it with unattended upgrades. Of course a full dev &gt; test &gt; production patch cycle is best for large mission critical things but for small setups like the one box that runs this website unattended upgrades are perfect.</p>
   </div>
   <div class="article_meta">
-      <p>Posted on: <abbr title="2016-12-01 07:00:00+08:00" >Thu 01 December 2016</abbr></p>
     <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
       <a href="https://xo.tc/tag/debian.html">Debian</a>,      <a href="https://xo.tc/tag/linux.html">Linux</a>,      <a href="https://xo.tc/tag/patching.html">Patching</a>,      <a href="https://xo.tc/tag/defence-in-depth.html">Defence in Depth</a>    </p>

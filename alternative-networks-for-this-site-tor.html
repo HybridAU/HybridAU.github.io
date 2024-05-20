@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,7 +49,10 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/alternative-networks-for-this-site-tor.html">Alternative Networks for this site - Tor</a></h3>
+    <h1><a href="https://xo.tc/alternative-networks-for-this-site-tor.html">Alternative Networks for this site - Tor</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 01 September 2016</p>
   </div>
   <div class="article_text">
     <p>Last week I looked a few alternative censorship resistant networks and setup an <a href="https://xo.tc/alternative-networks-for-this-site-i2p.html">I2P eepsite</a>. This week I've made Exotic Security available as a <a href="https://www.torproject.org/">Tor hidden service</a>.</p>
@@ -63,47 +63,47 @@
 <p>I was very impressed with how well it ran, my GPU a GeForce GTX 680 got 470 MH/s and found two names that matched in under 10 hours<sup id="fnref:10-hours"><a class="footnote-ref" href="#fn:10-hours">1</a></sup>.</p>
 <p>I then installed Tor following their <a href="https://www.torproject.org/docs/debian.html.en">guide for Debian</a> and set it to run automatically <code>sudo systemctl enable tor.service</code></p>
 <p>The I setup apache, I edited <code>/etc/apache2/ports.conf</code></p>
-<div class="highlight"><pre><span></span><code># <span class="nv">Tor</span> <span class="nv">Hidden</span> <span class="nv">service</span>
-# <span class="nv">Just</span> <span class="nv">a</span> <span class="k">random</span> <span class="nv">port</span> <span class="nv">number</span> <span class="nv">I</span> <span class="nv">generated</span>, <span class="nv">there</span> <span class="nv">is</span> <span class="nv">no</span> <span class="nv">significance</span> <span class="nv">to</span> <span class="nv">it</span>.
-<span class="nv">Listen</span> <span class="mi">127</span>.<span class="mi">0</span>.<span class="mi">0</span>.<span class="mi">1</span>:<span class="mi">9625</span>
+<div class="highlight"><pre><span></span><code>#<span class="w"> </span><span class="nv">Tor</span><span class="w"> </span><span class="nv">Hidden</span><span class="w"> </span><span class="nv">service</span>
+#<span class="w"> </span><span class="nv">Just</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="k">random</span><span class="w"> </span><span class="nv">port</span><span class="w"> </span><span class="nv">number</span><span class="w"> </span><span class="nv">I</span><span class="w"> </span><span class="nv">generated</span>,<span class="w"> </span><span class="nv">there</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">no</span><span class="w"> </span><span class="nv">significance</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">it</span>.
+<span class="nv">Listen</span><span class="w"> </span><span class="mi">127</span>.<span class="mi">0</span>.<span class="mi">0</span>.<span class="mi">1</span>:<span class="mi">9625</span>
 </code></pre></div>
 
 <p>my sites-enabled</p>
-<div class="highlight"><pre><span></span><code># Tor Hidden Service
+<div class="highlight"><pre><span></span><code>#<span class="w"> </span>Tor<span class="w"> </span>Hidden<span class="w"> </span>Service
 <span class="nt">&lt;VirtualHost</span> <span class="err">127.0.0.1:9625</span><span class="nt">&gt;</span>
-    # Host settings
-    ServerName exoticsecv6kd6fw.onion
+<span class="w">    </span>#<span class="w"> </span>Host<span class="w"> </span>settings
+<span class="w">    </span>ServerName<span class="w"> </span>exoticsecv6kd6fw.onion
 
-    ServerAdmin webmaster@xo.tc
-    DocumentRoot /var/www/tor-hidden-service
-    ErrorDocument 404 /pages/404-not-found.html
+<span class="w">    </span>ServerAdmin<span class="w"> </span>webmaster@xo.tc
+<span class="w">    </span>DocumentRoot<span class="w"> </span>/var/www/tor-hidden-service
+<span class="w">    </span>ErrorDocument<span class="w"> </span>404<span class="w"> </span>/pages/404-not-found.html
 
-    # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
-    # error, crit, alert, emerg.
-    # It is also possible to configure the loglevel for particular
-    # modules, e.g.
-    #LogLevel info ssl:warn
+<span class="w">    </span>#<span class="w"> </span>Available<span class="w"> </span>loglevels:<span class="w"> </span>trace8,<span class="w"> </span>...,<span class="w"> </span>trace1,<span class="w"> </span>debug,<span class="w"> </span>info,<span class="w"> </span>notice,<span class="w"> </span>warn,
+<span class="w">    </span>#<span class="w"> </span>error,<span class="w"> </span>crit,<span class="w"> </span>alert,<span class="w"> </span>emerg.
+<span class="w">    </span>#<span class="w"> </span>It<span class="w"> </span>is<span class="w"> </span>also<span class="w"> </span>possible<span class="w"> </span>to<span class="w"> </span>configure<span class="w"> </span>the<span class="w"> </span>loglevel<span class="w"> </span>for<span class="w"> </span>particular
+<span class="w">    </span>#<span class="w"> </span>modules,<span class="w"> </span>e.g.
+<span class="w">    </span>#LogLevel<span class="w"> </span>info<span class="w"> </span>ssl:warn
 
-    # As we are hosting on localhost, by default the server-status and
-    # server-info pages are avalible.
-    <span class="nt">&lt;Location</span> <span class="err">/server-status</span><span class="nt">&gt;</span>
-        Order allow,deny
-        Deny from all
-    <span class="nt">&lt;/Location&gt;</span>
-    <span class="nt">&lt;Location</span> <span class="err">/server-info</span><span class="nt">&gt;</span>
-        Order allow,deny
-        Deny from all
-    <span class="nt">&lt;/Location&gt;</span>
+<span class="w">    </span>#<span class="w"> </span>As<span class="w"> </span>we<span class="w"> </span>are<span class="w"> </span>hosting<span class="w"> </span>on<span class="w"> </span>localhost,<span class="w"> </span>by<span class="w"> </span>default<span class="w"> </span>the<span class="w"> </span>server-status<span class="w"> </span>and
+<span class="w">    </span>#<span class="w"> </span>server-info<span class="w"> </span>pages<span class="w"> </span>are<span class="w"> </span>avalible.
+<span class="w">    </span><span class="nt">&lt;Location</span> <span class="err">/server-status</span><span class="nt">&gt;</span>
+<span class="w">        </span>Order<span class="w"> </span>allow,deny
+<span class="w">        </span>Deny<span class="w"> </span>from<span class="w"> </span>all
+<span class="w">    </span><span class="nt">&lt;/Location&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Location</span> <span class="err">/server-info</span><span class="nt">&gt;</span>
+<span class="w">        </span>Order<span class="w"> </span>allow,deny
+<span class="w">        </span>Deny<span class="w"> </span>from<span class="w"> </span>all
+<span class="w">    </span><span class="nt">&lt;/Location&gt;</span>
 
 
-    ErrorLog <span class="cp">${</span><span class="n">APACHE_LOG_DIR</span><span class="cp">}</span>/error.log
-    CustomLog <span class="cp">${</span><span class="n">APACHE_LOG_DIR</span><span class="cp">}</span>/access.log combined
+<span class="w">    </span>ErrorLog<span class="w"> </span><span class="cp">${</span><span class="n">APACHE_LOG_DIR</span><span class="cp">}</span>/error.log
+<span class="w">    </span>CustomLog<span class="w"> </span><span class="cp">${</span><span class="n">APACHE_LOG_DIR</span><span class="cp">}</span>/access.log<span class="w"> </span>combined
 <span class="nt">&lt;/VirtualHost&gt;</span>
 </code></pre></div>
 
 <p>Then I edited <code>/etc/tor/torrc</code> and uncommented the two lines to enable a hidden service</p>
-<div class="highlight"><pre><span></span><code><span class="n">HiddenServiceDir</span> <span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">tor</span><span class="o">/</span><span class="n">hidden_service</span><span class="o">/</span>
-<span class="n">HiddenServicePort</span> <span class="mi">80</span> <span class="mf">127.0</span><span class="o">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">9625</span>
+<div class="highlight"><pre><span></span><code><span class="n">HiddenServiceDir</span><span class="w"> </span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">tor</span><span class="o">/</span><span class="n">hidden_service</span><span class="o">/</span>
+<span class="n">HiddenServicePort</span><span class="w"> </span><span class="mi">80</span><span class="w"> </span><span class="mf">127.0</span><span class="o">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">9625</span>
 </code></pre></div>
 
 <p>Restarted tor to create the HiddenServiceDir</p>
@@ -120,7 +120,6 @@
 </div>
   </div>
   <div class="article_meta">
-      <p>Posted on: <abbr title="2016-09-01 07:00:00+08:00" >Thu 01 September 2016</abbr></p>
     <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
       <a href="https://xo.tc/tag/darknet.html">Darknet</a>,      <a href="https://xo.tc/tag/tor.html">Tor</a>,      <a href="https://xo.tc/tag/apache.html">Apache</a>,      <a href="https://xo.tc/tag/alternative-networks.html">Alternative Networks</a>    </p>

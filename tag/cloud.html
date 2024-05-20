@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,11 +49,14 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/installing-duplicati-on-an-arch-linux-laptop.html">Installing Duplicati on an Arch Linux Laptop</a></h3>
+    <h1><a href="https://xo.tc/installing-duplicati-on-an-arch-linux-laptop.html">Installing Duplicati on an Arch Linux Laptop</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 23 November 2017</p>
   </div>
   <div class="article_text">
     <p>For this setup I'm using <a href="https://www.duplicati.com/">Duplicati</a> to backup to <a href="https://www.backblaze.com">Backblaze</a>. In a previous post I've written some <a href="https://xo.tc/setting-up-backblaze-for-duplicati.html">instructions on setting up Backblaze</a>.</p>
-<h2>Installing</h2>
+<h2 id="installing">Installing</h2>
 <p>To install Duplicati simply run</p>
 <div class="highlight"><pre><span></span><code>git clone https://aur.archlinux.org/duplicati-latest.git
 cd duplicati-latest
@@ -70,22 +70,28 @@ makepkg -si
 <hr />
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/installing-duplicati-on-a-headless-debian-linux-server.html">Installing Duplicati on a headless Debian Linux server</a></h3>
+    <h1><a href="https://xo.tc/installing-duplicati-on-a-headless-debian-linux-server.html">Installing Duplicati on a headless Debian Linux server</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 16 November 2017</p>
   </div>
   <div class="article_text">
     <p>For this setup I'm using <a href="https://www.duplicati.com/">Duplicati</a> to backup to <a href="https://www.backblaze.com">Backblaze</a>. In a previous post I've written some <a href="https://xo.tc/setting-up-backblaze-for-duplicati.html">instructions on setting up Backblaze</a>.</p>
-<h2>SSH into the server</h2>
+<h2 id="ssh-into-the-server">SSH into the server</h2>
 <p>The first thing we have to do is to SSH into the server, because Duplicati will be running as a web service on port …</p>
   </div>
 </article>
 <hr />
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/installing-duplicati-on-windows-10.html">Installing Duplicati on Windows 10</a></h3>
+    <h1><a href="https://xo.tc/installing-duplicati-on-windows-10.html">Installing Duplicati on Windows 10</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 09 November 2017</p>
   </div>
   <div class="article_text">
     <p>For this setup I'm using <a href="https://www.duplicati.com/">Duplicati</a> to backup to <a href="https://www.backblaze.com">Backblaze</a>. In a previous post I've written some <a href="https://xo.tc/setting-up-backblaze-for-duplicati.html">instructions on setting up Backblaze</a>.</p>
-<h2>Install</h2>
+<h2 id="install">Install</h2>
 <p>First head on over to <a href="https://www.duplicati.com/download">Duplicati</a> and download the latest version for Windows (at the time of this writing that's 2.0.2.1)</p>
 <p>Start the installer …</p>
   </div>
@@ -93,7 +99,10 @@ makepkg -si
 <hr />
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/setting-up-backblaze-for-duplicati.html">Setting up Backblaze for Duplicati</a></h3>
+    <h1><a href="https://xo.tc/setting-up-backblaze-for-duplicati.html">Setting up Backblaze for Duplicati</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 02 November 2017</p>
   </div>
   <div class="article_text">
     <p>I've been <a href="https://xo.tc/crashplan-personal-is-shutting-down.html">looking</a> for new backup software for a few months and I've found <a href="https://www.duplicati.com/">Duplicati</a>. I'm absolutely stoked with it, it does everything I want from backup software.</p>
@@ -103,7 +112,10 @@ makepkg -si
 <hr />
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/backup-to-s3-and-restore-to-ec2.html">Backup to S3 and restore to EC2</a></h3>
+    <h1><a href="https://xo.tc/backup-to-s3-and-restore-to-ec2.html">Backup to S3 and restore to EC2</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 01 October 2015</p>
   </div>
   <div class="article_text">
     <p>There is an old saying that "there are two types of sysadmins, those that do make backups and those that will make backups". Hopefully there are not too many of the second group. But backing up the data is only part of the picture, you also need to think about …</p>

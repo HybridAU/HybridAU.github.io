@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,39 +49,42 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/sending-emails-with-telnet-and-openssl.html">Sending emails with telnet and OpenSSL</a></h3>
+    <h1><a href="https://xo.tc/sending-emails-with-telnet-and-openssl.html">Sending emails with telnet and OpenSSL</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 31 March 2016</p>
   </div>
   <div class="article_text">
     <p>You can send an email using telnet it's very useful for debugging. It's something I've done several times before but because it's not something I do regularly I always forget the exact syntax so I've written this as a <a href="https://xo.tc/tag/note-to-selfhtml.html">Note to self</a> to remember the commands.</p>
 <p>Finding the mail server to connect to</p>
 <div class="highlight"><pre><span></span><code>nslookup
-&gt; <span class="nb">set</span> <span class="nv">q</span><span class="o">=</span>mx
-&gt; gmail.com
-Server:         <span class="m">8</span>.8.8.8
-Address:        <span class="m">8</span>.8.8.8#53
+&gt;<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">q</span><span class="o">=</span>mx
+&gt;<span class="w"> </span>gmail.com
+Server:<span class="w">         </span><span class="m">8</span>.8.8.8
+Address:<span class="w">        </span><span class="m">8</span>.8.8.8#53
 
-Non-authoritative answer:
-gmail.com       mail <span class="nv">exchanger</span> <span class="o">=</span> <span class="m">5</span> gmail-smtp-in.l.google.com.
-gmail.com       mail <span class="nv">exchanger</span> <span class="o">=</span> <span class="m">40</span> alt4.gmail-smtp-in.l.google.com.
-gmail.com       mail <span class="nv">exchanger</span> <span class="o">=</span> <span class="m">30</span> alt3.gmail-smtp-in.l.google.com.
-gmail.com       mail <span class="nv">exchanger</span> <span class="o">=</span> <span class="m">10</span> alt1.gmail-smtp-in.l.google.com.
-gmail.com       mail <span class="nv">exchanger</span> <span class="o">=</span> <span class="m">20</span> alt2.gmail-smtp-in.l.google.com.
+Non-authoritative<span class="w"> </span>answer:
+gmail.com<span class="w">       </span>mail<span class="w"> </span><span class="nv">exchanger</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="w"> </span>gmail-smtp-in.l.google.com.
+gmail.com<span class="w">       </span>mail<span class="w"> </span><span class="nv">exchanger</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">40</span><span class="w"> </span>alt4.gmail-smtp-in.l.google.com.
+gmail.com<span class="w">       </span>mail<span class="w"> </span><span class="nv">exchanger</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">30</span><span class="w"> </span>alt3.gmail-smtp-in.l.google.com.
+gmail.com<span class="w">       </span>mail<span class="w"> </span><span class="nv">exchanger</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="w"> </span>alt1.gmail-smtp-in.l.google.com.
+gmail.com<span class="w">       </span>mail<span class="w"> </span><span class="nv">exchanger</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="w"> </span>alt2.gmail-smtp-in.l.google.com.
 </code></pre></div>
 
 <p>Sending email with Telnet</p>
-<div class="highlight"><pre><span></span><code>$ telnet gmail-smtp-in.l.google.com <span class="m">25</span>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>telnet<span class="w"> </span>gmail-smtp-in.l.google.com<span class="w"> </span><span class="m">25</span>
 
-HELO my-reverse-dns-address.example.com
+HELO<span class="w"> </span>my-reverse-dns-address.example.com
 
-MAIL FROM: Michael@my-reverse-dns-address.example.com
-RCPT TO: abuse@gmail.com
+MAIL<span class="w"> </span>FROM:<span class="w"> </span>Michael@my-reverse-dns-address.example.com
+RCPT<span class="w"> </span>TO:<span class="w"> </span>abuse@gmail.com
 
 DATA
-Subject: Test Email
+Subject:<span class="w"> </span>Test<span class="w"> </span>Email
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-molestie, fringilla turpis id, ultrices tortor,
-ac consectetur massa imperdiet ac. Fusce ac porta orci.
+Lorem<span class="w"> </span>ipsum<span class="w"> </span>dolor<span class="w"> </span>sit<span class="w"> </span>amet,<span class="w"> </span>consectetur<span class="w"> </span>adipiscing<span class="w"> </span>elit.
+molestie,<span class="w"> </span>fringilla<span class="w"> </span>turpis<span class="w"> </span>id,<span class="w"> </span>ultrices<span class="w"> </span>tortor,
+ac<span class="w"> </span>consectetur<span class="w"> </span>massa<span class="w"> </span>imperdiet<span class="w"> </span>ac.<span class="w"> </span>Fusce<span class="w"> </span>ac<span class="w"> </span>porta<span class="w"> </span>orci.
 
 .
 </code></pre></div>
@@ -96,73 +96,73 @@ ac consectetur massa imperdiet ac. Fusce ac porta orci.
 </code></pre></div>
 
 <p>Once we have the username and password we can use them</p>
-<div class="highlight"><pre><span></span><code>$ telnet smtp.example.com <span class="m">25</span>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>telnet<span class="w"> </span>smtp.example.com<span class="w"> </span><span class="m">25</span>
 
-EHLO my-reverse-dns-address.example.com
+EHLO<span class="w"> </span>my-reverse-dns-address.example.com
 
-AUTH LOGIN
+AUTH<span class="w"> </span>LOGIN
 
 <span class="nv">bWljaGFlbEBleGFtcGxlLmNvbQ</span><span class="o">==</span>
 
 <span class="nv">b3Blbi1zZXNhbWU</span><span class="o">=</span>
 
-MAIL FROM: my-reverse-dns-address.example.com
-RCPT TO: michael@example.com
+MAIL<span class="w"> </span>FROM:<span class="w"> </span>my-reverse-dns-address.example.com
+RCPT<span class="w"> </span>TO:<span class="w"> </span>michael@example.com
 
 DATA
-Subject: Test Email - Authenticated as michael@example.com
+Subject:<span class="w"> </span>Test<span class="w"> </span>Email<span class="w"> </span>-<span class="w"> </span>Authenticated<span class="w"> </span>as<span class="w"> </span>michael@example.com
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-molestie, fringilla turpis id, ultrices tortor,
-ac consectetur massa imperdiet ac. Fusce ac porta orci.
+Lorem<span class="w"> </span>ipsum<span class="w"> </span>dolor<span class="w"> </span>sit<span class="w"> </span>amet,<span class="w"> </span>consectetur<span class="w"> </span>adipiscing<span class="w"> </span>elit.
+molestie,<span class="w"> </span>fringilla<span class="w"> </span>turpis<span class="w"> </span>id,<span class="w"> </span>ultrices<span class="w"> </span>tortor,
+ac<span class="w"> </span>consectetur<span class="w"> </span>massa<span class="w"> </span>imperdiet<span class="w"> </span>ac.<span class="w"> </span>Fusce<span class="w"> </span>ac<span class="w"> </span>porta<span class="w"> </span>orci.
 
 .
 </code></pre></div>
 
 <p>We can use OpenSSL to send emails using the STARTSSL command (i.e. start a standard SMTP connection then upgrade to TLS)</p>
-<div class="highlight"><pre><span></span><code>$ openssl s_client -starttls smtp -crlf -connect smtp.example.com:25
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>openssl<span class="w"> </span>s_client<span class="w"> </span>-starttls<span class="w"> </span>smtp<span class="w"> </span>-crlf<span class="w"> </span>-connect<span class="w"> </span>smtp.example.com:25
 
-EHLO my-reverse-dns-address.example.com
+EHLO<span class="w"> </span>my-reverse-dns-address.example.com
 
-AUTH LOGIN
+AUTH<span class="w"> </span>LOGIN
 
 <span class="nv">bWljaGFlbEBleGFtcGxlLmNvbQ</span><span class="o">==</span>
 
 <span class="nv">b3Blbi1zZXNhbWU</span><span class="o">=</span>
 
-MAIL FROM: my-reverse-dns-address.example.com
-RCPT TO: Michael@example.com
+MAIL<span class="w"> </span>FROM:<span class="w"> </span>my-reverse-dns-address.example.com
+RCPT<span class="w"> </span>TO:<span class="w"> </span>Michael@example.com
 
 DATA
-Subject: Test Email - Authenticated as michael@example.com
+Subject:<span class="w"> </span>Test<span class="w"> </span>Email<span class="w"> </span>-<span class="w"> </span>Authenticated<span class="w"> </span>as<span class="w"> </span>michael@example.com
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-molestie, fringilla turpis id, ultrices tortor,
-ac consectetur massa imperdiet ac. Fusce ac porta orci.
+Lorem<span class="w"> </span>ipsum<span class="w"> </span>dolor<span class="w"> </span>sit<span class="w"> </span>amet,<span class="w"> </span>consectetur<span class="w"> </span>adipiscing<span class="w"> </span>elit.
+molestie,<span class="w"> </span>fringilla<span class="w"> </span>turpis<span class="w"> </span>id,<span class="w"> </span>ultrices<span class="w"> </span>tortor,
+ac<span class="w"> </span>consectetur<span class="w"> </span>massa<span class="w"> </span>imperdiet<span class="w"> </span>ac.<span class="w"> </span>Fusce<span class="w"> </span>ac<span class="w"> </span>porta<span class="w"> </span>orci.
 
 .
 </code></pre></div>
 
 <p>Or We can use OpenSSL to send emails using SMTPS (i.e. start a TLS connection then do SMTP over it)</p>
-<div class="highlight"><pre><span></span><code>$ openssl s_client -connect smtps.example.com:465
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>openssl<span class="w"> </span>s_client<span class="w"> </span>-connect<span class="w"> </span>smtps.example.com:465
 
-EHLO my-reverse-dns-address.example.com
+EHLO<span class="w"> </span>my-reverse-dns-address.example.com
 
-AUTH LOGIN
+AUTH<span class="w"> </span>LOGIN
 
 <span class="nv">bWljaGFlbEBleGFtcGxlLmNvbQ</span><span class="o">==</span>
 
 <span class="nv">b3Blbi1zZXNhbWU</span><span class="o">=</span>
 
-MAIL FROM: my-reverse-dns-address.example.com
-RCPT TO: Michael@example.com
+MAIL<span class="w"> </span>FROM:<span class="w"> </span>my-reverse-dns-address.example.com
+RCPT<span class="w"> </span>TO:<span class="w"> </span>Michael@example.com
 
 DATA
-Subject: Test Email - Authenticated as michael@example.com
+Subject:<span class="w"> </span>Test<span class="w"> </span>Email<span class="w"> </span>-<span class="w"> </span>Authenticated<span class="w"> </span>as<span class="w"> </span>michael@example.com
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-molestie, fringilla turpis id, ultrices tortor,
-ac consectetur massa imperdiet ac. Fusce ac porta orci.
+Lorem<span class="w"> </span>ipsum<span class="w"> </span>dolor<span class="w"> </span>sit<span class="w"> </span>amet,<span class="w"> </span>consectetur<span class="w"> </span>adipiscing<span class="w"> </span>elit.
+molestie,<span class="w"> </span>fringilla<span class="w"> </span>turpis<span class="w"> </span>id,<span class="w"> </span>ultrices<span class="w"> </span>tortor,
+ac<span class="w"> </span>consectetur<span class="w"> </span>massa<span class="w"> </span>imperdiet<span class="w"> </span>ac.<span class="w"> </span>Fusce<span class="w"> </span>ac<span class="w"> </span>porta<span class="w"> </span>orci.
 
 .
 </code></pre></div>
@@ -170,7 +170,6 @@ ac consectetur massa imperdiet ac. Fusce ac porta orci.
 <p>Personally I prefer the idea of sending mail over SMTPS (port 465). I know it's not <a href="http://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.txt">officially</a> in the IANA spec, but it just makes a lot more sense to me to start an encrypted connection and then send email over it, than to start an unencrypted connection and then upgrade it to an encrypted one.</p>
   </div>
   <div class="article_meta">
-      <p>Posted on: <abbr title="2016-03-31 07:00:00+08:00" >Thu 31 March 2016</abbr></p>
     <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
       <a href="https://xo.tc/tag/note-to-self.html">Note to self</a>,      <a href="https://xo.tc/tag/telnet.html">Telnet</a>,      <a href="https://xo.tc/tag/openssl.html">OpenSSl</a>,      <a href="https://xo.tc/tag/email.html">email</a>,      <a href="https://xo.tc/tag/smtp.html">SMTP</a>,      <a href="https://xo.tc/tag/debugging.html">Debugging</a>    </p>

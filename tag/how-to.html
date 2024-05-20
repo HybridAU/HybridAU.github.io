@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,17 +49,20 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/how-to-mount-a-vhd-file-on-linux.html">How to mount a VHD file on linux</a></h3>
+    <h1><a href="https://xo.tc/how-to-mount-a-vhd-file-on-linux.html">How to mount a VHD file on linux</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 15 November 2018</p>
   </div>
   <div class="article_text">
-    <h2>How to do it</h2>
+    <h2 id="how-to-do-it">How to do it</h2>
 <p>Install <a href="http://libguestfs.org/">libguestfs</a></p>
 <p>For <strong>Debian and Ubuntu</strong> this is pretty easy</p>
-<div class="highlight"><pre><span></span><code><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">libguestfs</span><span class="o">-</span><span class="n">tools</span>
+<div class="highlight"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">apt</span><span class="o">-</span><span class="n">get</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">libguestfs</span><span class="o">-</span><span class="n">tools</span>
 </code></pre></div>
 
 <p>For <strong>Red Hat, Centos, Fedora</strong></p>
-<div class="highlight"><pre><span></span><code><span class="n">sudo</span> <span class="n">yum</span> <span class="n">install</span> <span class="n">libguestfs</span><span class="o">-</span><span class="n">tools</span>
+<div class="highlight"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">yum</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">libguestfs</span><span class="o">-</span><span class="n">tools</span>
 </code></pre></div>
 
 <p>For <strong>Arch Linux</strong> (my distro of choice) you need to install 3 packages from the AUR</p>

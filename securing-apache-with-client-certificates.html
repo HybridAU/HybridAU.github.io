@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,7 +49,10 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/securing-apache-with-client-certificates.html">Securing Apache with Client Certificates</a></h3>
+    <h1><a href="https://xo.tc/securing-apache-with-client-certificates.html">Securing Apache with Client Certificates</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 23 June 2016</p>
   </div>
   <div class="article_text">
     <p>This is the second in a three part series of posts on; <a href="https://xo.tc/setting-up-a-personal-certification-authority.html">Setting up a personal Certification Authority</a>, <a href="https://xo.tc/securing-apache-with-client-certificates.html">Securing Apache with Client Certificates</a>, and <a href="https://xo.tc/setting-up-freeradius-to-secure-your-wifi.html">Setting up FreeRADIUS to secure your WiFi</a>.</p>
@@ -60,24 +60,24 @@
 <p>This guide assumes that you have already got Apache running with SSL, and just want to add client certificates.</p>
 <p>I've got <a href="http://deluge-torrent.org/">Deluge</a> with the web UI running on my home server, I've got Apache proxying requests through to it. Deluge does come with a password prompt, but I'd like to add a little extra security for something internet facing so I've set it up to require client certificate to access it.</p>
 <p>With Apache it's surprisingly easy to do, just copy the CA certificate (if you followed the example in then it would be <code>~/ExampleCertificationAuthority-cacert.pem</code>) to somewhere accessible by Apache on the server, I recommend a folder like <code>/etc/ssl/custom</code> then just add the <code>SSLCACertificateFile</code> and <code>SSLVerifyClient</code> options to your Apache config, here is an excerpt from mine.</p>
-<div class="highlight"><pre><span></span><code>#This allows any client certificate issued by my Certification Authority
-SSLCACertificateFile /etc/ssl/custom/ExampleCertificationAuthority-cacert.pem
+<div class="highlight"><pre><span></span><code>#This<span class="w"> </span>allows<span class="w"> </span>any<span class="w"> </span>client<span class="w"> </span>certificate<span class="w"> </span>issued<span class="w"> </span>by<span class="w"> </span>my<span class="w"> </span>Certification<span class="w"> </span>Authority
+SSLCACertificateFile<span class="w"> </span>/etc/ssl/custom/ExampleCertificationAuthority-cacert.pem
 
 
 ################################################################################
-# Deluge-web config
+#<span class="w"> </span>Deluge-web<span class="w"> </span>config
 ################################################################################
 
-ProxyRequests off
-ProxyPass /deluge http://127.0.0.1:8112/
+ProxyRequests<span class="w"> </span>off
+ProxyPass<span class="w"> </span>/deluge<span class="w"> </span>http://127.0.0.1:8112/
 
-<span class="nt">&lt;Location</span> <span class="err">/deluge</span><span class="nt">&gt;</span>
-    ProxyPassReverse http://127.0.0.1:8112/deluge/
-    SSLVerifyClient require
-    SSLVerifyDepth 3
-    # Further restricts the list of certs to just authorised ones.
-    SSLRequire %{SSL_CLIENT_S_DN_Email} eq &quot;michael@xo.tc&quot; \
-    or %{SSL_CLIENT_S_DN_Email} eq &quot;example@xo.tc&quot;
+<span class="nt">&lt;Location</span><span class="w"> </span><span class="err">/deluge</span><span class="nt">&gt;</span>
+<span class="w">    </span>ProxyPassReverse<span class="w"> </span>http://127.0.0.1:8112/deluge/
+<span class="w">    </span>SSLVerifyClient<span class="w"> </span>require
+<span class="w">    </span>SSLVerifyDepth<span class="w"> </span>3
+<span class="w">    </span>#<span class="w"> </span>Further<span class="w"> </span>restricts<span class="w"> </span>the<span class="w"> </span>list<span class="w"> </span>of<span class="w"> </span>certs<span class="w"> </span>to<span class="w"> </span>just<span class="w"> </span>authorised<span class="w"> </span>ones.
+<span class="w">    </span>SSLRequire<span class="w"> </span>%{SSL_CLIENT_S_DN_Email}<span class="w"> </span>eq<span class="w"> </span>&quot;michael@xo.tc&quot;<span class="w"> </span>\
+<span class="w">    </span>or<span class="w"> </span>%{SSL_CLIENT_S_DN_Email}<span class="w"> </span>eq<span class="w"> </span>&quot;example@xo.tc&quot;
 <span class="nt">&lt;/Location&gt;</span>
 </code></pre></div>
 
@@ -93,7 +93,6 @@ ProxyPass /deluge http://127.0.0.1:8112/
 <p>You don't need to secure the server with a certificate signed by the same CA that signs the clients. For example in mine you can see that the server certificate has been signed by <a href="https://www.startssl.com/">StartCom</a> but the client certificate is signed by Example Certification Authority.</p>
   </div>
   <div class="article_meta">
-      <p>Posted on: <abbr title="2016-06-23 07:00:00+08:00" >Thu 23 June 2016</abbr></p>
     <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
       <a href="https://xo.tc/tag/tls.html">TLS</a>,      <a href="https://xo.tc/tag/cryptography.html">Cryptography</a>,      <a href="https://xo.tc/tag/openssl.html">OpenSSL</a>,      <a href="https://xo.tc/tag/apache.html">Apache</a>,      <a href="https://xo.tc/tag/deluge.html">Deluge</a>    </p>

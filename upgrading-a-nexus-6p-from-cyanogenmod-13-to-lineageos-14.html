@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,11 +49,14 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/upgrading-a-nexus-6p-from-cyanogenmod-13-to-lineageos-14.html">Upgrading a Nexus 6P from CyanogenMod 13 to LineageOS 14</a></h3>
+    <h1><a href="https://xo.tc/upgrading-a-nexus-6p-from-cyanogenmod-13-to-lineageos-14.html">Upgrading a Nexus 6P from CyanogenMod 13 to LineageOS 14</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 11 May 2017</p>
   </div>
   <div class="article_text">
     <p>There is an experimental build of LineageOS 14 which can upgrade from CyanogenMod 13 but I thought this was a good opportunity to clear some of the cruft off my phone and start again.</p>
-<h2>Backing up the phone</h2>
+<h2 id="backing-up-the-phone">Backing up the phone</h2>
 <p>There were only a few files on my phone I wanted to copy off. All my photos, contacts and calendar are synced with NextCloud so I already had them backed up.</p>
 <p>But I wanted to get a copy of the seed values from Google Authenticator and I wanted to keep a copy of my text messages<sup id="fnref:text-messages"><a class="footnote-ref" href="#fn:text-messages">1</a></sup>.</p>
 <p>To pull out the Google Authenticator database you need to enable adb and root access<sup id="fnref:root-access"><a class="footnote-ref" href="#fn:root-access">2</a></sup>.</p>
@@ -65,11 +65,11 @@
 <p>Scroll down to root access and pick ADB only.</p>
 <p>Scroll down to Debuguging and switch Android debugging on.</p>
 <p>Next you need to install ADB onto your computer, for me on Arch Linux that was as simple as</p>
-<div class="highlight"><pre><span></span><code><span class="n">sudo</span> <span class="n">pacman</span> <span class="o">-</span><span class="n">S</span> <span class="n">android</span><span class="o">-</span><span class="n">tools</span>
+<div class="highlight"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">pacman</span><span class="w"> </span><span class="o">-</span><span class="n">S</span><span class="w"> </span><span class="n">android</span><span class="o">-</span><span class="n">tools</span>
 </code></pre></div>
 
 <p>for Debian / Ubuntu that should be</p>
-<div class="highlight"><pre><span></span><code><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">android</span><span class="o">-</span><span class="n">tools</span><span class="o">-</span><span class="n">adb</span>
+<div class="highlight"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">apt</span><span class="o">-</span><span class="n">get</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">android</span><span class="o">-</span><span class="n">tools</span><span class="o">-</span><span class="n">adb</span>
 </code></pre></div>
 
 <p>Once you have adb installed you can connect your phone via the USB cable. You may need to accept a prompt on your phone to connect adb and trust the computer and the you can run</p>
@@ -82,14 +82,14 @@ adb pull /data/data/com.google.android.apps.authenticator2/databases/databases a
 </code></pre></div>
 
 <blockquote></blockquote>
-<div class="highlight"><pre><span></span><code><span class="nt">SQLite</span> <span class="nt">version</span> <span class="nt">3</span><span class="p">.</span><span class="nc">18</span><span class="p">.</span><span class="nc">0</span> <span class="nt">2017-03-28</span> <span class="nt">18</span><span class="p">:</span><span class="nd">48</span><span class="p">:</span><span class="nd">43</span>
-<span class="nt">Enter</span> <span class="s2">&quot;.help&quot;</span> <span class="nt">for</span> <span class="nt">usage</span> <span class="nt">hints</span><span class="o">.</span>
-<span class="nt">sqlite</span><span class="o">&gt;</span> <span class="p">.</span><span class="nc">tables</span>
-<span class="nt">accounts</span>          <span class="nt">android_metadata</span>
-<span class="nt">sqlite</span><span class="o">&gt;</span> <span class="nt">select</span> <span class="o">*</span> <span class="nt">from</span> <span class="nt">accounts</span><span class="o">;</span>
+<div class="highlight"><pre><span></span><code><span class="nt">SQLite</span><span class="w"> </span><span class="nt">version</span><span class="w"> </span><span class="nt">3</span><span class="p">.</span><span class="nc">18</span><span class="p">.</span><span class="nc">0</span><span class="w"> </span><span class="nt">2017-03-28</span><span class="w"> </span><span class="nt">18</span><span class="p">:</span><span class="nd">48</span><span class="p">:</span><span class="nd">43</span>
+<span class="nt">Enter</span><span class="w"> </span><span class="s2">&quot;.help&quot;</span><span class="w"> </span><span class="nt">for</span><span class="w"> </span><span class="nt">usage</span><span class="w"> </span><span class="nt">hints</span><span class="o">.</span>
+<span class="nt">sqlite</span><span class="o">&gt;</span><span class="w"> </span><span class="p">.</span><span class="nc">tables</span>
+<span class="nt">accounts</span><span class="w">          </span><span class="nt">android_metadata</span>
+<span class="nt">sqlite</span><span class="o">&gt;</span><span class="w"> </span><span class="nt">select</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nt">from</span><span class="w"> </span><span class="nt">accounts</span><span class="o">;</span>
 <span class="nt">1</span><span class="o">|</span><span class="nt">Gmail</span><span class="o">|</span><span class="nt">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span><span class="o">|</span><span class="nt">0</span><span class="o">|</span><span class="nt">0</span><span class="o">|</span><span class="nt">0</span>
 <span class="nt">2</span><span class="o">|</span><span class="nt">GitHub</span><span class="o">|</span><span class="nt">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span><span class="o">|</span><span class="nt">0</span><span class="o">|</span><span class="nt">0</span><span class="o">|</span><span class="nt">0</span>
-<span class="nt">3</span><span class="o">|</span><span class="nt">Amazon</span> <span class="nt">Web</span> <span class="nt">Services</span><span class="o">|</span><span class="nt">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span><span class="o">|</span><span class="nt">0</span><span class="o">|</span><span class="nt">0</span><span class="o">|</span><span class="nt">0</span>
+<span class="nt">3</span><span class="o">|</span><span class="nt">Amazon</span><span class="w"> </span><span class="nt">Web</span><span class="w"> </span><span class="nt">Services</span><span class="o">|</span><span class="nt">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span><span class="o">|</span><span class="nt">0</span><span class="o">|</span><span class="nt">0</span><span class="o">|</span><span class="nt">0</span>
 </code></pre></div>
 
 <p>simiarly we can now pull out our old text messages database with.</p>
@@ -100,24 +100,24 @@ adb pull /data/data/com.google.android.apps.authenticator2/databases/databases a
 <div class="highlight"><pre><span></span><code>sqlite3 mmssms.db
 </code></pre></div>
 
-<h2>Whipe the phone</h2>
+<h2 id="whipe-the-phone">Whipe the phone</h2>
 <p>We reboot the phone into TeamWin Recovery mode by holding the volume down key while booting. Then press the volume up and down to scroll to Recovery mode and click the power button.</p>
 <p>Then pick Wipe. I personally did Advance Wipe and picked all the partitions. I don't think this was necessary but I think it's cleaner to start off with a compleatly blank phone.</p>
-<h2>Flash the new firmware</h2>
+<h2 id="flash-the-new-firmware">Flash the new firmware</h2>
 <p>Next we flash the new firmware.</p>
 <p>Reboot again, and hold the volume down key but this time wait at the menu where it says Reboot bootloader.</p>
 <p>When I first ran <code>fastboot devices</code> I got an error message</p>
-<div class="highlight"><pre><span></span><code><span class="n">fastboot</span> <span class="n">devices</span>
-<span class="n">no</span> <span class="n">permissions</span><span class="p">;</span> <span class="n">see</span> <span class="p">[</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">developer</span><span class="o">.</span><span class="n">android</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">tools</span><span class="o">/</span><span class="n">device</span><span class="o">.</span><span class="n">html</span><span class="p">]</span>    <span class="n">fastboot</span>
+<div class="highlight"><pre><span></span><code><span class="n">fastboot</span><span class="w"> </span><span class="n">devices</span>
+<span class="n">no</span><span class="w"> </span><span class="n">permissions</span><span class="p">;</span><span class="w"> </span><span class="n">see</span><span class="w"> </span><span class="p">[</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">developer</span><span class="o">.</span><span class="n">android</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">tools</span><span class="o">/</span><span class="n">device</span><span class="o">.</span><span class="n">html</span><span class="p">]</span><span class="w">    </span><span class="n">fastboot</span>
 </code></pre></div>
 
 <p>But running it as root worked. I <a href="https://forum.xda-developers.com/nexus-6p/orig-development/rom-cm14-1-nexus-6p-angler-t3498453">downloaded</a> and flashed the vendor image, radio firmware and bootloader.</p>
-<div class="highlight"><pre><span></span><code><span class="n">sudo</span> <span class="n">fastboot</span> <span class="n">flash</span> <span class="n">vendor</span> <span class="n">vendor</span><span class="o">-</span><span class="n">n2g47h</span><span class="o">.</span><span class="n">img</span>
-<span class="n">sudo</span> <span class="n">fastboot</span> <span class="n">flash</span> <span class="n">radio</span> <span class="n">radio</span><span class="o">-</span><span class="n">angler</span><span class="o">-</span><span class="n">angler</span><span class="o">-</span><span class="mf">03.81</span><span class="o">.</span><span class="n">img</span>
-<span class="n">sudo</span> <span class="n">fastboot</span> <span class="n">flash</span> <span class="n">bootloader</span> <span class="n">bootloader</span><span class="o">-</span><span class="n">angler</span><span class="o">-</span><span class="n">angler</span><span class="o">-</span><span class="mf">03.67</span><span class="o">.</span><span class="n">img</span>
+<div class="highlight"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">fastboot</span><span class="w"> </span><span class="n">flash</span><span class="w"> </span><span class="n">vendor</span><span class="w"> </span><span class="n">vendor</span><span class="o">-</span><span class="n">n2g47h</span><span class="o">.</span><span class="n">img</span>
+<span class="n">sudo</span><span class="w"> </span><span class="n">fastboot</span><span class="w"> </span><span class="n">flash</span><span class="w"> </span><span class="n">radio</span><span class="w"> </span><span class="n">radio</span><span class="o">-</span><span class="n">angler</span><span class="o">-</span><span class="n">angler</span><span class="o">-</span><span class="mf">03.81</span><span class="o">.</span><span class="n">img</span>
+<span class="n">sudo</span><span class="w"> </span><span class="n">fastboot</span><span class="w"> </span><span class="n">flash</span><span class="w"> </span><span class="n">bootloader</span><span class="w"> </span><span class="n">bootloader</span><span class="o">-</span><span class="n">angler</span><span class="o">-</span><span class="n">angler</span><span class="o">-</span><span class="mf">03.67</span><span class="o">.</span><span class="n">img</span>
 </code></pre></div>
 
-<h2>Install LineageOS</h2>
+<h2 id="install-lineageos">Install LineageOS</h2>
 <p>Now we reboot into into TeamWin Recovery mode.</p>
 <p>Use adb to push a copy of lineage-14 onto the phone</p>
 <div class="highlight"><pre><span></span><code>adb push lineage-14.1-20170501-nightly-angler-signed.zip
@@ -138,7 +138,6 @@ adb pull /data/data/com.google.android.apps.authenticator2/databases/databases a
 </div>
   </div>
   <div class="article_meta">
-      <p>Posted on: <abbr title="2017-05-11 07:00:00+08:00" >Thu 11 May 2017</abbr></p>
     <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
       <a href="https://xo.tc/tag/cyanogenmod.html">CyanogenMod</a>,      <a href="https://xo.tc/tag/lineageos.html">LineageOS</a>    </p>

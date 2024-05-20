@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,7 +49,10 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/alternative-networks-for-this-site-zeronet.html">Alternative Networks for this site - ZeroNet</a></h3>
+    <h1><a href="https://xo.tc/alternative-networks-for-this-site-zeronet.html">Alternative Networks for this site - ZeroNet</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 08 September 2016</p>
   </div>
   <div class="article_text">
     <p>Over the last couple of weeks I've published this site as an <a href="https://xo.tc/alternative-networks-for-this-site-i2p.html">I2P eepsite</a>, and as a <a href="https://xo.tc/alternative-networks-for-this-site-tor.html">Tor Hidden Service</a>. This week I'm announcing Exotic Security is now available as a <a href="https://zeronet.io/">ZeroNet</a> site.</p>
@@ -95,7 +95,6 @@ systemctl enable zeronet.service
 <p>Getting a ZeroNet site up and running was pretty easy but I ran into some issues with my pelican site because I've been using root relative URLs but in ZeroNet my site is not running in the root of the server but instead under <code>/19M77j42ddq7wgvZctRSxR8Dyq7De8SGYb/</code> so I had to go back and look at the <a href="http://docs.getpelican.com/en/latest/content.html#linking-to-static-files">documentation</a> and update all the internal links in all my posts. After about half an hour with find and replace, grep and some regex I was in back in business.</p>
   </div>
   <div class="article_meta">
-      <p>Posted on: <abbr title="2016-09-08 07:00:00+08:00" >Thu 08 September 2016</abbr></p>
     <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
       <a href="https://xo.tc/tag/darknet.html">Darknet</a>,      <a href="https://xo.tc/tag/zeronet.html">ZeroNet</a>,      <a href="https://xo.tc/tag/alternative-networks.html">Alternative Networks</a>,      <a href="https://xo.tc/tag/torrents.html">Torrents</a>,      <a href="https://xo.tc/tag/peer-to-peer.html">Peer to Peer</a>    </p>

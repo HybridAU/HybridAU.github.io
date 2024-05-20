@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,15 +49,18 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/setting-file-permissions.html">Setting file permissions</a></h3>
+    <h1><a href="https://xo.tc/setting-file-permissions.html">Setting file permissions</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 14 April 2016</p>
   </div>
   <div class="article_text">
     <p>This is a fairly short post but it's another one of those <a href="https://xo.tc/tag/note-to-selfhtml.html">Note to self</a> things, I've done this 100 times but I can never remember and need to keep looking up again.</p>
 <p>Often I want to go through a directory and set all subdirectories to be readable and all the files to be read only by everyone except the owner who should have write permissions as well.<sup id="fnref:read-only"><a class="footnote-ref" href="#fn:read-only">1</a></sup></p>
 <p>I've got a little command I use, taken from a <a href="http://stackoverflow.com/questions/18352682/correct-file-permissions-for-wordpress">thread on stack overflow</a> that was about WordPress but it's very applicable elsewhere.</p>
-<div class="highlight"><pre><span></span><code>chown www-data:www-data -R *          <span class="c1"># Let apache be owner</span>
-find . -type d -exec chmod <span class="m">755</span> <span class="o">{}</span> <span class="se">\;</span>  <span class="c1"># Change directory permissions rwxr-xr-x</span>
-find . -type f -exec chmod <span class="m">644</span> <span class="o">{}</span> <span class="se">\;</span>  <span class="c1"># Change file permissions rw-r--r--</span>
+<div class="highlight"><pre><span></span><code>chown<span class="w"> </span>www-data:www-data<span class="w"> </span>-R<span class="w"> </span>*<span class="w">          </span><span class="c1"># Let apache be owner</span>
+find<span class="w"> </span>.<span class="w"> </span>-type<span class="w"> </span>d<span class="w"> </span>-exec<span class="w"> </span>chmod<span class="w"> </span><span class="m">755</span><span class="w"> </span><span class="o">{}</span><span class="w"> </span><span class="se">\;</span><span class="w">  </span><span class="c1"># Change directory permissions rwxr-xr-x</span>
+find<span class="w"> </span>.<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-exec<span class="w"> </span>chmod<span class="w"> </span><span class="m">644</span><span class="w"> </span><span class="o">{}</span><span class="w"> </span><span class="se">\;</span><span class="w">  </span><span class="c1"># Change file permissions rw-r--r--</span>
 </code></pre></div>
 
 <div class="footnote">
@@ -73,7 +73,6 @@ find . -type f -exec chmod <span class="m">644</span> <span class="o">{}</span> 
 </div>
   </div>
   <div class="article_meta">
-      <p>Posted on: <abbr title="2016-04-14 07:00:00+08:00" >Thu 14 April 2016</abbr></p>
     <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
       <a href="https://xo.tc/tag/linux.html">Linux</a>,      <a href="https://xo.tc/tag/wordpress.html">WordPress</a>,      <a href="https://xo.tc/tag/permissions.html">Permissions</a>    </p>

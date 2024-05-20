@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,7 +49,10 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/updating-uefi-bios-on-lenovo-thinkpad-x220.html">Updating UEFI BIOS on Lenovo ThinkPad X220</a></h3>
+    <h1><a href="https://xo.tc/updating-uefi-bios-on-lenovo-thinkpad-x220.html">Updating UEFI BIOS on Lenovo ThinkPad X220</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 28 July 2016</p>
   </div>
   <div class="article_text">
     <p>I've got a ThinkPad X220 and I've been a bit lax about patching the UEFI/BIOS. But recently this <a href="https://support.lenovo.com/au/en/product_security/smm_attack">SMM "Incursion" Attack</a> has been getting a bit of publicity and it's spurred me to try to patch it. It's worth noting that this bug is not specific to Lenovo, but something that affects most vendors of Intel based hardware. For those interested some of the best coverage I've found was from a recent <a href="http://risky.biz/RB417">risky business</a> podcast<sup id="fnref:podcast"><a class="footnote-ref" href="#fn:podcast">1</a></sup>.</p>
@@ -63,7 +63,7 @@
 <p>I found some instructions on <a href="http://www.thinkwiki.org/wiki/BIOS_Upgrade#Using_UEFI">ThinkWiki</a> with a link to a <a href="https://userpages.uni-koblenz.de/~krienke/ftp/noarch/geteltorito/">perl script</a> that could create a bootable image.</p>
 <p>I copied the image onto a flash drive but when I tried to boot it failed, after a bit of experimentation I found that the instructions on ThinkWiki were not quite right, they recommended setting the boot to UEFI only but I found that I needed to use Legacy BIOS to boot the flash drive.</p>
 <p>After that I was able to boot the drive and update my BIOS.</p>
-<h2>Final steps</h2>
+<h2 id="final-steps">Final steps</h2>
 <p>So in summary the steps that finally worked were:</p>
 <ol>
 <li>Download the <a href="http://support.lenovo.com/au/en/products/laptops-and-netbooks/thinkpad-x-series-laptops/thinkpad-x220/downloads/DS018807">iso file.</a></li>
@@ -98,7 +98,6 @@
 </div>
   </div>
   <div class="article_meta">
-      <p>Posted on: <abbr title="2016-07-28 07:00:00+08:00" >Thu 28 July 2016</abbr></p>
     <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
       <a href="https://xo.tc/tag/uefi.html">UEFI</a>,      <a href="https://xo.tc/tag/thinkpad.html">ThinkPad</a>,      <a href="https://xo.tc/tag/firmware.html">Firmware</a>,      <a href="https://xo.tc/tag/linux.html">Linux</a>    </p>

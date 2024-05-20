@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,7 +49,10 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/backup-to-s3-and-restore-to-ec2.html">Backup to S3 and restore to EC2</a></h3>
+    <h1><a href="https://xo.tc/backup-to-s3-and-restore-to-ec2.html">Backup to S3 and restore to EC2</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 01 October 2015</p>
   </div>
   <div class="article_text">
     <p>There is an old saying that "there are two types of sysadmins, those that do make backups and those that will make backups". Hopefully there are not too many of the second group. But backing up the data is only part of the picture, you also need to think about how you are going to restore it for a full disaster recovery (DR) plan.</p>
@@ -62,12 +62,12 @@
 <p>It saved us a huge amount of money and worked very well. So how did we do it?</p>
 <p><img alt="Disaster Recovery Process" src="https://xo.tc/images/Disaster-Recovery-Process.png"></p>
 <p>In this diagram we don't backup the Terminal Server, instead we treat it like a desktop machine and rebuild it.</p>
-<h2>Implementation</h2>
-<h3>Local Backup</h3>
+<h2 id="implementation">Implementation</h2>
+<h3 id="local-backup">Local Backup</h3>
 <p>We use <a href="http://www.veeam.com/vm-backup-recovery-replication-software.html">Veeam Backup and Replication</a><sup id="fnref:veeam"><a class="footnote-ref" href="#fn:veeam">3</a></sup> to backup our servers to a local backup server. Nothing fancy about that except a few small caveats; disks need to be either VHD or VMDK to work with <a href="http://docs.aws.amazon.com/AWSEC2/latest/CommandLineReference/ApiReference-cmd-ImportVolume.html">ec2-import-volumne</a> and not VHDX, VDI, etc.. also hard drives can't be over 1TB each as the import can't handle larger files. Lastly it's best to have a separate jobs for each server so if you have 5 servers, setup 5 seperate backup jobs (or even more, if you wanted you could setup one job for each disk, so a single server with 3 VHDs would have 3 backup jobs). This will create separate backup files and allow you to parallelize your restore process.</p>
-<h3>Offsite Storage</h3>
+<h3 id="offsite-storage">Offsite Storage</h3>
 <p>Then we push a copy of our backups into S3, we used <a href="http://www.veeam.com/backup-cloud-edition-licensing-faq.html">Veeam Cloud Backup</a> to push our backups off, but that got discontinued so now we are using <a href="http://www.cloudberrylab.com/enterprise-cloud-backup-software.aspx">CloudBerry Backup</a><sup id="fnref:cloudberry"><a class="footnote-ref" href="#fn:cloudberry">4</a></sup> which as far as I can tell is exactly the same product but rebadged<sup id="fnref:rebadged"><a class="footnote-ref" href="#fn:rebadged">5</a></sup>.</p>
-<h3>Restore Procedures</h3>
+<h3 id="restore-procedures">Restore Procedures</h3>
 <p>So far it's all been fairly standard but the restore is where it gets interesting. First we setup one EC2 and installed all the required software for a restore onto it; Veeam, CloudBerry Backup, and the <a href="http://docs.aws.amazon.com/AWSEC2/latest/CommandLineReference/ec2-cli-get-set-up.html">AWS Commandline tools</a> setup with an API key. We setup ours with a fairly small hard drive (EBS) in our case we set it to 40GB.</p>
 <p>Once it's been setup and ready to do a restore we can shut it down and make a snapshot to create an <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html">Amazon Machine Image</a> (AMI). This way if we want to restore 5 servers, we can spin up 5 DR servers to start the recovery and we can attach larger hard drives to each as a scratch disk to use for the restore (you will want about twice the size of the disks you are restoring).</p>
 <p>First you pull the Veeam files (.vbm, .vbk and .vib's) out of S3 onto the scratch disk with CloudBerry Backup and then import that into Veeam Backup and Replication to convert it back to a .vhd file.</p>
@@ -101,7 +101,6 @@
 </div>
   </div>
   <div class="article_meta">
-      <p>Posted on: <abbr title="2015-10-01 07:00:00+08:00" >Thu 01 October 2015</abbr></p>
     <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
       <a href="https://xo.tc/tag/backups.html">Backups</a>,      <a href="https://xo.tc/tag/disaster-recovery.html">Disaster Recovery</a>,      <a href="https://xo.tc/tag/amazon.html">Amazon</a>,      <a href="https://xo.tc/tag/cloud.html">Cloud</a>    </p>

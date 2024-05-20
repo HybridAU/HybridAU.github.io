@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,7 +49,10 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/setting-up-full-disk-encryption-on-debian-jessie.html">Setting Up Full Disk Encryption on Debian Jessie</a></h3>
+    <h1><a href="https://xo.tc/setting-up-full-disk-encryption-on-debian-jessie.html">Setting Up Full Disk Encryption on Debian Jessie</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 05 November 2015</p>
   </div>
   <div class="article_text">
     <p><strong>Update 2017-06-29:</strong> I've done an <a href="https://xo.tc/setting-up-full-disk-encryption-on-debian-9-stretch.html">updated version</a> of this tutorial with Debian Stretch. The updated version is simplified, it uses the graphical installer and guided partitioning. However, if you want to manually partition your disks, this tutorial will still work for Debian Stretch.</p>
@@ -138,7 +138,7 @@
 <p>When you finish the installer and reboot you should now have a system with full disk encryption but there are a couple of things we need to fix up.</p>
 <p>First we will setup the swap partition to use a random key at boot. We need to edit <code>/etc/crypttab</code> and add <code>sda7_crypt /dev/sda7 /dev/urandom swap</code>. Then we need to edit <code>/etc/fstab</code> and add <code>/dev/mapper/sda7_crypt none swap sw 0 0</code></p>
 <p>Next we are going to use a key file instead of a passphrase for our home partition. To do that we will generate a file with some random data in there.</p>
-<div class="highlight"><pre><span></span><code>$ sudo su
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>sudo<span class="w"> </span>su
 <span class="c1"># mkdir /etc/keys</span>
 <span class="c1"># dd if=/dev/random of=/etc/keys/sda6.key bs=1 count=32</span>
 <span class="c1"># chmod 400 /etc/keys/sda6.key</span>
@@ -161,7 +161,6 @@
 </div>
   </div>
   <div class="article_meta">
-      <p>Posted on: <abbr title="2015-11-05 07:00:00+08:00" >Thu 05 November 2015</abbr></p>
     <p>Category: <a href="https://xo.tc/category/tutorials.html">Tutorials</a>
  &ndash; Tags:
       <a href="https://xo.tc/tag/cryptography.html">Cryptography</a>,      <a href="https://xo.tc/tag/luks.html">LUKS</a>,      <a href="https://xo.tc/tag/debian.html">Debian</a>,      <a href="https://xo.tc/tag/linux.html">Linux</a>,      <a href="https://xo.tc/tag/full-disk-encryption.html">Full Disk Encryption</a>    </p>

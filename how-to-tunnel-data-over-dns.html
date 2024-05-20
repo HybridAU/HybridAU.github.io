@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,18 +49,21 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/how-to-tunnel-data-over-dns.html">How to tunnel data over DNS</a></h3>
+    <h1><a href="https://xo.tc/how-to-tunnel-data-over-dns.html">How to tunnel data over DNS</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 17 November 2016</p>
   </div>
   <div class="article_text">
     <p>A while ago I wrote a post on <a href="https://xo.tc/tunneling-data-over-dns.html">tunneling data over DNS</a> that was a technical explanation of what's going on. This post is a tutorial on how to setup a DNS tunnel with <a href="http://code.kryo.se/iodine/">iodine</a>.</p>
 <p>I'm using <a href="https://dnsmadeeasy.com/">DNS Made Easy</a> as my main DNS provider, Debian on an EC2 for the DNS server, and Arch Linux and Windows as the client. I haven't tried this on other setups but it should be more or less the same.</p>
-<h2>Setting up the server</h2>
+<h2 id="setting-up-the-server">Setting up the server</h2>
 <p>Start a t2.micro EC2<sup id="fnref:ec2"><a class="footnote-ref" href="#fn:ec2">1</a></sup> running Debian, updated all the packages and reboot<sup id="fnref:reboot"><a class="footnote-ref" href="#fn:reboot">2</a></sup>.</p>
-<div class="highlight"><pre><span></span><code>sudo apt-get update <span class="o">&amp;&amp;</span> sudo apt-get dist-upgrade <span class="o">&amp;&amp;</span> sudo reboot
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>dist-upgrade<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>reboot
 </code></pre></div>
 
 <p>Then install iodine</p>
-<div class="highlight"><pre><span></span><code>sudo apt-get install iodine
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>iodine
 </code></pre></div>
 
 <p>Setup the domain name to use for the tunnel, in my case I used tunnel.xo.tc. I created a sub-domain and delegated it to a DNS servers called tunnel-ns1.xo.tc.</p>
@@ -72,7 +72,7 @@
 <p>Next we need to setup the A record for the name server we have specified.</p>
 <p><img alt="Adding an A Record" src="https://xo.tc/images/dns-tunnel-add-a-record.png"></p>
 <p>Then on the EC2 server</p>
-<div class="highlight"><pre><span></span><code>sudo iodined -f <span class="m">10</span>.73.72.1 -c tunnel.xo.tc
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>iodined<span class="w"> </span>-f<span class="w"> </span><span class="m">10</span>.73.72.1<span class="w"> </span>-c<span class="w"> </span>tunnel.xo.tc
 </code></pre></div>
 
 <ul>
@@ -82,54 +82,54 @@
 <li><code>tunnel.xo.tc</code> is the domain to use as a tunnel.</li>
 </ul>
 <p>Check your server is working with <a href="http://code.kryo.se/iodine/check-it/">iodine check tool</a></p>
-<h2>Arch Linux Client</h2>
+<h2 id="arch-linux-client">Arch Linux Client</h2>
 <p>On the client (Arch Linux)</p>
-<div class="highlight"><pre><span></span><code>sudo pacman -S iodine
-sudo iodine -f tunnel.xo.tc
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>pacman<span class="w"> </span>-S<span class="w"> </span>iodine
+sudo<span class="w"> </span>iodine<span class="w"> </span>-f<span class="w"> </span>tunnel.xo.tc
 </code></pre></div>
 
 <p>Now if you run <code>ip addr</code> you should see a new network connection</p>
-<div class="highlight"><pre><span></span><code><span class="o">[</span><span class="n">michael@ezreal ~</span><span class="o">]</span><span class="err">$</span><span class="w"> </span><span class="n">sudo</span><span class="w"> </span><span class="n">ip</span><span class="w"> </span><span class="n">addr</span><span class="w"></span>
-<span class="err">#</span><span class="w"> </span><span class="p">...</span><span class="w"></span>
-<span class="mi">4</span><span class="err">:</span><span class="w"> </span><span class="nl">dns0</span><span class="p">:</span><span class="w"> </span><span class="o">&lt;</span><span class="n">POINTOPOINT</span><span class="p">,</span><span class="n">MULTICAST</span><span class="p">,</span><span class="n">NOARP</span><span class="p">,</span><span class="n">UP</span><span class="p">,</span><span class="n">LOWER_UP</span><span class="o">&gt;</span><span class="w"> </span><span class="n">mtu</span><span class="w"> </span><span class="mi">1130</span><span class="w"> </span><span class="n">qdisc</span><span class="w"> </span><span class="n">fq_codel</span><span class="w"> </span><span class="k">state</span><span class="w"> </span><span class="k">UNKNOWN</span><span class="w"> </span><span class="k">group</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="n">qlen</span><span class="w"> </span><span class="mi">500</span><span class="w"></span>
-<span class="w">    </span><span class="n">link</span><span class="o">/</span><span class="k">none</span><span class="w"></span>
-<span class="w">    </span><span class="n">inet</span><span class="w"> </span><span class="mf">10.73.72.2</span><span class="o">/</span><span class="mi">27</span><span class="w"> </span><span class="k">scope</span><span class="w"> </span><span class="k">global</span><span class="w"> </span><span class="n">dns0</span><span class="w"></span>
-<span class="w">       </span><span class="n">valid_lft</span><span class="w"> </span><span class="n">forever</span><span class="w"> </span><span class="n">preferred_lft</span><span class="w"> </span><span class="n">forever</span><span class="w"></span>
-<span class="o">[</span><span class="n">michael@ezreal ~</span><span class="o">]</span><span class="err">$</span><span class="w"> </span><span class="n">ping</span><span class="w"> </span><span class="o">-</span><span class="n">c</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mf">10.73.72.1</span><span class="w"></span>
-<span class="n">PING</span><span class="w"> </span><span class="mf">10.73.72.1</span><span class="w"> </span><span class="p">(</span><span class="mf">10.73.72.1</span><span class="p">)</span><span class="w"> </span><span class="mi">56</span><span class="p">(</span><span class="mi">84</span><span class="p">)</span><span class="w"> </span><span class="n">bytes</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="k">data</span><span class="p">.</span><span class="w"></span>
-<span class="mi">64</span><span class="w"> </span><span class="n">bytes</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="mf">10.73.72.1</span><span class="err">:</span><span class="w"> </span><span class="n">icmp_seq</span><span class="o">=</span><span class="mi">1</span><span class="w"> </span><span class="n">ttl</span><span class="o">=</span><span class="mi">64</span><span class="w"> </span><span class="nc">time</span><span class="o">=</span><span class="mi">346</span><span class="w"> </span><span class="n">ms</span><span class="w"></span>
-<span class="mi">64</span><span class="w"> </span><span class="n">bytes</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="mf">10.73.72.1</span><span class="err">:</span><span class="w"> </span><span class="n">icmp_seq</span><span class="o">=</span><span class="mi">2</span><span class="w"> </span><span class="n">ttl</span><span class="o">=</span><span class="mi">64</span><span class="w"> </span><span class="nc">time</span><span class="o">=</span><span class="mi">334</span><span class="w"> </span><span class="n">ms</span><span class="w"></span>
-<span class="mi">64</span><span class="w"> </span><span class="n">bytes</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="mf">10.73.72.1</span><span class="err">:</span><span class="w"> </span><span class="n">icmp_seq</span><span class="o">=</span><span class="mi">3</span><span class="w"> </span><span class="n">ttl</span><span class="o">=</span><span class="mi">64</span><span class="w"> </span><span class="nc">time</span><span class="o">=</span><span class="mi">346</span><span class="w"> </span><span class="n">ms</span><span class="w"></span>
-<span class="mi">64</span><span class="w"> </span><span class="n">bytes</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="mf">10.73.72.1</span><span class="err">:</span><span class="w"> </span><span class="n">icmp_seq</span><span class="o">=</span><span class="mi">4</span><span class="w"> </span><span class="n">ttl</span><span class="o">=</span><span class="mi">64</span><span class="w"> </span><span class="nc">time</span><span class="o">=</span><span class="mi">338</span><span class="w"> </span><span class="n">ms</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="p">[</span><span class="nx">michael</span><span class="err">@</span><span class="nx">ezreal</span><span class="w"> </span><span class="o">~</span><span class="p">]</span><span class="err">$</span><span class="w"> </span><span class="nx">sudo</span><span class="w"> </span><span class="nx">ip</span><span class="w"> </span><span class="kd">addr</span>
+<span class="err">#</span><span class="w"> </span><span class="o">...</span>
+<span class="mi">4</span><span class="p">:</span><span class="w"> </span><span class="nx">dns0</span><span class="p">:</span><span class="w"> </span><span class="p">&lt;</span><span class="nx">POINTOPOINT</span><span class="p">,</span><span class="nx">MULTICAST</span><span class="p">,</span><span class="nx">NOARP</span><span class="p">,</span><span class="nx">UP</span><span class="p">,</span><span class="nx">LOWER_UP</span><span class="p">&gt;</span><span class="w"> </span><span class="nx">mtu</span><span class="w"> </span><span class="mi">1130</span><span class="w"> </span><span class="nx">qdisc</span><span class="w"> </span><span class="nx">fq_codel</span><span class="w"> </span><span class="nx">state</span><span class="w"> </span><span class="nx">UNKNOWN</span><span class="w"> </span><span class="nx">group</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="nx">qlen</span><span class="w"> </span><span class="mi">500</span>
+<span class="w">    </span><span class="nx">link</span><span class="o">/</span><span class="nx">none</span>
+<span class="w">    </span><span class="nx">inet</span><span class="w"> </span><span class="m m-Double">10.73.72.2</span><span class="o">/</span><span class="mi">27</span><span class="w"> </span><span class="nx">scope</span><span class="w"> </span><span class="nx">global</span><span class="w"> </span><span class="nx">dns0</span>
+<span class="w">       </span><span class="nx">valid_lft</span><span class="w"> </span><span class="nx">forever</span><span class="w"> </span><span class="nx">preferred_lft</span><span class="w"> </span><span class="nx">forever</span>
+<span class="p">[</span><span class="nx">michael</span><span class="err">@</span><span class="nx">ezreal</span><span class="w"> </span><span class="o">~</span><span class="p">]</span><span class="err">$</span><span class="w"> </span><span class="nx">ping</span><span class="w"> </span><span class="o">-</span><span class="nx">c</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="m m-Double">10.73.72.1</span>
+<span class="nx">PING</span><span class="w"> </span><span class="m m-Double">10.73.72.1</span><span class="w"> </span><span class="p">(</span><span class="m m-Double">10.73.72.1</span><span class="p">)</span><span class="w"> </span><span class="mi">56</span><span class="p">(</span><span class="mi">84</span><span class="p">)</span><span class="w"> </span><span class="nx">bytes</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">data</span><span class="p">.</span>
+<span class="mi">64</span><span class="w"> </span><span class="nx">bytes</span><span class="w"> </span><span class="nx">from</span><span class="w"> </span><span class="m m-Double">10.73.72.1</span><span class="p">:</span><span class="w"> </span><span class="nx">icmp_seq</span><span class="p">=</span><span class="mi">1</span><span class="w"> </span><span class="nx">ttl</span><span class="p">=</span><span class="mi">64</span><span class="w"> </span><span class="nx">time</span><span class="p">=</span><span class="mi">346</span><span class="w"> </span><span class="nx">ms</span>
+<span class="mi">64</span><span class="w"> </span><span class="nx">bytes</span><span class="w"> </span><span class="nx">from</span><span class="w"> </span><span class="m m-Double">10.73.72.1</span><span class="p">:</span><span class="w"> </span><span class="nx">icmp_seq</span><span class="p">=</span><span class="mi">2</span><span class="w"> </span><span class="nx">ttl</span><span class="p">=</span><span class="mi">64</span><span class="w"> </span><span class="nx">time</span><span class="p">=</span><span class="mi">334</span><span class="w"> </span><span class="nx">ms</span>
+<span class="mi">64</span><span class="w"> </span><span class="nx">bytes</span><span class="w"> </span><span class="nx">from</span><span class="w"> </span><span class="m m-Double">10.73.72.1</span><span class="p">:</span><span class="w"> </span><span class="nx">icmp_seq</span><span class="p">=</span><span class="mi">3</span><span class="w"> </span><span class="nx">ttl</span><span class="p">=</span><span class="mi">64</span><span class="w"> </span><span class="nx">time</span><span class="p">=</span><span class="mi">346</span><span class="w"> </span><span class="nx">ms</span>
+<span class="mi">64</span><span class="w"> </span><span class="nx">bytes</span><span class="w"> </span><span class="nx">from</span><span class="w"> </span><span class="m m-Double">10.73.72.1</span><span class="p">:</span><span class="w"> </span><span class="nx">icmp_seq</span><span class="p">=</span><span class="mi">4</span><span class="w"> </span><span class="nx">ttl</span><span class="p">=</span><span class="mi">64</span><span class="w"> </span><span class="nx">time</span><span class="p">=</span><span class="mi">338</span><span class="w"> </span><span class="nx">ms</span>
 
-<span class="o">---</span><span class="w"> </span><span class="mf">10.73.72.1</span><span class="w"> </span><span class="n">ping</span><span class="w"> </span><span class="k">statistics</span><span class="w"> </span><span class="o">---</span><span class="w"></span>
-<span class="mi">4</span><span class="w"> </span><span class="n">packets</span><span class="w"> </span><span class="n">transmitted</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">received</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="o">%</span><span class="w"> </span><span class="n">packet</span><span class="w"> </span><span class="n">loss</span><span class="p">,</span><span class="w"> </span><span class="nc">time</span><span class="w"> </span><span class="mi">3001</span><span class="n">ms</span><span class="w"></span>
-<span class="n">rtt</span><span class="w"> </span><span class="nf">min</span><span class="o">/</span><span class="nf">avg</span><span class="o">/</span><span class="nf">max</span><span class="o">/</span><span class="n">mdev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">334.381</span><span class="o">/</span><span class="mf">341.482</span><span class="o">/</span><span class="mf">346.673</span><span class="o">/</span><span class="mf">5.310</span><span class="w"> </span><span class="n">ms</span><span class="w"></span>
+<span class="o">---</span><span class="w"> </span><span class="m m-Double">10.73.72.1</span><span class="w"> </span><span class="nx">ping</span><span class="w"> </span><span class="nx">statistics</span><span class="w"> </span><span class="o">---</span>
+<span class="mi">4</span><span class="w"> </span><span class="nx">packets</span><span class="w"> </span><span class="nx">transmitted</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="nx">received</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="o">%</span><span class="w"> </span><span class="nx">packet</span><span class="w"> </span><span class="nx">loss</span><span class="p">,</span><span class="w"> </span><span class="nx">time</span><span class="w"> </span><span class="mi">3001</span><span class="nx">ms</span>
+<span class="nx">rtt</span><span class="w"> </span><span class="nx">min</span><span class="o">/</span><span class="nx">avg</span><span class="o">/</span><span class="nx">max</span><span class="o">/</span><span class="nx">mdev</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="m m-Double">334.381</span><span class="o">/</span><span class="m m-Double">341.482</span><span class="o">/</span><span class="m m-Double">346.673</span><span class="o">/</span><span class="m m-Double">5.310</span><span class="w"> </span><span class="nx">ms</span>
 </code></pre></div>
 
 <p>Congratulations, you now have a tunnel through DNS.</p>
-<h2>Windows Client</h2>
+<h2 id="windows-client">Windows Client</h2>
 <p>First we need to install the Install the TAP32 driver. To do this download the <a href="http://openvpn.net/index.php/open-source/downloads.html">OpenVPN</a> installer<sup id="fnref:openVPN"><a class="footnote-ref" href="#fn:openVPN">3</a></sup> and when you get to Choose Components step, you only need to pick TAP Virtual Ethernet Adapter.</p>
 <p><img alt="Installing openVPN TAP adapter" src="https://xo.tc/images/installing-openVPN-TAP.png"></p>
 <p>The rest is more or less the same as Linux, download the latest binary, extract them, open a command prompt as administrator and run iodine <code>c:\Users\Michael\Downloads\iodine-0.7.0-windows\64bit\iodine.exe -f tunnel.xo.tc</code></p>
-<h2>Making it a service</h2>
+<h2 id="making-it-a-service">Making it a service</h2>
 <p>Of course if you're planning on using it from a hotel WiFi for example you might not be able to SSH in and start iodine so you will want your tunnel available all the time.</p>
-<div class="highlight"><pre><span></span><code>sudo nano /etc/default/iodine
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/default/iodine
 </code></pre></div>
 
 <p>Setup your iodine config<sup id="fnref:password"><a class="footnote-ref" href="#fn:password">4</a></sup></p>
-<div class="highlight"><pre><span></span><code># <span class="nv">Default</span> <span class="nv">settings</span> <span class="k">for</span> <span class="nv">iodine</span>. <span class="nv">This</span> <span class="nv">file</span> <span class="nv">is</span> <span class="nv">sourced</span> <span class="nv">from</span>
-# <span class="o">/</span><span class="nv">etc</span><span class="o">/</span><span class="nv">init</span>.<span class="nv">d</span><span class="o">/</span><span class="nv">iodined</span>
-<span class="nv">START_IODINED</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">true</span><span class="s2">&quot;</span>
-<span class="nv">IODINED_ARGS</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">10.73.72.1 -c tunnel.xo.tc</span><span class="s2">&quot;</span>
-<span class="nv">IODINED_PASSWORD</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">SjLYBVAI4HnaF6TN6oryN7r2</span><span class="s2">&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="gh">#</span> Default settings for iodine. This file is sourced from
+<span class="gh">#</span> /etc/init.d/iodined
+START_IODINED=&quot;true&quot;
+IODINED_ARGS=&quot;10.73.72.1 -c tunnel.xo.tc&quot;
+IODINED_PASSWORD=&quot;SjLYBVAI4HnaF6TN6oryN7r2&quot;
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code>sudo systemctl enable iodined.service
 sudo systemctl restart iodined.service
 </code></pre></div>
 
-<h2>Encryption and routing</h2>
+<h2 id="encryption-and-routing">Encryption and routing</h2>
 <p>Now you have a DNS tunnel between you and your server, but it doesn't mean that all your traffic will magically flow through it, nor is your traffic private<sup id="fnref:private"><a class="footnote-ref" href="#fn:private">5</a></sup>. The recommended way is to either setup a VPN or SSH Tunnel<sup id="fnref:tunnel"><a class="footnote-ref" href="#fn:tunnel">6</a></sup>.</p>
 <p>On Linux it's pretty simple <code>ssh -D 8080 admin@10.73.72.1 -i aws-key.pem</code></p>
 <p>On Windows it's pretty much the same, except we will use Putty and under Connection &gt; SSH &gt; Tunnels and Dynamic port forwarding on port 8080.</p>
@@ -162,7 +162,6 @@ sudo systemctl restart iodined.service
 </div>
   </div>
   <div class="article_meta">
-      <p>Posted on: <abbr title="2016-11-17 07:00:00+08:00" >Thu 17 November 2016</abbr></p>
     <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
       <a href="https://xo.tc/tag/dns.html">DNS</a>,      <a href="https://xo.tc/tag/dns-made-easy.html">DNS Made Easy</a>,      <a href="https://xo.tc/tag/data-exfiltration.html">Data Exfiltration</a>,      <a href="https://xo.tc/tag/debian.html">Debian</a>,      <a href="https://xo.tc/tag/arch-linux.html">Arch Linux</a>,      <a href="https://xo.tc/tag/amazon.html">Amazon</a>,      <a href="https://xo.tc/tag/firewalls.html">Firewalls</a>,      <a href="https://xo.tc/tag/windows.html">Windows</a>    </p>

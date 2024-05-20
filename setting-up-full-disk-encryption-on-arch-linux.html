@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,21 +49,24 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/setting-up-full-disk-encryption-on-arch-linux.html">Setting Up Full Disk Encryption on Arch Linux</a></h3>
+    <h1><a href="https://xo.tc/setting-up-full-disk-encryption-on-arch-linux.html">Setting Up Full Disk Encryption on Arch Linux</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 21 July 2016</p>
   </div>
   <div class="article_text">
     <p>I recently switched my laptop over from <a href="https://wiki.debian.org/DebianStretch">Debian Stretch</a> to <a href="https://www.archlinux.org/">Arch Linux</a>.</p>
 <p>Debian is still my go to distribution for any server, but I felt like I was in a bit of a no man's land with my laptop. Debian stable (currently Jessie) is rock solid and reliable but I want to install new packages, like the latest version of Firefox. Debian testing and unstable (Stretch and Sid) are well ... unstable, and you really can't complain when things break<sup id="fnref:complain"><a class="footnote-ref" href="#fn:complain">1</a></sup>.</p>
 <p>I've been using Arch Linux on my desktop for a while and for a bleeding edge distribution it's surprisingly stable<sup id="fnref:surprisingly-stable"><a class="footnote-ref" href="#fn:surprisingly-stable">2</a></sup>.</p>
 <p>These my notes on <a href="https://wiki.archlinux.org/index.php/Installation_guide">installing Arch Linux</a> on my laptop with Full Disk Encryption. As I noted in my post on <a href="https://xo.tc/setting-up-full-disk-encryption-on-debian-jessie.html">Setting Up Full Disk Encryption on Debian Jessie</a> it's not really "Full" disk encryption, there is still a small partition <code>/boot</code> that's unencrypted and will contain the kernel and <a href="https://en.wikipedia.org/wiki/Initramfs">initramfs</a>.</p>
-<h2>Download</h2>
+<h2 id="download">Download</h2>
 <p>First I <a href="https://www.archlinux.org/download/">downloaded</a> the latest Arch Linux iso, verified it, and copied it to a USB flash drive.</p>
-<div class="highlight"><pre><span></span><code><span class="nv">gpg</span> <span class="o">--</span><span class="nv">recv</span><span class="o">-</span><span class="nv">keys</span> <span class="mi">0</span><span class="nv">x7f2d434b9741e8ac</span>
-<span class="nv">gpg</span> <span class="o">--</span><span class="nv">verify</span> <span class="nv">archlinux</span><span class="o">-</span><span class="mi">2016</span>.<span class="mi">07</span>.<span class="mi">01</span><span class="o">-</span><span class="nv">dual</span>.<span class="nv">iso</span>.<span class="nv">sig</span>
-<span class="nv">dd</span> <span class="k">if</span><span class="o">=</span><span class="nv">archlinux</span><span class="o">-</span><span class="mi">2016</span>.<span class="mi">07</span>.<span class="mi">01</span><span class="o">-</span><span class="nv">dual</span>.<span class="nv">iso</span> <span class="nv">of</span><span class="o">=/</span><span class="nv">dev</span><span class="o">/</span><span class="nv">sdb</span>
+<div class="highlight"><pre><span></span><code><span class="nv">gpg</span><span class="w"> </span><span class="o">--</span><span class="nv">recv</span><span class="o">-</span><span class="nv">keys</span><span class="w"> </span><span class="mi">0</span><span class="nv">x7f2d434b9741e8ac</span>
+<span class="nv">gpg</span><span class="w"> </span><span class="o">--</span><span class="nv">verify</span><span class="w"> </span><span class="nv">archlinux</span><span class="o">-</span><span class="mi">2016</span>.<span class="mi">07</span>.<span class="mi">01</span><span class="o">-</span><span class="nv">dual</span>.<span class="nv">iso</span>.<span class="nv">sig</span>
+<span class="nv">dd</span><span class="w"> </span><span class="k">if</span><span class="o">=</span><span class="nv">archlinux</span><span class="o">-</span><span class="mi">2016</span>.<span class="mi">07</span>.<span class="mi">01</span><span class="o">-</span><span class="nv">dual</span>.<span class="nv">iso</span><span class="w"> </span><span class="nv">of</span><span class="o">=/</span><span class="nv">dev</span><span class="o">/</span><span class="nv">sdb</span>
 </code></pre></div>
 
-<h2>Install</h2>
+<h2 id="install">Install</h2>
 <p>Then I booted the USB drive and, updated the time, because that's what it says in the documentation and it's a good idea.</p>
 <div class="highlight"><pre><span></span><code>timedatectl set-ntp true
 </code></pre></div>
@@ -112,7 +112,7 @@ nano /etc/locale.gen
 locale-gen
 
 nano /etc/locale.conf
-# LANG=en_AU.UTF-8
+<span class="gh">#</span> LANG=en_AU.UTF-8
 
 pacman -S vim
 
@@ -143,10 +143,10 @@ visudo
 
 <p>Lastly I setup my swap partition to be a LUKs volume with a random key.</p>
 <div class="highlight"><pre><span></span><code>vim /etc/crypttab
-# arch_swap /dev/sda3 /dev/urandom swap
+<span class="gh">#</span> arch_swap /dev/sda3 /dev/urandom swap
 
 vim /etc/fstab
-# /dev/mapper/arch_swap none swap sw 0 0
+<span class="gh">#</span> /dev/mapper/arch_swap none swap sw 0 0
 </code></pre></div>
 
 <p>I exited the chroot and rebooted.</p>
@@ -154,7 +154,7 @@ vim /etc/fstab
 <span class="nv">reboot</span>
 </code></pre></div>
 
-<h2>Post install</h2>
+<h2 id="post-install">Post install</h2>
 <p>I installed KDE because that's my desktop of choice but the lovely thing about Arch Linux is you can make it almost anything you want.</p>
 <div class="highlight"><pre><span></span><code># Logged in as Michael, but run as root
 dhcpcd enp0s25
@@ -183,19 +183,19 @@ vim /etc/pam.d/sddm
 </code></pre></div>
 
 <p>My sddm file</p>
-<div class="highlight"><pre><span></span><code>#<span class="o">%</span><span class="nv">PAM</span><span class="o">-</span><span class="mi">1</span>.<span class="mi">0</span>
+<div class="highlight"><pre><span></span><code><span class="gh">#</span>%PAM-1.0
 
-<span class="nv">auth</span>            <span class="k">include</span>         <span class="nv">system</span><span class="o">-</span><span class="nv">login</span>
-<span class="nv">auth</span>            <span class="nv">optional</span>        <span class="nv">pam_kwallet5</span>.<span class="nv">so</span>
-<span class="nv">auth</span>            <span class="nv">optional</span>        <span class="nv">pam_kwallet</span>.<span class="nv">so</span> <span class="nv">kdehome</span><span class="o">=</span>.<span class="nv">kde4</span>
+auth            include         system-login
+auth            optional        pam_kwallet5.so
+auth            optional        pam_kwallet.so kdehome=.kde4
 
-<span class="nv">account</span>         <span class="k">include</span>         <span class="nv">system</span><span class="o">-</span><span class="nv">login</span>
+account         include         system-login
 
-<span class="nv">password</span>        <span class="k">include</span>         <span class="nv">system</span><span class="o">-</span><span class="nv">login</span>
+password        include         system-login
 
-<span class="nv">session</span>         <span class="k">include</span>         <span class="nv">system</span><span class="o">-</span><span class="nv">login</span>
-<span class="nv">session</span>         <span class="nv">optional</span>        <span class="nv">pam_kwallet5</span>.<span class="nv">so</span>
-<span class="nv">session</span>         <span class="nv">optional</span>        <span class="nv">pam_kwallet</span>.<span class="nv">so</span>
+session         include         system-login
+session         optional        pam_kwallet5.so
+session         optional        pam_kwallet.so
 </code></pre></div>
 
 <div class="footnote">
@@ -214,7 +214,6 @@ vim /etc/pam.d/sddm
 </div>
   </div>
   <div class="article_meta">
-      <p>Posted on: <abbr title="2016-07-21 07:00:00+08:00" >Thu 21 July 2016</abbr></p>
     <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
       <a href="https://xo.tc/tag/arch-linux.html">Arch Linux</a>,      <a href="https://xo.tc/tag/debian.html">Debian</a>,      <a href="https://xo.tc/tag/full-disk-encryption.html">Full Disk Encryption</a>,      <a href="https://xo.tc/tag/uefi.html">UEFI</a>,      <a href="https://xo.tc/tag/luks.html">LUKS</a>    </p>

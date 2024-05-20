@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,13 +49,16 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/setting-up-backblaze-for-duplicati.html">Setting up Backblaze for Duplicati</a></h3>
+    <h1><a href="https://xo.tc/setting-up-backblaze-for-duplicati.html">Setting up Backblaze for Duplicati</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 02 November 2017</p>
   </div>
   <div class="article_text">
     <p>I've been <a href="https://xo.tc/crashplan-personal-is-shutting-down.html">looking</a> for new backup software for a few months and I've found <a href="https://www.duplicati.com/">Duplicati</a>. I'm absolutely stoked with it, it does everything I want from backup software.</p>
 <p>Duplicati can backup to a number of different locations and there are several cloud options but I've chosen to go with <a href="https://www.backblaze.com/">Backblaze</a>. I like them because they are extremely open with the design of their <a href="https://www.backblaze.com/b2/storage-pod.html">Storage Pods</a>. Not just on how they work but releasing all the information you need to go and actually build one yourself.</p>
 <p>It doesn't hurt that Backblaze are <a href="https://www.backblaze.com/b2/cloud-storage-pricing.html">cheaper</a> than Amazon S3<sup id="fnref:cheaper"><a class="footnote-ref" href="#fn:cheaper">1</a></sup> and will <a href="https://www.backblaze.com/restore.html">mail you</a> a hard drive with your data. Something that CrashPlan <a href="https://xo.tc/crashplan-no-longer-offer-restore-to-door-service.html">used to do</a> until a few years ago.</p>
-<h2>Signing up to Backblaze</h2>
+<h2 id="signing-up-to-backblaze">Signing up to Backblaze</h2>
 <p>So the first part of setting up Duplicati is setting somewhere to send your backups to, head over to the Backblaze B2 <a href="https://www.backblaze.com/b2/cloud-storage.html">sign up page</a> and click Sign up today</p>
 <p><img alt="Sign up to backblaze" src="https://xo.tc/images/backblaze-b2-signup-1.png"></p>
 <p>Put in a username and password<sup id="fnref:password"><a class="footnote-ref" href="#fn:password">2</a></sup></p>
@@ -69,7 +69,7 @@
 <p><img alt="Sign up to backblaze - phone" src="https://xo.tc/images/backblaze-b2-signup-4-phone-number-code.png"></p>
 <p>and enabled 2-factor authentication</p>
 <p><img alt="Sign up to backblaze - 2-factor authentication" src="https://xo.tc/images/backblaze-b2-signup-5-two-factor.png"></p>
-<h2>Create a bucket</h2>
+<h2 id="create-a-bucket">Create a bucket</h2>
 <p>Next go to Buckets &gt; Create a Bucket</p>
 <p><img alt="backblaze - Create Bucket" src="https://xo.tc/images/backblaze-b2-create-bucket.png"></p>
 <p>Once the bucket is created click on "Show Account ID and Application Key" then "Create Application Key".</p>
@@ -94,7 +94,6 @@
 </div>
   </div>
   <div class="article_meta">
-      <p>Posted on: <abbr title="2017-11-02 07:00:00+08:00" >Thu 02 November 2017</abbr></p>
     <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
       <a href="https://xo.tc/tag/duplicati.html">Duplicati</a>,      <a href="https://xo.tc/tag/backblaze.html">Backblaze</a>,      <a href="https://xo.tc/tag/backups.html">Backups</a>,      <a href="https://xo.tc/tag/crashplan.html">CrashPlan</a>,      <a href="https://xo.tc/tag/cloud.html">Cloud</a>    </p>

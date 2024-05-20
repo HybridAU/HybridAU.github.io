@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,7 +49,10 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/recovering-data-from-a-hard-drive-after-wiping-the-partition-table.html">Recovering data from a hard drive after wiping the partition table</a></h3>
+    <h1><a href="https://xo.tc/recovering-data-from-a-hard-drive-after-wiping-the-partition-table.html">Recovering data from a hard drive after wiping the partition table</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 13 October 2016</p>
   </div>
   <div class="article_text">
     <p>A mate from work had a LUKS volume that he had setup and was using to store his personal documents, things like scanned copies of invoices and tax information. Unfortunately in a momentary lapse of concentration after mounting it he ran <code>mkfs.ext4</code> over it.</p>
@@ -73,7 +73,7 @@
 
 
 <span class="k">def</span> <span class="nf">setup_options</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parse options and get the location of the old and the new directory.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
@@ -95,7 +95,7 @@
 
 
 <span class="k">def</span> <span class="nf">compare_two_directories</span><span class="p">(</span><span class="n">settings</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Run through two directories (including sub directories) and find files that</span>
 <span class="sd">    are in the new directory but not in the old directory.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -126,7 +126,7 @@
 </code></pre></div>
 
 <p>I've put this script up on <a href="https://github.com/HybridAU/compare">GitHub</a> so anyone can use it, with a simple</p>
-<div class="highlight"><pre><span></span><code>michael@xo:~$ ./compare.py /home/michael/backup /home/michael/recovered-files
+<div class="highlight"><pre><span></span><code>michael@xo:~$<span class="w"> </span>./compare.py<span class="w"> </span>/home/michael/backup<span class="w"> </span>/home/michael/recovered-files
 </code></pre></div>
 
 <p>It runs through all the files in the old directory (and it's subdirectories) and calculates an MD5 sum. While MD5 is broken for validating the contents files because of known <a href="http://www.mscs.dal.ca/~selinger/md5collision/">hash collisions</a>, and should <em>never</em> be used for storing passwords, we are just trying to compare two documents neither of which is coming from an untrusted source so it's good enough and quicker when running over a few thousands documents than SHA256<sup id="fnref:quicker"><a class="footnote-ref" href="#fn:quicker">1</a></sup>.</p>
@@ -143,7 +143,6 @@
 </div>
   </div>
   <div class="article_meta">
-      <p>Posted on: <abbr title="2016-10-13 07:00:00+08:00" >Thu 13 October 2016</abbr></p>
     <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
       <a href="https://xo.tc/tag/python.html">Python</a>,      <a href="https://xo.tc/tag/backups.html">Backups</a>,      <a href="https://xo.tc/tag/full-disk-encryption.html">Full Disk Encryption</a>,      <a href="https://xo.tc/tag/file-recovery.html">File recovery</a>    </p>

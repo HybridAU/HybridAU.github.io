@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,12 +49,15 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/using-ssh-config-to-save-settings-and-make-your-life-easier.html">Using ssh config to save settings and make your life easier</a></h3>
+    <h1><a href="https://xo.tc/using-ssh-config-to-save-settings-and-make-your-life-easier.html">Using ssh config to save settings and make your life easier</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 23 February 2017</p>
   </div>
   <div class="article_text">
     <p>SSH is an amazing tool, I use it all the time and not just for logging into remote computers, but also to create tunnels, copy files and access git repositories.</p>
 <p>But I don't want to have to remember fidily commands something like <code>ssh I2P_Router</code> is so much nicer than something like</p>
-<div class="highlight"><pre><span></span><code><span class="n">ssh</span><span class="w"> </span><span class="o">-</span><span class="n">i</span><span class="w"> </span><span class="p">.</span><span class="n">ssh</span><span class="o">/</span><span class="n">Michael</span><span class="o">-</span><span class="n">Van</span><span class="o">-</span><span class="n">Delft</span><span class="p">.</span><span class="n">id_rsa</span><span class="w"> </span><span class="o">-</span><span class="n">L</span><span class="w"> </span><span class="mi">7657</span><span class="err">:</span><span class="nl">localhost</span><span class="p">:</span><span class="mi">7657</span><span class="w"> </span><span class="o">-</span><span class="n">L</span><span class="w"> </span><span class="mi">4444</span><span class="err">:</span><span class="nl">localhost</span><span class="p">:</span><span class="mi">4444</span><span class="w"> </span><span class="o">-</span><span class="n">L</span><span class="w"> </span><span class="mi">6668</span><span class="err">:</span><span class="nl">localhost</span><span class="p">:</span><span class="mi">6668</span><span class="w"> </span><span class="n">i2p_user</span><span class="nv">@example</span><span class="p">.</span><span class="nl">com</span><span class="p">:</span><span class="mi">2233</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="n">ssh</span><span class="w"> </span><span class="o">-</span><span class="n">i</span><span class="w"> </span><span class="p">.</span><span class="n">ssh</span><span class="o">/</span><span class="n">Michael</span><span class="o">-</span><span class="n">Van</span><span class="o">-</span><span class="n">Delft</span><span class="p">.</span><span class="n">id_rsa</span><span class="w"> </span><span class="o">-</span><span class="n">L</span><span class="w"> </span><span class="mi">7657</span><span class="err">:</span><span class="nl">localhost</span><span class="p">:</span><span class="mi">7657</span><span class="w"> </span><span class="o">-</span><span class="n">L</span><span class="w"> </span><span class="mi">4444</span><span class="err">:</span><span class="nl">localhost</span><span class="p">:</span><span class="mi">4444</span><span class="w"> </span><span class="o">-</span><span class="n">L</span><span class="w"> </span><span class="mi">6668</span><span class="err">:</span><span class="nl">localhost</span><span class="p">:</span><span class="mi">6668</span><span class="w"> </span><span class="n">i2p_user</span><span class="nv">@example</span><span class="p">.</span><span class="nl">com</span><span class="p">:</span><span class="mi">2233</span>
 </code></pre></div>
 
 <p>I keep my <code>~/.ssh</code> folder synced as a git repository, that I sync over https with <a href="https://xo.tc/setting-up-gogs-on-debian-jessie-with-apache2-and-postgresql.html">gogs</a>. For all other git repositories I use ssh, but https solves the bootstap problem where I setup a new computer and want to download my ssh settings.</p>
@@ -68,40 +68,40 @@
 <span class="c1"># It makes it much easier to just delete one line from known_hosts when a</span>
 <span class="c1"># server changes key.</span>
 
-HashKnownHosts no
+HashKnownHosts<span class="w"> </span>no
 
 <span class="c1">###############################################################################</span>
 <span class="c1"># Servers                                                                     #</span>
 <span class="c1">###############################################################################</span>
-Host example.com www.example.com brand.example.com
-    IdentityFile ~/.ssh/Michael-Van-Delft.id_rsa
-    User michael
+Host<span class="w"> </span>example.com<span class="w"> </span>www.example.com<span class="w"> </span>brand.example.com
+<span class="w">    </span>IdentityFile<span class="w"> </span>~/.ssh/Michael-Van-Delft.id_rsa
+<span class="w">    </span>User<span class="w"> </span>michael
 
 <span class="c1"># Port forwarding for I2P. Simply run `ssh I2P_Router`</span>
 <span class="c1"># then browse to http://localhost:7657/</span>
-Host I2P_Router
-    HostName example.net
-    IdentityFile ~/.ssh/Michael-Van-Delft.id_rsa
-    User i2p_user
-    LocalForward <span class="m">7657</span> localhost:7657
-    LocalForward <span class="m">4444</span> localhost:4444
-    LocalForward <span class="m">6668</span> localhost:6668
+Host<span class="w"> </span>I2P_Router
+<span class="w">    </span>HostName<span class="w"> </span>example.net
+<span class="w">    </span>IdentityFile<span class="w"> </span>~/.ssh/Michael-Van-Delft.id_rsa
+<span class="w">    </span>User<span class="w"> </span>i2p_user
+<span class="w">    </span>LocalForward<span class="w"> </span><span class="m">7657</span><span class="w"> </span>localhost:7657
+<span class="w">    </span>LocalForward<span class="w"> </span><span class="m">4444</span><span class="w"> </span>localhost:4444
+<span class="w">    </span>LocalForward<span class="w"> </span><span class="m">6668</span><span class="w"> </span>localhost:6668
 
 <span class="c1"># Example of a local server with IPv6 only</span>
-Host zilean
-    IdentityFile ~/.ssh/pi@zilean.example.com.id_rsa
-    User pi
-    AddressFamily inet6
-    HostName <span class="m">2001</span>:0db8:6101:cc01::7
+Host<span class="w"> </span>zilean
+<span class="w">    </span>IdentityFile<span class="w"> </span>~/.ssh/pi@zilean.example.com.id_rsa
+<span class="w">    </span>User<span class="w"> </span>pi
+<span class="w">    </span>AddressFamily<span class="w"> </span>inet6
+<span class="w">    </span>HostName<span class="w"> </span><span class="m">2001</span>:0db8:6101:cc01::7
 
 <span class="c1">###############################################################################</span>
 <span class="c1"># Git and Service accounts                                                    #</span>
 <span class="c1">###############################################################################</span>
-Host github.com
-    HostName github.com
-    IdentityFile ~/.ssh/git@github.com.id_rsa
-    User git
-    IdentitiesOnly yes
+Host<span class="w"> </span>github.com
+<span class="w">    </span>HostName<span class="w"> </span>github.com
+<span class="w">    </span>IdentityFile<span class="w"> </span>~/.ssh/git@github.com.id_rsa
+<span class="w">    </span>User<span class="w"> </span>git
+<span class="w">    </span>IdentitiesOnly<span class="w"> </span>yes
 
 <span class="c1"># This is good if you have a server you ssh into (like example.com from the top</span>
 <span class="c1"># entry) where you want to use diffrent credentials for git as you do when you</span>
@@ -109,15 +109,14 @@ Host github.com
 <span class="c1">#</span>
 <span class="c1"># To clone a repository simply run</span>
 <span class="c1"># git clone gogs:Michael/exotic-security.git</span>
-Host gogs
-     HostName example.com
-     IdentityFile ~/.ssh/gogs.id_ed25519
-     User git
-     IdentitiesOnly yes
+Host<span class="w"> </span>gogs
+<span class="w">     </span>HostName<span class="w"> </span>example.com
+<span class="w">     </span>IdentityFile<span class="w"> </span>~/.ssh/gogs.id_ed25519
+<span class="w">     </span>User<span class="w"> </span>git
+<span class="w">     </span>IdentitiesOnly<span class="w"> </span>yes
 </code></pre></div>
   </div>
   <div class="article_meta">
-      <p>Posted on: <abbr title="2017-02-23 07:00:00+08:00" >Thu 23 February 2017</abbr></p>
     <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
       <a href="https://xo.tc/tag/git.html">Git</a>,      <a href="https://xo.tc/tag/ssh.html">SSH</a>,      <a href="https://xo.tc/tag/i2p.html">I2P</a>,      <a href="https://xo.tc/tag/gogs.html">Gogs</a>,      <a href="https://xo.tc/tag/ipv6.html">IPv6</a>,      <a href="https://xo.tc/tag/linux.html">Linux</a>    </p>

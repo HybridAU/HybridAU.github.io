@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,13 +49,16 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/a-national-identity-system.html">A national identity system</a></h3>
+    <h1><a href="https://xo.tc/a-national-identity-system.html">A national identity system</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 12 October 2017</p>
   </div>
   <div class="article_text">
     <p>A national identity system is something I've been thinking about a lot lately. No real answers here, just musings...</p>
-<h2>The Problem</h2>
+<h2 id="the-problem">The Problem</h2>
 <p>There are many departments at all levels of Government that need to track people for various reasons, but each implements its own system and no system is universal;</p>
-<h2>The status quo</h2>
+<h2 id="the-status-quo">The status quo</h2>
 <p>In the United States of America, a Social Security is the de facto standard, CGP Grey made a great video <a href="https://www.youtube.com/watch?v=Erp8IAUouus">Social Security Cards Explained</a> which covers some of the problems with that.</p>
 <p>In Australia,</p>
 <ul>
@@ -67,7 +67,7 @@
 <li>At the Local level, there are the local councils, to whom homeowners pay council rates and each council has its own way of tracking people.</li>
 </ul>
 <p>While things like a <abbr title="Tax File Number">TFN</abbr>, a passport or a drivers license number might cover 90% of the Australian adult population there will be many people that don't have these.</p>
-<h2>The ultimate ID card</h2>
+<h2 id="the-ultimate-id-card">The ultimate ID card</h2>
 <p>I can imagine a national identity system where people get an ID card that is a veritable <a href="https://en.wikipedia.org/wiki/Swiss_Army_knife">Swiss Army knife</a> of modern identity.</p>
 <p>The card would have all the usual things on an ID card;</p>
 <ul>
@@ -80,7 +80,7 @@
 <p>But the card would also have NFC, with a certificate and private key stored on the card.</p>
 <p>The certificate would contain the same information that's visible on the card (e.g. Photo, name, etc...).</p>
 <p>Much like with TLS, the certificate would need to be signed by a trusted Certification Authority (e.g. The Federal Government) which would also need to publish a public Certificate Revocation List (<abbr title="Certificate Revocation List">CRL</abbr>) for things like lost or stolen cards.</p>
-<h2>The utopian vision</h2>
+<h2 id="the-utopian-vision">The utopian vision</h2>
 <p>To make this vision truly utopian, the standards used by the card would all need to be fully open and public. That way anyone could make use of the cards, not just the Government.</p>
 <p>At the moment I've got about a dozen ID cards in my a wallet. An RFID card the building I work in, A Mifare card for our public transport system, my driver's license and so on.</p>
 <p>Imagine if I could just give my Unique ID number to my employer, who could add that into the system and I could use my Government issued ID card to open the doors at work. I could use that same card for public transport, my local library, my driver's license<sup id="fnref:drivers-license"><a class="footnote-ref" href="#fn:drivers-license">2</a></sup>, or the Hackerspace down the road.</p>
@@ -88,11 +88,11 @@
 <p>There is no reason this would have to be just one country. If the standards were open and public any nation (or anyone at all) could start issuing compatible cards. Want your system to accept cards from Bangladesh? No problem just add their root CA. Don't trust "Honest Abe's Legitimate Card Issuing Authority"? not a problem, don't add their CA to your root trust.</p>
 <p>The possibilities are endless, software companies could build it into their system. What if Adobe Reader (or your PDF viewer of choice) added a way you could use your card to add a cryptographic signature to documents. Just click sign, wave your card over an NFC reader and you're done.</p>
 <p>Sure someone could steal your card an sign a document, but it's got to be better than the scanned image of pen on paper that we use now. And that segues nicely into...</p>
-<h2>Problems with this system</h2>
+<h2 id="problems-with-this-system">Problems with this system</h2>
 <p>There are many problems with this system, but I feel they fall broadly into two main categories, <strong>Privacy implications</strong> and <strong>Implementation issues</strong>.</p>
-<h3>Implementation issues</h3>
+<h3 id="implementation-issues">Implementation issues</h3>
 <p>I'm not going to dig too much into the implementation issues. Suffice to say implementing a system like this would be a herculean task, wouldn't trust commercial companies with vast resources and great expertise like Google or Apple to implement a system like this without at least some hiccups and flaws. Let alone a federal government agency where this sort of project would instantly become a political football and important bits get outsourced to the lowest bidder.</p>
-<h3>Privacy implications</h3>
+<h3 id="privacy-implications">Privacy implications</h3>
 <p>More interesting to look at are the privacy implications. All through my utopian vision, I've assumed a benevolent government, one that builds roads, schools, hospitals, provides social services and support for people in need.</p>
 <p>But even if we have a benevolent government today, there is no guarantee we won't have a tyrannical dictator next year.</p>
 <p>A national identity card would be a very invasive, especially one that could be tracked each time you use it, by making a query back to base. It might not be quite as <a href="https://en.wikipedia.org/wiki/Orwellian">Orwellian</a> as rolling out a <a href="https://www.efa.org.au/2017/10/07/no-safer-with-facial-recognition/">national facial recognition database</a> but in the near future, we are going to have to ask ourselves.</p>
@@ -110,7 +110,6 @@
 </div>
   </div>
   <div class="article_meta">
-      <p>Posted on: <abbr title="2017-10-12 07:00:00+08:00" >Thu 12 October 2017</abbr></p>
     <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
       <a href="https://xo.tc/tag/identity.html">Identity</a>,      <a href="https://xo.tc/tag/australia.html">Australia</a>    </p>

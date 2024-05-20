@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,7 +49,10 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/my-owncloud-update-script.html">My ownCloud update script</a></h3>
+    <h1><a href="https://xo.tc/my-owncloud-update-script.html">My ownCloud update script</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 29 September 2016</p>
   </div>
   <div class="article_text">
     <p><strong>Update 2017-03-02:</strong> If your using Nextcloud they now have their own <a href="https://xo.tc/using-the-newish-nextcloud-updater.html">in browser updater</a> this script still works though. </p>
@@ -65,29 +65,29 @@
 <div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># Stop Apache2 (not necessary, but it&#39;s a good idea)</span>
-systemctl stop apache2.service
+systemctl<span class="w"> </span>stop<span class="w"> </span>apache2.service
 
 <span class="c1"># Backup config.php and data</span>
-mv /var/www/owncloud/config/config.php /opt/owncloud-install/config.php
-mv /var/www/owncloud/data /opt/owncloud-install/
+mv<span class="w"> </span>/var/www/owncloud/config/config.php<span class="w"> </span>/opt/owncloud-install/config.php
+mv<span class="w"> </span>/var/www/owncloud/data<span class="w"> </span>/opt/owncloud-install/
 
 <span class="c1"># Delete everything else</span>
-rm -rf /var/www/owncloud/
+rm<span class="w"> </span>-rf<span class="w"> </span>/var/www/owncloud/
 <span class="c1"># Extract a fresh copy (the tar ball doesn&#39;t include a data and config.php)</span>
-tar -xf owncloud-*.tar.bz2 -C /var/www/
+tar<span class="w"> </span>-xf<span class="w"> </span>owncloud-*.tar.bz2<span class="w"> </span>-C<span class="w"> </span>/var/www/
 
 <span class="c1"># Replace the backed up files</span>
-mv /opt/owncloud-install/config.php /var/www/owncloud/config/
-mv /opt/owncloud-install/data/ /var/www/owncloud/
+mv<span class="w"> </span>/opt/owncloud-install/config.php<span class="w"> </span>/var/www/owncloud/config/
+mv<span class="w"> </span>/opt/owncloud-install/data/<span class="w"> </span>/var/www/owncloud/
 
 <span class="c1"># Set ownership (the files in the tar ball are owned by nobody)</span>
-chown -R www-data:www-data /var/www/owncloud/
+chown<span class="w"> </span>-R<span class="w"> </span>www-data:www-data<span class="w"> </span>/var/www/owncloud/
 
 <span class="c1"># Start Apache2 back up.</span>
-systemctl start apache2.service
+systemctl<span class="w"> </span>start<span class="w"> </span>apache2.service
 
 <span class="c1"># Achive install file</span>
-mv owncloud-*.tar.bz2 old-installs/
+mv<span class="w"> </span>owncloud-*.tar.bz2<span class="w"> </span>old-installs/
 </code></pre></div>
 
 <p>After that you still need to visit your ownCloud home page and click through the database upgrades.</p>
@@ -102,7 +102,6 @@ mv owncloud-*.tar.bz2 old-installs/
 </div>
   </div>
   <div class="article_meta">
-      <p>Posted on: <abbr title="2016-09-29 07:00:00+08:00" >Thu 29 September 2016</abbr></p>
     <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
       <a href="https://xo.tc/tag/owncloud.html">ownCloud</a>,      <a href="https://xo.tc/tag/updates.html">Updates</a>,      <a href="https://xo.tc/tag/librenms.html">LibreNMS</a>,      <a href="https://xo.tc/tag/patching.html">Patching</a>,      <a href="https://xo.tc/tag/cron.html">Cron</a>    </p>

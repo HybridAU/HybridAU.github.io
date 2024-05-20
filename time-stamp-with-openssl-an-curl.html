@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,42 +49,44 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/time-stamp-with-openssl-an-curl.html">Time Stamp with OpenSSL an cURL</a></h3>
+    <h1><a href="https://xo.tc/time-stamp-with-openssl-an-curl.html">Time Stamp with OpenSSL an cURL</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 28 April 2016</p>
   </div>
   <div class="article_text">
     <p>One of the things that came up on the <a href="https://www.sage-au.org.au/">SAGE-AU mailing lists</a> a few weeks ago was getting data time stamped. I've come across time stamping before when signing code you also get the signature time stamped that way if you sign your code in 2009 with a certificate that expires in 2012 your code still runs in 2016 because <em>at the time your code was signed the certificate was valid</em> even though it's expired now.</p>
 <p>I was also aware that you could <a href="https://en.wikipedia.org/wiki/Trusted_timestamping">time stamp</a> arbitrary data but I didn't really know how. It turns out it's fairly straight forward with just OpenSSL and cURL. Basically you can make a SHA256 hash of the data you want to stamp, then you send that to a stamping server which will verify that it saw that hash at a given time. Thanks to Nick Savvides for these steps.</p>
-<div class="highlight"><pre><span></span><code>michael@xo:~$ <span class="nb">echo</span> <span class="s2">&quot;What&#39;s the time Mr. Wolf?&quot;</span> &gt; time_stamp_data.txt
-michael@xo:~$ openssl ts -query -data time_stamp_data.txt -sha256 -out time_stamp_query.tsq
-michael@xo:~$ curl -s -H <span class="s2">&quot;Content-Type:application/timestamp-query&quot;</span> --data-binary @time_stamp_query.tsq http://sha256timestamp.ws.symantec.com/sha256/timestamp &gt; time_stamp_server_response.tsr
-michael@xo:~$ openssl ts -reply -in time_stamp_server_response.tsr -out time_stamp_reply.tsr
-michael@xo:~$ openssl ts -reply -in time_stamp_reply.tsr -text
-Status info:
-Status: Granted.
-Status description: unspecified
-Failure info: unspecified
+<div class="highlight"><pre><span></span><code>michael@xo:~$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;What&#39;s the time Mr. Wolf?&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>time_stamp_data.txt
+michael@xo:~$<span class="w"> </span>openssl<span class="w"> </span>ts<span class="w"> </span>-query<span class="w"> </span>-data<span class="w"> </span>time_stamp_data.txt<span class="w"> </span>-sha256<span class="w"> </span>-out<span class="w"> </span>time_stamp_query.tsq
+michael@xo:~$<span class="w"> </span>curl<span class="w"> </span>-s<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type:application/timestamp-query&quot;</span><span class="w"> </span>--data-binary<span class="w"> </span>@time_stamp_query.tsq<span class="w"> </span>http://sha256timestamp.ws.symantec.com/sha256/timestamp<span class="w"> </span>&gt;<span class="w"> </span>time_stamp_server_response.tsr
+michael@xo:~$<span class="w"> </span>openssl<span class="w"> </span>ts<span class="w"> </span>-reply<span class="w"> </span>-in<span class="w"> </span>time_stamp_server_response.tsr<span class="w"> </span>-out<span class="w"> </span>time_stamp_reply.tsr
+michael@xo:~$<span class="w"> </span>openssl<span class="w"> </span>ts<span class="w"> </span>-reply<span class="w"> </span>-in<span class="w"> </span>time_stamp_reply.tsr<span class="w"> </span>-text
+Status<span class="w"> </span>info:
+Status:<span class="w"> </span>Granted.
+Status<span class="w"> </span>description:<span class="w"> </span>unspecified
+Failure<span class="w"> </span>info:<span class="w"> </span>unspecified
 
-TST info:
-Version: <span class="m">1</span>
-Policy OID: <span class="m">2</span>.16.840.1.113733.1.7.23.3
-Hash Algorithm: sha256
-Message data:
-    <span class="m">0000</span> - <span class="m">06</span> <span class="m">07</span> 9c 9d <span class="m">85</span> <span class="m">79</span> <span class="m">48</span> da-50 <span class="m">15</span> aa <span class="m">83</span> <span class="m">51</span> 5e d9 <span class="m">00</span>   .....yH.P...Q^..
-    <span class="m">0010</span> - bb 2d 0c d0 bb <span class="m">26</span> <span class="nb">cd</span> b0-fe c5 0a 2d <span class="m">94</span> <span class="m">47</span> b3 <span class="m">84</span>   .-...<span class="p">&amp;</span>.....-.G..
-Serial number: 0x331216786C798D1FFBE256D20FDA52DC515855B7
-Time stamp: Apr  <span class="m">6</span> <span class="m">06</span>:57:09 <span class="m">2016</span> GMT
-Accuracy: 0x1E seconds, unspecified millis, unspecified micros
-Ordering: no
-Nonce: 0x0C93A642E3B4F1BC
-TSA: DirName:/C<span class="o">=</span>US/O<span class="o">=</span>Symantec Corporation/OU<span class="o">=</span>Symantec Trust Network/CN<span class="o">=</span>Symantec SHA256 TimeStamping Signer - G1
+TST<span class="w"> </span>info:
+Version:<span class="w"> </span><span class="m">1</span>
+Policy<span class="w"> </span>OID:<span class="w"> </span><span class="m">2</span>.16.840.1.113733.1.7.23.3
+Hash<span class="w"> </span>Algorithm:<span class="w"> </span>sha256
+Message<span class="w"> </span>data:
+<span class="w">    </span><span class="m">0000</span><span class="w"> </span>-<span class="w"> </span><span class="m">06</span><span class="w"> </span><span class="m">07</span><span class="w"> </span>9c<span class="w"> </span>9d<span class="w"> </span><span class="m">85</span><span class="w"> </span><span class="m">79</span><span class="w"> </span><span class="m">48</span><span class="w"> </span>da-50<span class="w"> </span><span class="m">15</span><span class="w"> </span>aa<span class="w"> </span><span class="m">83</span><span class="w"> </span><span class="m">51</span><span class="w"> </span>5e<span class="w"> </span>d9<span class="w"> </span><span class="m">00</span><span class="w">   </span>.....yH.P...Q^..
+<span class="w">    </span><span class="m">0010</span><span class="w"> </span>-<span class="w"> </span>bb<span class="w"> </span>2d<span class="w"> </span>0c<span class="w"> </span>d0<span class="w"> </span>bb<span class="w"> </span><span class="m">26</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>b0-fe<span class="w"> </span>c5<span class="w"> </span>0a<span class="w"> </span>2d<span class="w"> </span><span class="m">94</span><span class="w"> </span><span class="m">47</span><span class="w"> </span>b3<span class="w"> </span><span class="m">84</span><span class="w">   </span>.-...<span class="p">&amp;</span>.....-.G..
+Serial<span class="w"> </span>number:<span class="w"> </span>0x331216786C798D1FFBE256D20FDA52DC515855B7
+Time<span class="w"> </span>stamp:<span class="w"> </span>Apr<span class="w">  </span><span class="m">6</span><span class="w"> </span><span class="m">06</span>:57:09<span class="w"> </span><span class="m">2016</span><span class="w"> </span>GMT
+Accuracy:<span class="w"> </span>0x1E<span class="w"> </span>seconds,<span class="w"> </span>unspecified<span class="w"> </span>millis,<span class="w"> </span>unspecified<span class="w"> </span>micros
+Ordering:<span class="w"> </span>no
+Nonce:<span class="w"> </span>0x0C93A642E3B4F1BC
+TSA:<span class="w"> </span>DirName:/C<span class="o">=</span>US/O<span class="o">=</span>Symantec<span class="w"> </span>Corporation/OU<span class="o">=</span>Symantec<span class="w"> </span>Trust<span class="w"> </span>Network/CN<span class="o">=</span>Symantec<span class="w"> </span>SHA256<span class="w"> </span>TimeStamping<span class="w"> </span>Signer<span class="w"> </span>-<span class="w"> </span>G1
 Extensions:
-michael@xo:~$ sha256sum time_stamp_data.txt
-06079c9d857948da5015aa83515ed900bb2d0cd0bb26cdb0fec50a2d9447b384  time_stamp_data.txt
+michael@xo:~$<span class="w"> </span>sha256sum<span class="w"> </span>time_stamp_data.txt
+06079c9d857948da5015aa83515ed900bb2d0cd0bb26cdb0fec50a2d9447b384<span class="w">  </span>time_stamp_data.txt
 michael@xo:~$
 </code></pre></div>
   </div>
   <div class="article_meta">
-      <p>Posted on: <abbr title="2016-04-28 07:00:00+08:00" >Thu 28 April 2016</abbr></p>
     <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
       <a href="https://xo.tc/tag/time-stamp.html">Time Stamp</a>,      <a href="https://xo.tc/tag/openssl.html">OpenSSL</a>,      <a href="https://xo.tc/tag/curl.html">curl</a>    </p>

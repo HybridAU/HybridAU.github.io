@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,11 +49,14 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/installing-duplicati-on-an-arch-linux-laptop.html">Installing Duplicati on an Arch Linux Laptop</a></h3>
+    <h1><a href="https://xo.tc/installing-duplicati-on-an-arch-linux-laptop.html">Installing Duplicati on an Arch Linux Laptop</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 23 November 2017</p>
   </div>
   <div class="article_text">
     <p>For this setup I'm using <a href="https://www.duplicati.com/">Duplicati</a> to backup to <a href="https://www.backblaze.com">Backblaze</a>. In a previous post I've written some <a href="https://xo.tc/setting-up-backblaze-for-duplicati.html">instructions on setting up Backblaze</a>.</p>
-<h2>Installing</h2>
+<h2 id="installing">Installing</h2>
 <p>To install Duplicati simply run</p>
 <div class="highlight"><pre><span></span><code>git clone https://aur.archlinux.org/duplicati-latest.git
 cd duplicati-latest
@@ -68,7 +68,7 @@ makepkg -si
 sudo systemctl start duplicati.service
 </code></pre></div>
 
-<h2>Setup Backups</h2>
+<h2 id="setup-backups">Setup Backups</h2>
 <p>Once duplicati has started browse to <a href="http://localhost:8200">http://localhost:8200</a></p>
 <p>The first message I got on Arch was asking if duplicati would be running on a multi-user system. I picked "No, my machine only has a single account".</p>
 <p><img alt="Duplicati Arch Multi-User" src="https://xo.tc/images/duplicati-arch-01-multi-user.png"></p>
@@ -89,7 +89,6 @@ sudo systemctl start duplicati.service
 <p>It's that easy.</p>
   </div>
   <div class="article_meta">
-      <p>Posted on: <abbr title="2017-11-23 07:00:00+08:00" >Thu 23 November 2017</abbr></p>
     <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
       <a href="https://xo.tc/tag/duplicati.html">Duplicati</a>,      <a href="https://xo.tc/tag/backblaze.html">Backblaze</a>,      <a href="https://xo.tc/tag/backups.html">Backups</a>,      <a href="https://xo.tc/tag/cloud.html">Cloud</a>,      <a href="https://xo.tc/tag/linux.html">Linux</a>,      <a href="https://xo.tc/tag/arch-linux.html">Arch Linux</a>    </p>

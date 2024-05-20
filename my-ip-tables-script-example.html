@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,7 +49,10 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/my-ip-tables-script-example.html">My IP Tables script example</a></h3>
+    <h1><a href="https://xo.tc/my-ip-tables-script-example.html">My IP Tables script example</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 09 February 2017</p>
   </div>
   <div class="article_text">
     <p>Below is an example of the IP Tables script I use on many of my servers. The names and IP addresses have been changed to <a href="https://en.wikipedia.org/wiki/Reserved_IP_addresses">reserved addresses</a> and obviously it needs to be tweaked each time for relevent rules. </p>
@@ -71,75 +71,75 @@
 <span class="nv">TienHome</span><span class="o">=</span><span class="s2">&quot;203.0.113.94/32&quot;</span>
 <span class="nv">WorkNetwork</span><span class="o">=</span><span class="s2">&quot;192.0.2.0/24&quot;</span>
 
-<span class="k">function</span> GeneralRules <span class="o">{</span>
-        <span class="c1">#start and flush</span>
-        <span class="nv">$IPTABLES</span> -F
-        <span class="nv">$IPTABLES</span> -t nat -F
-        <span class="nv">$IPTABLES</span> -X
-        <span class="nv">$IPTABLES</span> -P FORWARD DROP
-        <span class="nv">$IPTABLES</span> -P INPUT   DROP
-        <span class="nv">$IPTABLES</span> -P OUTPUT  ACCEPT
+<span class="k">function</span><span class="w"> </span>GeneralRules<span class="w"> </span><span class="o">{</span>
+<span class="w">        </span><span class="c1">#start and flush</span>
+<span class="w">        </span><span class="nv">$IPTABLES</span><span class="w"> </span>-F
+<span class="w">        </span><span class="nv">$IPTABLES</span><span class="w"> </span>-t<span class="w"> </span>nat<span class="w"> </span>-F
+<span class="w">        </span><span class="nv">$IPTABLES</span><span class="w"> </span>-X
+<span class="w">        </span><span class="nv">$IPTABLES</span><span class="w"> </span>-P<span class="w"> </span>FORWARD<span class="w"> </span>DROP
+<span class="w">        </span><span class="nv">$IPTABLES</span><span class="w"> </span>-P<span class="w"> </span>INPUT<span class="w">   </span>DROP
+<span class="w">        </span><span class="nv">$IPTABLES</span><span class="w"> </span>-P<span class="w"> </span>OUTPUT<span class="w">  </span>ACCEPT
 
-        <span class="c1">#Ping, Trace Route, etc...</span>
-        <span class="nv">$IPTABLES</span> -A INPUT -p icmp -j ACCEPT
+<span class="w">        </span><span class="c1">#Ping, Trace Route, etc...</span>
+<span class="w">        </span><span class="nv">$IPTABLES</span><span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>icmp<span class="w"> </span>-j<span class="w"> </span>ACCEPT
 
-        <span class="c1">#Mail - SMTP, SMTPS, IMAP and IMAPS</span>
-        <span class="nv">$IPTABLES</span> -A INPUT -p tcp --dport <span class="m">25</span> -j ACCEPT <span class="c1">#SMTP</span>
-        <span class="nv">$IPTABLES</span> -A INPUT -p tcp --dport <span class="m">465</span> -j ACCEPT <span class="c1">#SMTPS</span>
-        <span class="nv">$IPTABLES</span> -A INPUT -p tcp --dport <span class="m">587</span> -j ACCEPT <span class="c1">#SMTP Submission</span>
-        <span class="nv">$IPTABLES</span> -A INPUT -p tcp --dport <span class="m">143</span> -j ACCEPT <span class="c1">#IMAP</span>
-        <span class="nv">$IPTABLES</span> -A INPUT -p tcp --dport <span class="m">993</span> -j ACCEPT <span class="c1">#IMAPS</span>
-        <span class="nv">$IPTABLES</span> -A INPUT -p tcp --dport <span class="m">4190</span> -j ACCEPT <span class="c1"># dovecot-sieve set mail filter settings.</span>
+<span class="w">        </span><span class="c1">#Mail - SMTP, SMTPS, IMAP and IMAPS</span>
+<span class="w">        </span><span class="nv">$IPTABLES</span><span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--dport<span class="w"> </span><span class="m">25</span><span class="w"> </span>-j<span class="w"> </span>ACCEPT<span class="w"> </span><span class="c1">#SMTP</span>
+<span class="w">        </span><span class="nv">$IPTABLES</span><span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--dport<span class="w"> </span><span class="m">465</span><span class="w"> </span>-j<span class="w"> </span>ACCEPT<span class="w"> </span><span class="c1">#SMTPS</span>
+<span class="w">        </span><span class="nv">$IPTABLES</span><span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--dport<span class="w"> </span><span class="m">587</span><span class="w"> </span>-j<span class="w"> </span>ACCEPT<span class="w"> </span><span class="c1">#SMTP Submission</span>
+<span class="w">        </span><span class="nv">$IPTABLES</span><span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--dport<span class="w"> </span><span class="m">143</span><span class="w"> </span>-j<span class="w"> </span>ACCEPT<span class="w"> </span><span class="c1">#IMAP</span>
+<span class="w">        </span><span class="nv">$IPTABLES</span><span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--dport<span class="w"> </span><span class="m">993</span><span class="w"> </span>-j<span class="w"> </span>ACCEPT<span class="w"> </span><span class="c1">#IMAPS</span>
+<span class="w">        </span><span class="nv">$IPTABLES</span><span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--dport<span class="w"> </span><span class="m">4190</span><span class="w"> </span>-j<span class="w"> </span>ACCEPT<span class="w"> </span><span class="c1"># dovecot-sieve set mail filter settings.</span>
 
-        <span class="c1">#HTTP[S] traffic</span>
-        <span class="nv">$IPTABLES</span> -A INPUT -p tcp --dport <span class="m">80</span> -j ACCEPT
-        <span class="nv">$IPTABLES</span> -A INPUT -p tcp --dport <span class="m">443</span> -j ACCEPT
+<span class="w">        </span><span class="c1">#HTTP[S] traffic</span>
+<span class="w">        </span><span class="nv">$IPTABLES</span><span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--dport<span class="w"> </span><span class="m">80</span><span class="w"> </span>-j<span class="w"> </span>ACCEPT
+<span class="w">        </span><span class="nv">$IPTABLES</span><span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--dport<span class="w"> </span><span class="m">443</span><span class="w"> </span>-j<span class="w"> </span>ACCEPT
 
-        <span class="c1"># i2p</span>
-        <span class="nv">$IPTABLES</span> -A INPUT -p tcp --dport <span class="m">21546</span> -j ACCEPT
-        <span class="nv">$IPTABLES</span> -A INPUT -p udp --dport <span class="m">21546</span> -j ACCEPT
+<span class="w">        </span><span class="c1"># i2p</span>
+<span class="w">        </span><span class="nv">$IPTABLES</span><span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--dport<span class="w"> </span><span class="m">21546</span><span class="w"> </span>-j<span class="w"> </span>ACCEPT
+<span class="w">        </span><span class="nv">$IPTABLES</span><span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>udp<span class="w"> </span>--dport<span class="w"> </span><span class="m">21546</span><span class="w"> </span>-j<span class="w"> </span>ACCEPT
 
-        <span class="c1"># zeronet</span>
-        <span class="nv">$IPTABLES</span> -A INPUT -p tcp --dport <span class="m">15441</span> -j ACCEPT
+<span class="w">        </span><span class="c1"># zeronet</span>
+<span class="w">        </span><span class="nv">$IPTABLES</span><span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--dport<span class="w"> </span><span class="m">15441</span><span class="w"> </span>-j<span class="w"> </span>ACCEPT
 
-        <span class="c1">#Allow Establishted Sessions</span>
-        <span class="nv">$IPTABLES</span> -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+<span class="w">        </span><span class="c1">#Allow Establishted Sessions</span>
+<span class="w">        </span><span class="nv">$IPTABLES</span><span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-m<span class="w"> </span>state<span class="w"> </span>--state<span class="w"> </span>ESTABLISHED,RELATED<span class="w"> </span>-j<span class="w"> </span>ACCEPT
 
-        <span class="c1">#loopback</span>
-        <span class="nv">$IPTABLES</span> -A INPUT  -i lo -j ACCEPT
-        <span class="nv">$IPTABLES</span> -A OUTPUT -o lo -j ACCEPT
+<span class="w">        </span><span class="c1">#loopback</span>
+<span class="w">        </span><span class="nv">$IPTABLES</span><span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w">  </span>-i<span class="w"> </span>lo<span class="w"> </span>-j<span class="w"> </span>ACCEPT
+<span class="w">        </span><span class="nv">$IPTABLES</span><span class="w"> </span>-A<span class="w"> </span>OUTPUT<span class="w"> </span>-o<span class="w"> </span>lo<span class="w"> </span>-j<span class="w"> </span>ACCEPT
 
 <span class="o">}</span>
-<span class="k">function</span> IPv4Rules <span class="o">{</span>
-        <span class="c1"># SSH and Mosh</span>
-        <span class="nv">$IPTABLES</span> <span class="se">\</span>
-            -A INPUT <span class="se">\</span>
-            -p tcp <span class="se">\</span>
-            -s <span class="nv">$MichaelHome</span>,<span class="nv">$TienHome</span>,<span class="nv">$WorkNetwork</span> <span class="se">\</span>
-            --dport <span class="m">22</span> <span class="se">\</span>
-            -j ACCEPT
-        <span class="nv">$IPTABLES</span> <span class="se">\</span>
-            -A INPUT <span class="se">\</span>
-            -p udp <span class="se">\</span>
-            -s <span class="nv">$MichaelHome</span>,<span class="nv">$TienHome</span>,<span class="nv">$WorkNetwork</span> <span class="se">\</span>
-            --dport <span class="m">60000</span>:60010 <span class="se">\</span>
-            -j ACCEPT
+<span class="k">function</span><span class="w"> </span>IPv4Rules<span class="w"> </span><span class="o">{</span>
+<span class="w">        </span><span class="c1"># SSH and Mosh</span>
+<span class="w">        </span><span class="nv">$IPTABLES</span><span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>-A<span class="w"> </span>INPUT<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>-p<span class="w"> </span>tcp<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>-s<span class="w"> </span><span class="nv">$MichaelHome</span>,<span class="nv">$TienHome</span>,<span class="nv">$WorkNetwork</span><span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>--dport<span class="w"> </span><span class="m">22</span><span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>-j<span class="w"> </span>ACCEPT
+<span class="w">        </span><span class="nv">$IPTABLES</span><span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>-A<span class="w"> </span>INPUT<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>-p<span class="w"> </span>udp<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>-s<span class="w"> </span><span class="nv">$MichaelHome</span>,<span class="nv">$TienHome</span>,<span class="nv">$WorkNetwork</span><span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>--dport<span class="w"> </span><span class="m">60000</span>:60010<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>-j<span class="w"> </span>ACCEPT
 <span class="o">}</span>
 
-<span class="k">function</span> IPv6Rules <span class="o">{</span>
-        <span class="c1"># SSH and Mosh</span>
-        <span class="nv">$IPTABLES</span> <span class="se">\</span>
-            -A INPUT <span class="se">\</span>
-            -p tcp <span class="se">\</span>
-            -s <span class="nv">$MichaelHomeV6</span> <span class="se">\</span>
-            --dport <span class="m">22</span> <span class="se">\</span>
-            -j ACCEPT
-        <span class="nv">$IPTABLES</span> <span class="se">\</span>
-            -A INPUT <span class="se">\</span>
-            -p udp <span class="se">\</span>
-            -s <span class="nv">$MichaelHomeV6</span> <span class="se">\</span>
-            --dport <span class="m">60000</span>:60010 <span class="se">\</span>
-            -j ACCEPT
+<span class="k">function</span><span class="w"> </span>IPv6Rules<span class="w"> </span><span class="o">{</span>
+<span class="w">        </span><span class="c1"># SSH and Mosh</span>
+<span class="w">        </span><span class="nv">$IPTABLES</span><span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>-A<span class="w"> </span>INPUT<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>-p<span class="w"> </span>tcp<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>-s<span class="w"> </span><span class="nv">$MichaelHomeV6</span><span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>--dport<span class="w"> </span><span class="m">22</span><span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>-j<span class="w"> </span>ACCEPT
+<span class="w">        </span><span class="nv">$IPTABLES</span><span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>-A<span class="w"> </span>INPUT<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>-p<span class="w"> </span>udp<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>-s<span class="w"> </span><span class="nv">$MichaelHomeV6</span><span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>--dport<span class="w"> </span><span class="m">60000</span>:60010<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>-j<span class="w"> </span>ACCEPT
 <span class="o">}</span>
 
 <span class="c1">#Run general rules for both IPv4 and IPv6</span>
@@ -152,12 +152,11 @@ GeneralRules
 IPv6Rules
 
 <span class="c1">#DHCP</span>
-<span class="nv">$IPTABLES</span> -A INPUT -p udp --dport <span class="m">546</span> -j ACCEPT
-<span class="nv">$IPTABLES</span> -A INPUT -p icmpv6 -j ACCEPT
+<span class="nv">$IPTABLES</span><span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>udp<span class="w"> </span>--dport<span class="w"> </span><span class="m">546</span><span class="w"> </span>-j<span class="w"> </span>ACCEPT
+<span class="nv">$IPTABLES</span><span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>icmpv6<span class="w"> </span>-j<span class="w"> </span>ACCEPT
 </code></pre></div>
   </div>
   <div class="article_meta">
-      <p>Posted on: <abbr title="2017-02-09 07:00:00+08:00" >Thu 09 February 2017</abbr></p>
     <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
       <a href="https://xo.tc/tag/firewalls.html">Firewalls</a>,      <a href="https://xo.tc/tag/ipv6.html">IPv6</a>,      <a href="https://xo.tc/tag/debian.html">Debian</a>,      <a href="https://xo.tc/tag/ip-tables.html">IP Tables</a>    </p>

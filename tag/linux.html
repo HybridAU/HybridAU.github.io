@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,17 +49,20 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/how-to-mount-a-vhd-file-on-linux.html">How to mount a VHD file on linux</a></h3>
+    <h1><a href="https://xo.tc/how-to-mount-a-vhd-file-on-linux.html">How to mount a VHD file on linux</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 15 November 2018</p>
   </div>
   <div class="article_text">
-    <h2>How to do it</h2>
+    <h2 id="how-to-do-it">How to do it</h2>
 <p>Install <a href="http://libguestfs.org/">libguestfs</a></p>
 <p>For <strong>Debian and Ubuntu</strong> this is pretty easy</p>
-<div class="highlight"><pre><span></span><code><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">libguestfs</span><span class="o">-</span><span class="n">tools</span>
+<div class="highlight"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">apt</span><span class="o">-</span><span class="n">get</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">libguestfs</span><span class="o">-</span><span class="n">tools</span>
 </code></pre></div>
 
 <p>For <strong>Red Hat, Centos, Fedora</strong></p>
-<div class="highlight"><pre><span></span><code><span class="n">sudo</span> <span class="n">yum</span> <span class="n">install</span> <span class="n">libguestfs</span><span class="o">-</span><span class="n">tools</span>
+<div class="highlight"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">yum</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">libguestfs</span><span class="o">-</span><span class="n">tools</span>
 </code></pre></div>
 
 <p>For <strong>Arch Linux</strong> (my distro of choice) you need to install 3 packages from the AUR</p>
@@ -72,7 +72,10 @@
 <hr />
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/a-simple-hack-to-get-around-vpn-ip-conflicts.html">A simple hack to get around VPN IP conflicts</a></h3>
+    <h1><a href="https://xo.tc/a-simple-hack-to-get-around-vpn-ip-conflicts.html">A simple hack to get around VPN IP conflicts</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 13 September 2018</p>
   </div>
   <div class="article_text">
     <div class="highlight"><pre><span></span><code>sudo ip route add 192.168.1.2 dev ppp0
@@ -84,11 +87,14 @@
 <hr />
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/installing-duplicati-on-an-arch-linux-laptop.html">Installing Duplicati on an Arch Linux Laptop</a></h3>
+    <h1><a href="https://xo.tc/installing-duplicati-on-an-arch-linux-laptop.html">Installing Duplicati on an Arch Linux Laptop</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 23 November 2017</p>
   </div>
   <div class="article_text">
     <p>For this setup I'm using <a href="https://www.duplicati.com/">Duplicati</a> to backup to <a href="https://www.backblaze.com">Backblaze</a>. In a previous post I've written some <a href="https://xo.tc/setting-up-backblaze-for-duplicati.html">instructions on setting up Backblaze</a>.</p>
-<h2>Installing</h2>
+<h2 id="installing">Installing</h2>
 <p>To install Duplicati simply run</p>
 <div class="highlight"><pre><span></span><code>git clone https://aur.archlinux.org/duplicati-latest.git
 cd duplicati-latest
@@ -102,18 +108,24 @@ makepkg -si
 <hr />
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/installing-duplicati-on-a-headless-debian-linux-server.html">Installing Duplicati on a headless Debian Linux server</a></h3>
+    <h1><a href="https://xo.tc/installing-duplicati-on-a-headless-debian-linux-server.html">Installing Duplicati on a headless Debian Linux server</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 16 November 2017</p>
   </div>
   <div class="article_text">
     <p>For this setup I'm using <a href="https://www.duplicati.com/">Duplicati</a> to backup to <a href="https://www.backblaze.com">Backblaze</a>. In a previous post I've written some <a href="https://xo.tc/setting-up-backblaze-for-duplicati.html">instructions on setting up Backblaze</a>.</p>
-<h2>SSH into the server</h2>
+<h2 id="ssh-into-the-server">SSH into the server</h2>
 <p>The first thing we have to do is to SSH into the server, because Duplicati will be running as a web service on port …</p>
   </div>
 </article>
 <hr />
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/setting-up-full-disk-encryption-on-debian-9-stretch.html">Setting Up Full Disk Encryption on Debian 9 Stretch</a></h3>
+    <h1><a href="https://xo.tc/setting-up-full-disk-encryption-on-debian-9-stretch.html">Setting Up Full Disk Encryption on Debian 9 Stretch</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 29 June 2017</p>
   </div>
   <div class="article_text">
     <p>Previously I did a tutorial on Installing <a href="https://xo.tc/setting-up-full-disk-encryption-on-debian-jessie.html">Debian 8 Jessie</a> with full disk encryption, in that tutorial I went into a lot of detail about manually partitioning the disks. If for some reason you want to manually partition your disks I would reccomend that tutorial, it will still work for …</p>

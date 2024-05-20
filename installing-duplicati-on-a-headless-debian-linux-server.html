@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,36 +49,39 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/installing-duplicati-on-a-headless-debian-linux-server.html">Installing Duplicati on a headless Debian Linux server</a></h3>
+    <h1><a href="https://xo.tc/installing-duplicati-on-a-headless-debian-linux-server.html">Installing Duplicati on a headless Debian Linux server</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 16 November 2017</p>
   </div>
   <div class="article_text">
     <p>For this setup I'm using <a href="https://www.duplicati.com/">Duplicati</a> to backup to <a href="https://www.backblaze.com">Backblaze</a>. In a previous post I've written some <a href="https://xo.tc/setting-up-backblaze-for-duplicati.html">instructions on setting up Backblaze</a>.</p>
-<h2>SSH into the server</h2>
+<h2 id="ssh-into-the-server">SSH into the server</h2>
 <p>The first thing we have to do is to SSH into the server, because Duplicati will be running as a web service on port 8200 we need to forward connections to that port. Because I've already got Duplicati running on my desktop port 8200 is already taken so I'm going to be forwarding port 8000 on my desktop to port 8200 on the headless Linux server.</p>
 <p>In PuTTY open go to Connections &gt; SSH &gt; Tunnels</p>
 <p><img alt="Duplicati Putty Forwarding Ports" src="https://xo.tc/images/duplicati-debian-01-putty-setup.png"></p>
 <p>Set the source port to <code>8000</code> and the destination to <code>localhost:8200</code> then hit Add</p>
 <p><img alt="Duplicati Putty Forwarding Ports" src="https://xo.tc/images/duplicati-debian-02-putty-setup.png"></p>
 <p>Or if your SSHing in from a Linux desktops then use <code>ssh example.com -L 8000:localhost:8200</code></p>
-<h2>Installing</h2>
+<h2 id="installing">Installing</h2>
 <p>Head over to the <a href="https://www.duplicati.com/download">Duplicati download page</a> and copy the link to the Debian installer (in Firefox you can right click &gt; copy link location)</p>
 <p><img alt="Duplicati download" src="https://xo.tc/images/duplicati-debian-03-link-location.png"></p>
 <p>Then download the file on the server</p>
-<div class="highlight"><pre><span></span><code>wget https://updates.duplicati.com/beta/duplicati_2.0.2.1-1_all.deb
+<div class="highlight"><pre><span></span><code>wget<span class="w"> </span>https://updates.duplicati.com/beta/duplicati_2.0.2.1-1_all.deb
 </code></pre></div>
 
 <p>Then run the installer using apt (not <code>apt-get</code>)</p>
-<div class="highlight"><pre><span></span><code>sudo apt install ./duplicati_2.0.2.1-1_all.deb
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>./duplicati_2.0.2.1-1_all.deb
 </code></pre></div>
 
 <p>If you don't already have Mono installed this will bring a lot of dependencies with it.</p>
 <p>Finally enable and start the service</p>
-<div class="highlight"><pre><span></span><code>sudo systemctl <span class="nb">enable</span> duplicati.service
-sudo systemctl start duplicati.service
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>duplicati.service
+sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>duplicati.service
 </code></pre></div>
 
 <p>I found I needed to wait about 45 seconds for the service to start accepting connections.</p>
-<h2>Setup Backups</h2>
+<h2 id="setup-backups">Setup Backups</h2>
 <p>Once Duplicati is installed open your web browser and go to <a href="http://localhost:8000">http://localhost:8000</a></p>
 <p><img alt="Duplicati Debian Home" src="https://xo.tc/images/duplicati-debian-04-setup-home.png"></p>
 <p>Click on Add Backup &gt; Configure a new backup &gt; Next</p>
@@ -101,7 +101,6 @@ sudo systemctl start duplicati.service
 <p>It's that easy.</p>
   </div>
   <div class="article_meta">
-      <p>Posted on: <abbr title="2017-11-16 07:00:00+08:00" >Thu 16 November 2017</abbr></p>
     <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
       <a href="https://xo.tc/tag/duplicati.html">Duplicati</a>,      <a href="https://xo.tc/tag/backblaze.html">Backblaze</a>,      <a href="https://xo.tc/tag/backups.html">Backups</a>,      <a href="https://xo.tc/tag/cloud.html">Cloud</a>,      <a href="https://xo.tc/tag/windows.html">Windows</a>,      <a href="https://xo.tc/tag/putty.html">PuTTY</a>,      <a href="https://xo.tc/tag/linux.html">Linux</a>,      <a href="https://xo.tc/tag/debian.html">Debian</a>    </p>

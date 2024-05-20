@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,7 +49,10 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/installing-opencanary-on-a-raspberry-pi.html">Installing OpenCanary on a Raspberry Pi</a></h3>
+    <h1><a href="https://xo.tc/installing-opencanary-on-a-raspberry-pi.html">Installing OpenCanary on a Raspberry Pi</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 22 June 2017</p>
   </div>
   <div class="article_text">
     <p>A few recent <a href="http://risky.biz/">Risky Business</a> podcasts have been sponsored by Thinkst and they have been plugging their <a href="https://canary.tools/">Canary tools</a>. Basically, little honeypots that sit on your network and sends an alert when something tries to access them. To me, the idea sounded pretty cool but when I looked at their <a href="https://canary.tools/#pricing">pricing</a> it said</p>
@@ -60,39 +60,39 @@
 <p>For under $10k, you get 5 Canaries, a dedicated console, and 5 licences for alerts, support and maintenance.   </p>
 </blockquote>
 <p>While for some organisations $10,000<sup id="fnref:ten-thousand"><a class="footnote-ref" href="#fn:ten-thousand">1</a></sup> might be chicken feed for me that's prohibitively expensive. So I looked around for open source alternatives and was surprised to find that Thinkst have released <a href="https://github.com/thinkst/opencanary">OpenCanary</a>. It doesn't seem to be getting a whole lot of love with only a few commits in over a year at the time of this writing but I did have a spare Raspberry Pi and it's open source so if something is missing I can make a pull request.</p>
-<h2>Grab a Raspberry Pi and Install Raspbian</h2>
+<h2 id="grab-a-raspberry-pi-and-install-raspbian">Grab a Raspberry Pi and Install Raspbian</h2>
 <p>Download the <a href="https://www.raspberrypi.org/downloads/raspbian/">Raspbian Jessie Lite</a> image and SSH in. There are already hundreds of tutorials so I'm going to skip this step and just assume you have a fresh Raspbian install that you can SSH into.</p>
 <p>If you haven't already, update all your packages.</p>
 <div class="highlight"><pre><span></span><code>sudo apt-get update &amp;&amp; sudo apt-get dist-upgrade
 </code></pre></div>
 
-<h2>Install the prerequisites</h2>
+<h2 id="install-the-prerequisites">Install the prerequisites</h2>
 <p>Install the packages needed to build OpenCanary.</p>
-<div class="highlight"><pre><span></span><code>sudo apt-get install git python-virtualenv python-pip python-dev libssl-dev libffi-dev
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>git<span class="w"> </span>python-virtualenv<span class="w"> </span>python-pip<span class="w"> </span>python-dev<span class="w"> </span>libssl-dev<span class="w"> </span>libffi-dev
 </code></pre></div>
 
-<h2>Install a virtual environment</h2>
+<h2 id="install-a-virtual-environment">Install a virtual environment</h2>
 <p>It's recommended that you run OpenCanary in a virtual environment. It makes managing libraries easier but if the only thing your going to run on the Raspberry Pi is OpenCanary it's not strictly necessary.</p>
 <div class="highlight"><pre><span></span><code>virtualenv -p python2 canary-env
 source ./canary-env/bin/activate
 </code></pre></div>
 
 <p>The versions of pip and setuptools that come with Debian's virtualenv are a little out dated and need to be upgraded for OpenCanary</p>
-<div class="highlight"><pre><span></span><code><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">pip</span> <span class="n">setuptools</span>
+<div class="highlight"><pre><span></span><code><span class="n">pip</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="o">--</span><span class="n">upgrade</span><span class="w"> </span><span class="n">pip</span><span class="w"> </span><span class="n">setuptools</span>
 </code></pre></div>
 
-<h2>Clone the git repository</h2>
-<div class="highlight"><pre><span></span><code>git clone https://github.com/thinkst/opencanary
-<span class="nb">cd</span> opencanary
+<h2 id="clone-the-git-repository">Clone the git repository</h2>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/thinkst/opencanary
+<span class="nb">cd</span><span class="w"> </span>opencanary
 </code></pre></div>
 
-<h2>Install OpenCanary</h2>
+<h2 id="install-opencanary">Install OpenCanary</h2>
 <div class="highlight"><pre><span></span><code>python setup.py install
 </code></pre></div>
 
 <p>I got some build errors with Jinja2 but it's a <a href="https://github.com/pallets/jinja/issues/643">known issue</a> and does not impact OpenCanary.</p>
 <p>Also building cryptography and the other dependencies took about 10 minutes on my Raspberry Pi so now is an absolutely smashing time to go and have a cup of tea.</p>
-<h2>Setup config and start OpenCanary</h2>
+<h2 id="setup-config-and-start-opencanary">Setup config and start OpenCanary</h2>
 <p>OpenCanary does have a <code>--copyconfig</code> option which creates a config file in your home directory, however, I found that sometimes OpenCanary misses the config file in the home directory. I tried debugging it but in the end found it more reliable (and logical) to save the config to <code>/etc/opencanaryd/opencanary.conf</code></p>
 <div class="highlight"><pre><span></span><code>sudo mkdir /etc/opencanaryd
 sudo cp opencanary/data/settings.json /etc/opencanaryd/opencanary.conf
@@ -100,30 +100,30 @@ sudo cp opencanary/data/settings.json /etc/opencanaryd/opencanary.conf
 
 <p>For some reason when I installed OpenCanary the <code>opencanary.tac</code> file did not copy across correctly and I kept getting an error</p>
 <blockquote>
-<div class="highlight"><pre><span></span><code><span class="n">Unhandled</span> <span class="n">Error</span>
-<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
-  <span class="n">File</span> <span class="s2">&quot;/usr/local/lib/python2.7/dist-packages/Twisted-14.0.2-py2.7-linux-armv7l.egg/twisted/application/app.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">642</span><span class="p">,</span> <span class="ow">in</span> <span class="n">run</span>
-    <span class="n">runApp</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
-  <span class="n">File</span> <span class="s2">&quot;/usr/local/lib/python2.7/dist-packages/Twisted-14.0.2-py2.7-linux-armv7l.egg/twisted/scripts/twistd.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">23</span><span class="p">,</span> <span class="ow">in</span> <span class="n">runApp</span>
-    <span class="n">_SomeApplicationRunner</span><span class="p">(</span><span class="n">config</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-  <span class="n">File</span> <span class="s2">&quot;/usr/local/lib/python2.7/dist-packages/Twisted-14.0.2-py2.7-linux-armv7l.egg/twisted/application/app.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">376</span><span class="p">,</span> <span class="ow">in</span> <span class="n">run</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">application</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">createOrGetApplication</span><span class="p">()</span>
-  <span class="n">File</span> <span class="s2">&quot;/usr/local/lib/python2.7/dist-packages/Twisted-14.0.2-py2.7-linux-armv7l.egg/twisted/application/app.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">441</span><span class="p">,</span> <span class="ow">in</span> <span class="n">createOrGetApplication</span>
-    <span class="n">application</span> <span class="o">=</span> <span class="n">getApplication</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">passphrase</span><span class="p">)</span>
-<span class="o">---</span> <span class="o">&lt;</span><span class="n">exception</span> <span class="n">caught</span> <span class="n">here</span><span class="o">&gt;</span> <span class="o">---</span>
-  <span class="n">File</span> <span class="s2">&quot;/usr/local/lib/python2.7/dist-packages/Twisted-14.0.2-py2.7-linux-armv7l.egg/twisted/application/app.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">452</span><span class="p">,</span> <span class="ow">in</span> <span class="n">getApplication</span>
-    <span class="n">application</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">loadApplication</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">style</span><span class="p">,</span> <span class="n">passphrase</span><span class="p">)</span>
-  <span class="n">File</span> <span class="s2">&quot;/usr/local/lib/python2.7/dist-packages/Twisted-14.0.2-py2.7-linux-armv7l.egg/twisted/application/service.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">405</span><span class="p">,</span> <span class="ow">in</span> <span class="n">loadApplication</span>
-    <span class="n">application</span> <span class="o">=</span> <span class="n">sob</span><span class="o">.</span><span class="n">loadValueFromFile</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;application&#39;</span><span class="p">,</span> <span class="n">passphrase</span><span class="p">)</span>
-  <span class="n">File</span> <span class="s2">&quot;/usr/local/lib/python2.7/dist-packages/Twisted-14.0.2-py2.7-linux-armv7l.egg/twisted/persisted/sob.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">210</span><span class="p">,</span> <span class="ow">in</span> <span class="n">loadValueFromFile</span>
-    <span class="n">exec</span> <span class="n">fileObj</span> <span class="ow">in</span> <span class="n">d</span><span class="p">,</span> <span class="n">d</span>
-  <span class="n">File</span> <span class="s2">&quot;/usr/local/bin/opencanary.tac&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">4</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-    <span class="n">__import__</span><span class="p">(</span><span class="s1">&#39;pkg_resources&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">run_script</span><span class="p">(</span><span class="s1">&#39;opencanary==0.3.2&#39;</span><span class="p">,</span> <span class="s1">&#39;opencanary.tac&#39;</span><span class="p">)</span>
-  <span class="n">File</span> <span class="s2">&quot;/usr/lib/python2.7/dist-packages/pkg_resources.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">531</span><span class="p">,</span> <span class="ow">in</span> <span class="n">run_script</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="n">ns</span><span class="p">[</span><span class="s1">&#39;__name__&#39;</span><span class="p">]</span>
-<span class="n">exceptions</span><span class="o">.</span><span class="n">KeyError</span><span class="p">:</span> <span class="s1">&#39;__name__&#39;</span>
+<div class="highlight"><pre><span></span><code><span class="n">Unhandled</span><span class="w"> </span><span class="n">Error</span>
+<span class="n">Traceback</span><span class="w"> </span><span class="p">(</span><span class="n">most</span><span class="w"> </span><span class="n">recent</span><span class="w"> </span><span class="n">call</span><span class="w"> </span><span class="n">last</span><span class="p">):</span>
+<span class="w">  </span><span class="n">File</span><span class="w"> </span><span class="s2">&quot;/usr/local/lib/python2.7/dist-packages/Twisted-14.0.2-py2.7-linux-armv7l.egg/twisted/application/app.py&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="mi">642</span><span class="p">,</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">run</span>
+<span class="w">    </span><span class="n">runApp</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+<span class="w">  </span><span class="n">File</span><span class="w"> </span><span class="s2">&quot;/usr/local/lib/python2.7/dist-packages/Twisted-14.0.2-py2.7-linux-armv7l.egg/twisted/scripts/twistd.py&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">runApp</span>
+<span class="w">    </span><span class="n">_SomeApplicationRunner</span><span class="p">(</span><span class="n">config</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="w">  </span><span class="n">File</span><span class="w"> </span><span class="s2">&quot;/usr/local/lib/python2.7/dist-packages/Twisted-14.0.2-py2.7-linux-armv7l.egg/twisted/application/app.py&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="mi">376</span><span class="p">,</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">run</span>
+<span class="w">    </span><span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">createOrGetApplication</span><span class="p">()</span>
+<span class="w">  </span><span class="n">File</span><span class="w"> </span><span class="s2">&quot;/usr/local/lib/python2.7/dist-packages/Twisted-14.0.2-py2.7-linux-armv7l.egg/twisted/application/app.py&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="mi">441</span><span class="p">,</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">createOrGetApplication</span>
+<span class="w">    </span><span class="n">application</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getApplication</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="n">passphrase</span><span class="p">)</span>
+<span class="o">---</span><span class="w"> </span><span class="o">&lt;</span><span class="n">exception</span><span class="w"> </span><span class="n">caught</span><span class="w"> </span><span class="n">here</span><span class="o">&gt;</span><span class="w"> </span><span class="o">---</span>
+<span class="w">  </span><span class="n">File</span><span class="w"> </span><span class="s2">&quot;/usr/local/lib/python2.7/dist-packages/Twisted-14.0.2-py2.7-linux-armv7l.egg/twisted/application/app.py&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="mi">452</span><span class="p">,</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">getApplication</span>
+<span class="w">    </span><span class="n">application</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">service</span><span class="o">.</span><span class="n">loadApplication</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">style</span><span class="p">,</span><span class="w"> </span><span class="n">passphrase</span><span class="p">)</span>
+<span class="w">  </span><span class="n">File</span><span class="w"> </span><span class="s2">&quot;/usr/local/lib/python2.7/dist-packages/Twisted-14.0.2-py2.7-linux-armv7l.egg/twisted/application/service.py&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="mi">405</span><span class="p">,</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">loadApplication</span>
+<span class="w">    </span><span class="n">application</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sob</span><span class="o">.</span><span class="n">loadValueFromFile</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;application&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">passphrase</span><span class="p">)</span>
+<span class="w">  </span><span class="n">File</span><span class="w"> </span><span class="s2">&quot;/usr/local/lib/python2.7/dist-packages/Twisted-14.0.2-py2.7-linux-armv7l.egg/twisted/persisted/sob.py&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="mi">210</span><span class="p">,</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">loadValueFromFile</span>
+<span class="w">    </span><span class="n">exec</span><span class="w"> </span><span class="n">fileObj</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">d</span>
+<span class="w">  </span><span class="n">File</span><span class="w"> </span><span class="s2">&quot;/usr/local/bin/opencanary.tac&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="w">    </span><span class="n">__import__</span><span class="p">(</span><span class="s1">&#39;pkg_resources&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">run_script</span><span class="p">(</span><span class="s1">&#39;opencanary==0.3.2&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;opencanary.tac&#39;</span><span class="p">)</span>
+<span class="w">  </span><span class="n">File</span><span class="w"> </span><span class="s2">&quot;/usr/lib/python2.7/dist-packages/pkg_resources.py&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="mi">531</span><span class="p">,</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">run_script</span>
+<span class="w">    </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ns</span><span class="p">[</span><span class="s1">&#39;__name__&#39;</span><span class="p">]</span>
+<span class="n">exceptions</span><span class="o">.</span><span class="n">KeyError</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;__name__&#39;</span>
 
-<span class="n">Failed</span> <span class="n">to</span> <span class="nb">load</span> <span class="n">application</span><span class="p">:</span> <span class="s1">&#39;__name__&#39;</span>
+<span class="n">Failed</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="nb">load</span><span class="w"> </span><span class="n">application</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;__name__&#39;</span>
 </code></pre></div>
 
 </blockquote>
@@ -143,7 +143,7 @@ sudo cp opencanary/data/settings.json /etc/opencanaryd/opencanary.conf
 sudo systemctl disable ntp.service
 </code></pre></div>
 
-<h2>Start OpenCanaryd</h2>
+<h2 id="start-opencanaryd">Start OpenCanaryd</h2>
 <p>As a bit of a "Hello World!" start opencanaryd in developer mode so it runs process in the foreground to check it's all working</p>
 <div class="highlight"><pre><span></span><code>opencanaryd --dev
 </code></pre></div>
@@ -151,7 +151,7 @@ sudo systemctl disable ntp.service
 <p>Hopefully, you will see a message that contains <code>Canary running!!!</code> although you will probably also see a number of <code>Dropping log message due to too many failed sends</code> messages as well. This is because opencanaryd trying to send messages to <a href="https://github.com/thinkst/opencanary-correlator">opencanary-correlator</a> but we don't have that setup yet.</p>
 <p>At this point you can have a play with your canary, try to nmap it or telet to it and see the output.</p>
 <p>Once you have had some fun Ctrl + C out to close opencanaryd</p>
-<h2>Setup Email Alerts</h2>
+<h2 id="setup-email-alerts">Setup Email Alerts</h2>
 <p>Apparently, it's possible to have your canary log directly to <a href="http://docs.opencanary.org/en/latest/alerts/email.html">email</a> but when I tried I couldn't get it to work.</p>
 <p>I looked at opencanary-correlator, but it uses <a href="https://www.mandrill.com/">mandrill</a> for mail and that's now a paid MailChimp add-on which I didn't want to use.</p>
 <p>In the end, I found it quicker and easier to write a <a href="https://github.com/HybridAU/canary_log_forwarder/blob/master/canary_log_forwarder.py">simple python script</a> to work like correlator and forward all alerts to an email address.</p>
@@ -211,7 +211,7 @@ sudo systemctl disable ntp.service
 <span class="n">reactor</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </code></pre></div>
 
-<h2>Make it a service</h2>
+<h2 id="make-it-a-service">Make it a service</h2>
 <p>Now we have everything setup we want to make it run as a service and start automatically when we boot up the Raspberry Pi. So we will create two systemd <code>.service</code> files.</p>
 <div class="highlight"><pre><span></span><code>sudo nano /etc/systemd/system/opencanary.service
 </code></pre></div>
@@ -257,7 +257,7 @@ sudo systemctl disable ntp.service
 sudo systemctl start canary-log-forwarder.service opencanary.service
 </code></pre></div>
 
-<h1>Finshed</h1>
+<h1 id="finshed">Finshed</h1>
 <p>Your canary should now be all set up and ready to run. </p>
 <p>It's a good idea to reboot it just to make sure all the services start correctly.</p>
 <div class="highlight"><pre><span></span><code>sudo reboot
@@ -274,7 +274,6 @@ sudo systemctl start canary-log-forwarder.service opencanary.service
 </div>
   </div>
   <div class="article_meta">
-      <p>Posted on: <abbr title="2017-06-22 07:00:00+08:00" >Thu 22 June 2017</abbr></p>
     <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
       <a href="https://xo.tc/tag/raspberry-pi.html">Raspberry Pi</a>,      <a href="https://xo.tc/tag/opencanary.html">OpenCanary</a>,      <a href="https://xo.tc/tag/canary-tools.html">Canary tools</a>,      <a href="https://xo.tc/tag/python.html">Python</a>,      <a href="https://xo.tc/tag/debian.html">Debian</a>,      <a href="https://xo.tc/tag/honeypot.html">Honeypot</a>    </p>

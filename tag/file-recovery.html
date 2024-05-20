@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,7 +49,10 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/recovering-data-from-a-hard-drive-after-wiping-the-partition-table.html">Recovering data from a hard drive after wiping the partition table</a></h3>
+    <h1><a href="https://xo.tc/recovering-data-from-a-hard-drive-after-wiping-the-partition-table.html">Recovering data from a hard drive after wiping the partition table</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 13 October 2016</p>
   </div>
   <div class="article_text">
     <p>A mate from work had a LUKS volume that he had setup and was using to store his personal documents, things like scanned copies of invoices and tax information. Unfortunately in a momentary lapse of concentration after mounting it he ran <code>mkfs.ext4</code> over it.</p>

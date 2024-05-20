@@ -9,11 +9,8 @@
   <link rel="shortcut icon" type="image/png" href="https://xo.tc/favicon.png" />
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/style.css">
   <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/pygments.css">
-  <!--
-  This is almost certainly the wrong way to do this but it's the only way
-  I can find to load the fonts in a subdirectory
-  -->
-    <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+  <link rel="stylesheet" type="text/css" href="https://xo.tc/theme/css/load-fonts.css">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Michael Van Delft">
@@ -52,7 +49,10 @@
 
 <article>
   <div class="article_title">
-    <h3><a href="https://xo.tc/calculating-a-base64-encoded-sha256-sum-of-inline-scripts-for-your-content-security-policy.html">Calculating a base64 encoded sha256 sum of inline scripts for your content security policy</a></h3>
+    <h1><a href="https://xo.tc/calculating-a-base64-encoded-sha256-sum-of-inline-scripts-for-your-content-security-policy.html">Calculating a base64 encoded sha256 sum of inline scripts for your content security policy</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Thu 06 April 2017</p>
   </div>
   <div class="article_text">
     <p>A while ago I wrote a post on <a href="https://xo.tc/http-secuirty-headers.html">HTTP Security Headers</a> and part of that invloved setting up a content security policy (CSP) and in that I say</p>
@@ -75,31 +75,30 @@
 <p><img alt="Content Security Policy vialation" src="https://xo.tc/images/content-security-policy-vialation.png"></p>
 <p>Of course that's fine if you are ok with temporarily breaking your script but what if you want to calculate it before putting it on you your site?</p>
 <p>My new inline script is:</p>
-<div class="highlight"><pre><span></span><code><span class="c">&lt;!-- Piwik --&gt;</span>
+<div class="highlight"><pre><span></span><code><span class="cm">&lt;!-- Piwik --&gt;</span>
 <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/javascript&quot;</span><span class="p">&gt;</span>
-  <span class="kd">var</span> <span class="nx">_paq</span> <span class="o">=</span> <span class="nx">_paq</span> <span class="o">||</span> <span class="p">[];</span>
-  <span class="nx">_paq</span><span class="p">.</span><span class="nx">push</span><span class="p">([</span><span class="s1">&#39;trackPageView&#39;</span><span class="p">]);</span>
-  <span class="nx">_paq</span><span class="p">.</span><span class="nx">push</span><span class="p">([</span><span class="s1">&#39;enableLinkTracking&#39;</span><span class="p">]);</span>
-  <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">u</span><span class="o">=</span><span class="s2">&quot;//piwik.xo.tc/&quot;</span><span class="p">;</span>
-    <span class="nx">_paq</span><span class="p">.</span><span class="nx">push</span><span class="p">([</span><span class="s1">&#39;setTrackerUrl&#39;</span><span class="p">,</span> <span class="nx">u</span><span class="o">+</span><span class="s1">&#39;piwik.php&#39;</span><span class="p">]);</span>
-    <span class="nx">_paq</span><span class="p">.</span><span class="nx">push</span><span class="p">([</span><span class="s1">&#39;setSiteId&#39;</span><span class="p">,</span> <span class="mf">2</span><span class="p">]);</span>
-    <span class="kd">var</span> <span class="nx">d</span><span class="o">=</span><span class="nb">document</span><span class="p">,</span> <span class="nx">g</span><span class="o">=</span><span class="nx">d</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">),</span> <span class="nx">s</span><span class="o">=</span><span class="nx">d</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">)[</span><span class="mf">0</span><span class="p">];</span>
-    <span class="nx">g</span><span class="p">.</span><span class="nx">type</span><span class="o">=</span><span class="s1">&#39;text/javascript&#39;</span><span class="p">;</span> <span class="nx">g</span><span class="p">.</span><span class="k">async</span><span class="o">=</span><span class="kc">true</span><span class="p">;</span> <span class="nx">g</span><span class="p">.</span><span class="nx">defer</span><span class="o">=</span><span class="kc">true</span><span class="p">;</span> <span class="nx">g</span><span class="p">.</span><span class="nx">src</span><span class="o">=</span><span class="nx">u</span><span class="o">+</span><span class="s1">&#39;piwik.js&#39;</span><span class="p">;</span> <span class="nx">s</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">g</span><span class="p">,</span><span class="nx">s</span><span class="p">);</span>
-  <span class="p">})();</span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">_paq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">_paq</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">[];</span>
+<span class="w">  </span><span class="nx">_paq</span><span class="p">.</span><span class="nx">push</span><span class="p">([</span><span class="s1">&#39;trackPageView&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">_paq</span><span class="p">.</span><span class="nx">push</span><span class="p">([</span><span class="s1">&#39;enableLinkTracking&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="p">(</span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">u</span><span class="o">=</span><span class="s2">&quot;//piwik.xo.tc/&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">_paq</span><span class="p">.</span><span class="nx">push</span><span class="p">([</span><span class="s1">&#39;setTrackerUrl&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">u</span><span class="o">+</span><span class="s1">&#39;piwik.php&#39;</span><span class="p">]);</span>
+<span class="w">    </span><span class="nx">_paq</span><span class="p">.</span><span class="nx">push</span><span class="p">([</span><span class="s1">&#39;setSiteId&#39;</span><span class="p">,</span><span class="w"> </span><span class="mf">2</span><span class="p">]);</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">d</span><span class="o">=</span><span class="nb">document</span><span class="p">,</span><span class="w"> </span><span class="nx">g</span><span class="o">=</span><span class="nx">d</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">),</span><span class="w"> </span><span class="nx">s</span><span class="o">=</span><span class="nx">d</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">)[</span><span class="mf">0</span><span class="p">];</span>
+<span class="w">    </span><span class="nx">g</span><span class="p">.</span><span class="nx">type</span><span class="o">=</span><span class="s1">&#39;text/javascript&#39;</span><span class="p">;</span><span class="w"> </span><span class="nx">g</span><span class="p">.</span><span class="k">async</span><span class="o">=</span><span class="kc">true</span><span class="p">;</span><span class="w"> </span><span class="nx">g</span><span class="p">.</span><span class="nx">defer</span><span class="o">=</span><span class="kc">true</span><span class="p">;</span><span class="w"> </span><span class="nx">g</span><span class="p">.</span><span class="nx">src</span><span class="o">=</span><span class="nx">u</span><span class="o">+</span><span class="s1">&#39;piwik.js&#39;</span><span class="p">;</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">g</span><span class="p">,</span><span class="nx">s</span><span class="p">);</span>
+<span class="w">  </span><span class="p">})();</span>
 <span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">noscript</span><span class="p">&gt;&lt;</span><span class="nt">p</span><span class="p">&gt;&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;//piwik.xo.tc/piwik.php?idsite=2&quot;</span> <span class="na">style</span><span class="o">=</span><span class="s">&quot;border:0;&quot;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&quot;&quot;</span> <span class="p">/&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;&lt;/</span><span class="nt">noscript</span><span class="p">&gt;</span>
-<span class="c">&lt;!-- End Piwik Code --&gt;</span>
+<span class="cm">&lt;!-- End Piwik Code --&gt;</span>
 </code></pre></div>
 
 <p>Now we don't include the &lt;script&gt; tags but white space is significant so in my case I needed a line break (blank line) at the start because there is a linebreak just after the opeing &lt;script&gt; tag but I didn't need a blank line at the end. I saved a <a href="https://xo.tc/documents/piwik_script.txt">text file</a> with the script in it and ran</p>
-<div class="highlight"><pre><span></span><code>openssl dgst -sha256 -binary piwik_script.txt <span class="p">|</span> openssl enc -base64
+<div class="highlight"><pre><span></span><code>openssl<span class="w"> </span>dgst<span class="w"> </span>-sha256<span class="w"> </span>-binary<span class="w"> </span>piwik_script.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>enc<span class="w"> </span>-base64
 </code></pre></div>
 
 <p>which is based on the <a href="https://www.w3.org/TR/CSP2/#script-src-hash-usage">example</a> from the W3C recommendation about CSPs.</p>
   </div>
   <div class="article_meta">
-      <p>Posted on: <abbr title="2017-04-06 07:00:00+08:00" >Thu 06 April 2017</abbr></p>
     <p>Category: <a href="https://xo.tc/category/posts.html">Posts</a>
  &ndash; Tags:
       <a href="https://xo.tc/tag/content-security-policy.html">Content security policy</a>,      <a href="https://xo.tc/tag/sha256.html">SHA256</a>,      <a href="https://xo.tc/tag/openssl.html">OpenSSL</a>,      <a href="https://xo.tc/tag/piwik.html">Piwik</a>,      <a href="https://xo.tc/tag/http.html">HTTP</a>    </p>
